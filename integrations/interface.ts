@@ -1,3 +1,4 @@
+// TODO RecordをAirTabelRecordに変更する
 export interface Record {
   readonly fields: { [name: string]: string };
 }
@@ -9,4 +10,17 @@ export enum AirTableURL {
 export interface AirTable {
   fetchRecords(apiURL: AirTableURL): Promise<Record[] | null>;
   createRecords(apiURL: AirTableURL, records: Record[]): Promise<Boolean>;
+}
+
+export interface TwitterQuery {
+  toString(): string;
+}
+
+export interface Twitter {
+  search(query: TwitterQuery): Promise<Tweet[]>;
+}
+
+export interface Tweet {
+  readonly id: Number;
+  readonly text: string;
 }
