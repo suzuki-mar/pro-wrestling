@@ -4,6 +4,7 @@ export interface SourceId {
   readonly id: string;
 }
 
+// TODO　Sourceをどこのコンテキストからも使用できるシンプルなクラスにする
 export interface Source {
   readonly sourceId: SourceId;
   readonly title: string;
@@ -20,4 +21,8 @@ export interface Content {
 export interface ContentsRepository {
   excludeSavedSourceIds(targetSourceIds: SourceId[]): SourceId[];
   saveContents(contents: Content[]): Boolean;
+}
+
+export interface Searcher {
+  searchByWreslersFromTwitter(wreslers: Wrestler[]): Content[];
 }

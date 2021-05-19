@@ -12,15 +12,33 @@ export interface AirTable {
   createRecords(apiURL: AirTableURL, records: Record[]): Promise<Boolean>;
 }
 
-export interface TwitterQuery {
-  toString(): string;
+export enum TwitterQueryOperator {
+  AND = 'AND',
+  OR = 'OR',
+}
+
+export enum TwitterFiliter {
+  IMAGES = 'images',
+  // ツイッターの画像が含まれるツイート
+  TWIMG = 'twimg',
+  VIDEOS = 'videos',
+  MEDIA = 'media',
+  UNFILTERED = 'unfiltered',
+}
+
+export interface TwitterParams {
+  toHash(): { [key: string]: string };
+  addHashTag(tag: string, operator: TwitterQueryOperator): TwitterParams;
+  initializeHashtaGroup(tag: string): TwitterParams;
+  addFilter(filter: TwitterFiliter): TwitterParams;
 }
 
 export interface Twitter {
-  search(query: TwitterQuery): Promise<Tweet[]>;
+  search(query: TwitterParams): Promise<Tweet[]>;
 }
 
 export interface Tweet {
-  readonly id: Number;
-  readonly text: string;
+  id(): Number;
+  text(): string;
+  photo_url(): URL;
 }
