@@ -1,11 +1,7 @@
 import * as _ from 'lodash';
-import {
-  TwitterParams as TwitterParamsIF,
-  TwitterQueryOperator,
-  TwitterFiliter,
-} from '../interface';
+import { ITwitterParams, TwitterQueryOperator, TwitterFiliter } from '../interface';
 
-export class TwitterParams implements TwitterParamsIF {
+export class TwitterParams implements ITwitterParams {
   private hashtags: HashTag[] = [];
   private filter: TwitterFiliter = TwitterFiliter.UNFILTERED;
 

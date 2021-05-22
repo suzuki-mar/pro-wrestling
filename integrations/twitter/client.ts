@@ -1,13 +1,13 @@
 import * as _ from 'lodash';
 import dotenv from 'dotenv';
-import { Twitter as TwitterIF, Tweet as TweetIF, TwitterParams } from '../interface';
+import { ITwitter, ITweet, ITwitterParams } from '../interface';
 import { TwitterClient } from '../library_alias';
 // Libaryのクラスを使用しているためクラス自体は使わないがimportしている
 import { Twitter as TwitterLibrary } from 'twitter';
 import { Logger } from 'app/core/lib';
 
-export class Twitter implements TwitterIF {
-  async search(params: TwitterParams): Promise<TweetIF[]> {
+export class Twitter implements ITwitter {
+  async search(params: ITwitterParams): Promise<ITweet[]> {
     const client = this.buildClient();
     return await client
       .get('search/tweets', params.toHash())
@@ -33,7 +33,7 @@ export class Twitter implements TwitterIF {
   }
 }
 
-export class Tweet implements TweetIF {
+export class Tweet implements ITweet {
   private _id: Number;
   private _text: string;
   private _photo_url: URL;

@@ -1,11 +1,11 @@
-import { Source } from '../contents/interface';
+import { ISource } from '../contents/interface';
 
-export interface Wrestler {
+export interface IWrestler {
   readonly name: string;
-  isPerforming(source: Source): Boolean;
+  isPerforming(source: ISource): Boolean;
 }
 
-export interface WrestlerRepository {
-  fetchWrestlers(): Promise<Wrestler[] | null>;
-  saveWreslers(wreslers: Wrestler[]): Promise<Boolean>;
+export interface IWrestlerRepository {
+  fetchWrestlers(): Promise<IWrestler[] | null>;
+  saveWreslers(wreslers: IWrestler[]): Promise<Boolean>;
 }

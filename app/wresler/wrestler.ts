@@ -1,13 +1,14 @@
-import { Wrestler as WreslerIF } from './interface';
-import { Source } from '../contents/interface';
+import { IWrestler } from './interface';
+import { ISource } from '../contents/interface';
+import * as Lib from '../core/lib';
 
-export class Wrestler implements WreslerIF {
+export class Wrestler implements IWrestler {
   readonly name: string;
   constructor(name: string) {
     this.name = name;
   }
 
-  isPerforming(source: Source): Boolean {
-    return source.title.includes(source.title);
+  isPerforming(source: ISource): Boolean {
+    return source.title.includes(this.name);
   }
 }

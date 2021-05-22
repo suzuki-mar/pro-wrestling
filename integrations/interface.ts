@@ -1,5 +1,5 @@
 // TODO RecordをAirTabelRecordに変更する
-export interface Record {
+export interface IRecord {
   readonly fields: { [name: string]: string };
 }
 
@@ -7,9 +7,9 @@ export enum AirTableURL {
   WrestlerDebug = 'https://api.airtable.com/v0/apprpgNSLv2x60Hr2/ProWrestlerDebug',
 }
 
-export interface AirTable {
-  fetchRecords(apiURL: AirTableURL): Promise<Record[] | null>;
-  createRecords(apiURL: AirTableURL, records: Record[]): Promise<Boolean>;
+export interface IAirTable {
+  fetchRecords(apiURL: AirTableURL): Promise<IRecord[] | null>;
+  createRecords(apiURL: AirTableURL, records: IRecord[]): Promise<Boolean>;
 }
 
 export enum TwitterQueryOperator {
@@ -26,18 +26,18 @@ export enum TwitterFiliter {
   UNFILTERED = 'unfiltered',
 }
 
-export interface TwitterParams {
+export interface ITwitterParams {
   toHash(): { [key: string]: string };
-  addHashTag(tag: string, operator: TwitterQueryOperator): TwitterParams;
-  initializeHashtaGroup(tag: string): TwitterParams;
-  addFilter(filter: TwitterFiliter): TwitterParams;
+  addHashTag(tag: string, operator: TwitterQueryOperator): ITwitterParams;
+  initializeHashtaGroup(tag: string): ITwitterParams;
+  addFilter(filter: TwitterFiliter): ITwitterParams;
 }
 
-export interface Twitter {
-  search(query: TwitterParams): Promise<Tweet[]>;
+export interface ITwitter {
+  search(query: ITwitterParams): Promise<ITweet[]>;
 }
 
-export interface Tweet {
+export interface ITweet {
   id(): Number;
   text(): string;
   photo_url(): URL;
