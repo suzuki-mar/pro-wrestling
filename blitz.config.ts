@@ -1,8 +1,9 @@
-const { sessionMiddleware, simpleRolesIsAuthorized } = require("blitz")
+import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
 
-module.exports = {
+const config: BlitzConfig = {
   middleware: [
     sessionMiddleware({
+      cookiePrefix: "pro-wrestling",
       isAuthorized: simpleRolesIsAuthorized,
     }),
   ],
@@ -15,3 +16,4 @@ module.exports = {
   },
   */
 }
+module.exports = config
