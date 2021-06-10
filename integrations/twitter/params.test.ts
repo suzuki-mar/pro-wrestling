@@ -1,4 +1,4 @@
-import { TwitterQueryOperator, TwitterFiliter } from '../interface';
+import { TwitterQueryOperator, TwitterFiliter } from './interface';
 import { TwitterParams } from './params';
 
 describe('toHash', () => {

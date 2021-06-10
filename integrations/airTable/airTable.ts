@@ -1,11 +1,11 @@
 import axios from 'axios';
 import * as _ from 'lodash';
 import dotenv from 'dotenv';
-import { AirTable as AirTableIF, Record as RecordIF, AirTableURL } from './interface';
+import { IAirTable, IRecord, AirTableURL } from './interface';
 
 dotenv.config();
 
-export class Record implements RecordIF {
+export class Record implements IRecord {
   fields: { [name: string]: string };
 
   constructor(fields: { [name: string]: string }) {
@@ -13,7 +13,7 @@ export class Record implements RecordIF {
   }
 }
 
-export class AirTable implements AirTableIF {
+export class AirTable implements IAirTable {
   async fetchRecords(apiURL: AirTableURL): Promise<Record[] | null> {
     const response = await axios.get(apiURL, this.buildHeaders());
 
@@ -30,7 +30,7 @@ export class AirTable implements AirTableIF {
       });
   }
 
-  async createRecords(apiURL: AirTableURL, records: Record[]): Promise<Boolean> {
+  async createRecords(apiURL: AirTableURL, records: IRecord[]): Promise<Boolean> {
     const filedsParams = _.flatMap(records, function (record) {
       const params: { [name: string]: any } = {};
       params['fields'] = record['fields'];

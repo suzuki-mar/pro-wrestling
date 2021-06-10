@@ -8,8 +8,10 @@
     "studio": "blitz prisma studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "yarn prettier -w",
+    "migrate:test": "DATABASE_URL='file:./db_test.sqlite'  prisma migrate dev",
+    "migrate:dev": "prisma migrate dev"
   },
   "prisma": {
     "schema": "db/schema.prisma"

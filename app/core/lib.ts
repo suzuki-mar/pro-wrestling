@@ -13,3 +13,10 @@ export class Logger {
     console.dir(value);
   }
 }
+
+export class NotImplementedError extends Error {
+  constructor() {
+    super();
+    this.name = 'NotImplementedError';
+  }
+}

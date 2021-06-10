@@ -1,5 +1,5 @@
-import { Twitter, Tweet } from './client';
-import { TwitterQueryOperator, TwitterFiliter } from '../interface';
+import { Client } from './client';
+import { TwitterQueryOperator, TwitterFiliter, Tweet } from './interface';
 import { TwitterParams } from './params';
 
 import dotenv from 'dotenv';
@@ -7,7 +7,7 @@ dotenv.config();
 
 describe('Twitter', () => {
   describe('外部ネットワークへの接続なため必要なとき以外はテストをしない', () => {
-    const twitter = new Twitter();
+    const client = new Client();
 
     it('Tweetを取得できること', async () => {
       const params = new TwitterParams();
@@ -16,7 +16,7 @@ describe('Twitter', () => {
         .initializeHashtaGroup('STARDOM')
         .addHashTag('中野たむ', TwitterQueryOperator.AND);
 
-      return twitter.search(params).then((tweets: Tweet[]) => {
+      return client.search(params).then((tweets: Tweet[]) => {
         //no-unused-expressionsの警告がでるが見た目上問題ないため無効にしている
         //eslint-disable-next-line
 
