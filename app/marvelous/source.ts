@@ -1,6 +1,6 @@
-import { Source as SourceIF, SourceId as SourceIdIF } from './interface';
+import { ISource, ISourceId } from './interface';
 
-export class Source implements SourceIF {
+export class Source implements ISource {
   readonly title: string;
   readonly thumbnailURL: URL;
   readonly sourceURL: URL;
@@ -12,6 +12,6 @@ export class Source implements SourceIF {
   }
 }
 
-export class SourceId implements SourceIdIF {
+export class SourceId implements ISourceId {
   readonly id: string;
 }

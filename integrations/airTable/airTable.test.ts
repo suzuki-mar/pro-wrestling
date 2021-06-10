@@ -1,4 +1,4 @@
-import { AirTable, Record } from './air_table';
+import { AirTable, Record } from './airTable';
 import { AirTableURL } from './interface';
 
 describe('AirTable', () => {
