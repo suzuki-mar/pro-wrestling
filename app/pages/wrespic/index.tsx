@@ -1,10 +1,6 @@
-import { Head, BlitzPage } from "blitz"
-import Layout from "app/core/layouts/Layout"
-import { Wrespic } from "../../wrespic/components/wrespic"
-
-const style = {
-  height: "550px",
-}
+import { Head, BlitzPage } from 'blitz';
+import Layout from 'app/core/layouts/Layout';
+import { Wrespic } from '../../wrespic/components/wrespic';
 
 const WrespicsPage: BlitzPage = () => {
   return (
@@ -15,10 +11,10 @@ const WrespicsPage: BlitzPage = () => {
 
       <Wrespic />
     </>
-  )
-}
+  );
+};
 
-WrespicsPage.authenticate = false
-WrespicsPage.getLayout = (page) => <Layout>{page}</Layout>
+WrespicsPage.authenticate = false;
+WrespicsPage.getLayout = (page) => <Layout>{page}</Layout>;
 
-export default WrespicsPage
+export default WrespicsPage;
