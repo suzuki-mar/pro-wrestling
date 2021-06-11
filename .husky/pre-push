@@ -3,4 +3,4 @@
 
 npx tsc
 yarn lint
-yarn test
+yarn test --detectOpenHandles

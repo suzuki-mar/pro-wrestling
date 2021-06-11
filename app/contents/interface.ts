@@ -1,4 +1,4 @@
-import { Wrestler } from '../wresler/interface';
+import { IWrestler } from '../wresler/interface';
 
 export interface ISourceId {
   readonly id: string;
@@ -15,14 +15,10 @@ export interface ISource {
 
 export interface IContent {
   readonly source: ISource;
-  readonly performingWrestlers: Wrestler[];
+  readonly performingWrestlers: IWrestler[];
 }
 
 export interface IContentsRepository {
   excludeSavedSourceIds(targetSourceIds: ISourceId[]): ISourceId[];
   saveContents(contents: IContent[]): Boolean;
-}
-
-export interface ISearcher {
-  searchByWreslersFromTwitter(wreslers: Wrestler[]): IContent[];
 }
