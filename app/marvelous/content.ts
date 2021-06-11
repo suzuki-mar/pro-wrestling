@@ -1,8 +1,8 @@
-import { Wrestler } from '../wresler/interface';
+import { IWrestler } from '../sub_contexts/wreslter/interface';
 import { Source } from './source';
 import { IContent } from './interface';
 
 export class Content implements IContent {
   readonly source: Source;
-  readonly performingWrestlers: Wrestler[];
+  readonly performingWrestlers: IWrestler[];
 }

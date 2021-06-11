@@ -1,21 +1,21 @@
 import * as _ from 'lodash';
-import { ITwitterParams, TwitterQueryOperator, TwitterFiliter } from '../interface';
+import { TwitterQueryOperator, TwitterFiliter } from './interface';
 
-export class TwitterParams implements ITwitterParams {
+export class TwitterParams {
   private hashtags: HashTag[] = [];
   private filter: TwitterFiliter = TwitterFiliter.UNFILTERED;
 
   toHash(): { [key: string]: string } {
-    if (this.hashtags.length === 0 && this.filter == TwitterFiliter.UNFILTERED) {
+    if (this.hashtags.length === 0 && this.filter === TwitterFiliter.UNFILTERED) {
       return {};
     }
 
     const strs: string[] = [];
-    if (this.toHashtagString() != '') {
+    if (this.toHashtagString() !== '') {
       strs.push(this.toHashtagString());
     }
 
-    if (this.filter != TwitterFiliter.UNFILTERED) {
+    if (this.filter !== TwitterFiliter.UNFILTERED) {
       strs.push(`filter:${this.filter}`);
     }
 

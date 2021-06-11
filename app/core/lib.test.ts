@@ -1,4 +1,4 @@
-import { Wrestler } from 'app/wresler/wrestler';
+import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
 import { Logger } from 'app/core/lib';
 
 describe('Logger', () => {
