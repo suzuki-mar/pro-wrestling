@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-
 import { ITwitter, Tweet, ITwitterParams } from './interface';
 // Libaryのクラスを使用しているためクラス自体は使わないがimportしている
 import Twitter, { RequestParams } from 'twitter';

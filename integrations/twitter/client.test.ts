@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 describe('Twitter', () => {
-  describe('外部ネットワークへの接続なため必要なとき以外はテストをしない', () => {
+  describe.skip('外部ネットワークへの接続なため必要なとき以外はテストをしない', () => {
     const client = new Client();
 
     it('Tweetを取得できること', async () => {
