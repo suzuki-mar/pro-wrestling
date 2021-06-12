@@ -1,6 +1,7 @@
 import { Client } from './client';
-import { TwitterQueryOperator, TwitterFiliter, Tweet } from './interface';
+import { TwitterQueryOperator, TwitterFiliter } from './interface';
 import { TwitterParams } from './params';
+import { TTweet } from '../../app/sub_contexts/tweet';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -16,13 +17,15 @@ describe('Twitter', () => {
         .initializeHashtaGroup('STARDOM')
         .addHashTag('中野たむ', TwitterQueryOperator.AND);
 
-      return client.search(params).then((tweets: Tweet[]) => {
+      return client.search(params).then((tweets: TTweet[]) => {
         //no-unused-expressionsの警告がでるが見た目上問題ないため無効にしている
         //eslint-disable-next-line
 
         expect(tweets.length).toBeGreaterThan(9);
-        expect(tweets[0].id).not.toBeNull();
-        expect(tweets[0].text).not.toBeNull();
+        const tweet: TTweet = tweets[0] as TTweet;
+
+        expect(tweet.id).not.toBeNull();
+        expect(tweet.text).not.toBeNull();
       });
     });
   });

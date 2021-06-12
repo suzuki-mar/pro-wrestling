@@ -1,20 +1,18 @@
-import { IAlbum, IExecutionLog, DownloadStatus } from '../components/interface';
+import { IAlbum, IExecutionLog } from '../components/interface';
+import { IPhoto } from '../interface';
 import { sleep } from '../../../test/lib';
-import { IWrestler } from 'app/sub_contexts/wreslter/interface';
 import * as _ from 'loadsh';
-// import { ClientFactory } from 'db/repositrories/clientFactory';
 
 export class Album implements IAlbum {
-  async downloads(wrestlers: IWrestler[], log: IExecutionLog): Promise<IExecutionLog> {
-    const promises = _.map(wrestlers, (wresler: IWrestler) => {
-      const status: DownloadStatus = { success: true, wresler: wresler };
+  async uploads(uploadPhotos: IPhoto[], log: IExecutionLog): Promise<IExecutionLog> {
+    const promises = _.map(uploadPhotos, (photo: IPhoto) => {
       return sleep(() => {
-        log.notifyDownloadStatus(status);
+        log.notifyUploadedPhoto(photo);
       });
     });
 
     await Promise.all(promises).then((results) => {
-      log.notifyAllDownloadSuccesses();
+      log.notifyAllUploaded(this);
     });
 
     return log;

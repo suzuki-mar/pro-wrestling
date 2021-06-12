@@ -50,7 +50,11 @@ export class TwitterParams {
     }
 
     let strs: string[] = [];
-    strs.push(`#${this.hashtags[0].tag}`);
+
+    if (this.hashtags.length >= 1) {
+      const hashTag = this.hashtags[0] as HashTag;
+      strs.push(`#${hashTag.tag}`);
+    }
 
     if (this.hashtags.length > 1) {
       _.each(this.hashtags.slice(1), function (hashtag: HashTag) {

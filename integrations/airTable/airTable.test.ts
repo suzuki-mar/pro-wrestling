@@ -6,11 +6,13 @@ describe('AirTable', () => {
     const airTable = new AirTable();
 
     describe('fetchRecords', () => {
-      it('レスラーを取得できること', async () => {
+      it('レコードを取得できること', async () => {
         return airTable.fetchRecords(AirTableURL.WrestlerDebug).then((records: Record[]) => {
           //no-unused-expressionsの警告がでるが見た目上問題ないため無効にしている
           // eslint-disable-next-line
-          expect(records[0].fields).not.toBeNull;
+          expect(records.length).not.toEqual(0);
+          const record = records[0] as Record;
+          expect(record.fields).not.toBeNull();
         });
       });
     });

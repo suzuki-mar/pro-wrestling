@@ -1,5 +1,6 @@
 import { WrestlerRepository } from './wrestlerRepository';
 import { ContextCreator } from '../../test/contextCreator';
+import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
 
 describe('WrestlerRepository', () => {
   beforeEach(async () => {
@@ -11,14 +12,10 @@ describe('WrestlerRepository', () => {
       const repository = new WrestlerRepository();
       const wrestlers = await repository.fetchAll();
 
-      expect(wrestlers[0].name()).not.toBeUndefined();
-    });
-
-    it('全件取得していること', async () => {
-      const repository = new WrestlerRepository();
-      const wrestlers = await repository.fetchAll();
-
       expect(wrestlers.length).toEqual(1);
+      const wrestler: Wrestler = wrestlers[0] as Wrestler;
+
+      expect(wrestler.name).not.toBeUndefined();
     });
   });
 });

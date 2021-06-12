@@ -1,10 +1,11 @@
 import * as _ from 'lodash';
-import { ITwitter, Tweet, ITwitterParams } from './interface';
+import { TTweet } from '../../app/sub_contexts/tweet';
+import { ITwitter, ITwitterParams } from './interface';
 // Libaryのクラスを使用しているためクラス自体は使わないがimportしている
 import Twitter, { RequestParams } from 'twitter';
 
 export class Client implements ITwitter {
-  async search(params: ITwitterParams): Promise<Tweet[]> {
+  async search(params: ITwitterParams): Promise<TTweet[]> {
     const client = this.buildClient();
     const requestParams: RequestParams = {
       screen_name: 'nodejs',
@@ -37,7 +38,7 @@ export class Client implements ITwitter {
 }
 
 export class TweetBuilder {
-  static build(data: any): Tweet {
+  static build(data: any): TTweet {
     const media = data['entities']['media'];
 
     return {

@@ -1,26 +1,23 @@
 import { IWrestler } from '../../sub_contexts/wreslter/interface';
+import { IPhoto } from '../interface';
 
 export interface IFavoriteWrestlers {
   wrestlers(): Promise<IWrestler[]>;
 }
 
 export interface IAlbum {
-  downloads(wrestlers: IWrestler[], log: IExecutionLog): Promise<IExecutionLog>;
+  uploads(uploadPhotos: IPhoto[], log: IExecutionLog): Promise<IExecutionLog>;
 }
 
-export type DownloadStatus = {
-  success: boolean;
-  wresler: IWrestler;
-};
-
 export interface IExecutionLog {
-  addProcessListener(listener: IListener): void;
-  notifyDownloadStatus(status: DownloadStatus): void;
-  notifyAllDownloadSuccesses(): void;
   isAllDownloadComplete(): boolean;
+
+  addProcessListener(listener: IListener): void;
+  notifyUploadedPhoto(photo: IPhoto): void;
+  notifyAllUploaded(alumb: IAlbum): void;
 }
 
 export interface IListener {
-  update(status: DownloadStatus): void;
-  updateAllFinsh(status: DownloadStatus): void;
+  update(photo: IPhoto): void;
+  updateAllFinsh(albmu: IAlbum): void;
 }

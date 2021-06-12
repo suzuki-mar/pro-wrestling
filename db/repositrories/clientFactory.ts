@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import prisma from '../index';
 import { Client as TwitterClient } from '../../integrations/twitter/client';
-import { ITwitterParams, Tweet } from '../../integrations/twitter/interface';
+import { ITwitterParams } from '../../integrations/twitter/interface';
+import { TTweet } from '../../app/sub_contexts/tweet';
 import faker from 'faker';
 
 export class ClientFactory {
@@ -24,8 +25,8 @@ export class ClientFactory {
   }
 
   public static MockTwitterClient = class extends TwitterClient {
-    async search(params: ITwitterParams): Promise<Tweet[]> {
-      const tweets: Tweet[] = [
+    async search(params: ITwitterParams): Promise<TTweet[]> {
+      const tweets: TTweet[] = [
         { id: 1, text: 'aaa' },
         { id: 2, text: 'aaa', photoURL: new URL(faker.image.imageUrl()) },
       ];

@@ -1,4 +1,4 @@
-import { IWrestler } from '../wresler/interface';
+import { IWrestler } from '../sub_contexts/wreslter/interface';
 
 export interface ISourceId {
   readonly id: string;

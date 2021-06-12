@@ -1,4 +1,5 @@
 import { TwitterParams } from 'integrations/twitter/params';
+import { TTweet } from '../../app/sub_contexts/tweet';
 
 export enum TwitterQueryOperator {
   AND = 'AND',
@@ -14,14 +15,8 @@ export enum TwitterFiliter {
   UNFILTERED = 'unfiltered',
 }
 
-export type Tweet = {
-  id: Number;
-  text: string;
-  photoURL?: URL;
-};
-
 export interface ITwitter {
-  search(params: TwitterParams): Promise<Tweet[]>;
+  search(params: TwitterParams): Promise<TTweet[]>;
 }
 
 export interface ITwitterParams {
