@@ -32,9 +32,5 @@ export class ClientFactory {
       ];
       return tweets;
     }
-
-    public method() {
-      return 1;
-    }
   };
 }
