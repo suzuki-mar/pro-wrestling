@@ -1,6 +1,6 @@
-import { IAlbum, IExecutionLog } from '../components/interface';
-import { IPhoto } from '../interface';
-import { sleep } from '../../../test/lib';
+import { IAlbum, IExecutionLog } from 'app/wrespic/components/interface';
+import { IPhoto } from 'app/wrespic/interface';
+import { sleep } from 'test/lib';
 import * as _ from 'loadsh';
 
 export class Album implements IAlbum {

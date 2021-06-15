@@ -1,4 +1,4 @@
-import { IWrestler } from '../sub_contexts/wreslter/interface';
+import { IWrestler } from 'app/sub_contexts/wreslter/interface';
 
 export type TPhoto = {
   wresler: IWrestler;

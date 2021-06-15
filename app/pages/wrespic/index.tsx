@@ -1,6 +1,6 @@
 import { Head, BlitzPage } from 'blitz';
 import Layout from 'app/core/layouts/Layout';
-import { Wrespic } from '../../wrespic/components/wrespic';
+import { Wrespic } from 'app/wrespic/components/wrespic';
 
 const WrespicsPage: BlitzPage = () => {
   return (

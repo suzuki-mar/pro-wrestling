@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { ClientFactory } from './clientFactory';
-import { Client as TwitterClient } from '../../integrations/twitter/client';
+import { ClientFactory } from 'db/repositrories/clientFactory';
+import { Client as TwitterClient } from 'integrations/twitter/client';
 
 describe('ClientFactory', () => {
   beforeEach(() => {

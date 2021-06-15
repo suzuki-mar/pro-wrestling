@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as Lib from '../../app/core/lib';
+import * as Lib from 'app/core/lib';
 
 const fs = require('fs');
 const FormData = require('form-data');

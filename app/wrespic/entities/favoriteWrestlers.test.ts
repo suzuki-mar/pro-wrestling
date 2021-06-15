@@ -1,4 +1,4 @@
-import { FavoriteWrestlers } from './favoriteWrestlers';
+import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
 
 describe('FavorteWrestlers', () => {
   describe('wrestlers', () => {
