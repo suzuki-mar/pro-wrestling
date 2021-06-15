@@ -1,5 +1,5 @@
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { Wrestler } from 'app/core/wreslter/wrestler';
 import { dbClose } from 'test/lib';
 import prisma from 'db/index';
 

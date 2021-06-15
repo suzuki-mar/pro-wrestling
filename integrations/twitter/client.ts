@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { TTweet } from 'app/sub_contexts/tweet';
+import { TTweet } from 'app/core/tweet';
 import { ITwitter, ITwitterParams } from 'integrations/twitter/interface';
 import Twitter, { RequestParams } from 'twitter';
 

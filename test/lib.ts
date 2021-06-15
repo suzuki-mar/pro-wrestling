@@ -13,3 +13,10 @@ export const dbClose = async (done: jest.DoneCallback) => {
   await prisma.$disconnect();
   done();
 };
+
+export class NotImplementedError extends Error {
+  constructor() {
+    super();
+    this.name = 'NotImplementedError';
+  }
+}

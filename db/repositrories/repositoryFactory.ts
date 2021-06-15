@@ -1,5 +1,5 @@
-import { IWrestlerRepository, IWrestler } from 'app/sub_contexts/wreslter/interface';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { IWrestlerRepository, IWrestler } from 'app/core/wreslter/interface';
+import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import faker from 'faker';
 
