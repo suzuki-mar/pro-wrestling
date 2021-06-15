@@ -1,11 +1,14 @@
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
-import { ContextCreator } from 'test/contextCreator';
 import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
 import { dbClose } from 'test/lib';
+import prisma from 'db/index';
 
 describe('WrestlerRepository', () => {
   beforeAll(async () => {
-    await ContextCreator.createContextInWrestlerExists();
+    await prisma.$reset();
+    await prisma.wrestler.create({
+      data: { name: '桃野美桜' },
+    });
   });
 
   describe('fetchAll', () => {
