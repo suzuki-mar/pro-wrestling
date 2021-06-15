@@ -1,9 +1,9 @@
-import { IListener, IAlbum } from './components/interface';
-import { MockExecutionLog, MockPhoto } from './mock';
-import { Wrestler } from '../sub_contexts/wreslter/wrestler';
-import { IPhoto } from './interface';
+import { IListener, IAlbum } from 'app/wrespic/components/interface';
+import { MockExecutionLog, MockPhoto } from 'app/wrespic/mock';
+import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { IPhoto } from 'app/wrespic/interface';
 import faker from 'faker';
-import { Album } from './entities/albmu';
+import { Album } from 'app/wrespic/entities/albmu';
 
 class MockListener implements IListener {
   update(photo: IPhoto): void {}

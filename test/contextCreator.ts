@@ -1,4 +1,4 @@
-import prisma from '../db/index';
+import prisma from 'db/index';
 
 export class ContextCreator {
   static async createContextInWrestlerExists(): Promise<void> {

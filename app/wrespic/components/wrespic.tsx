@@ -1,9 +1,9 @@
-import { WreslterSelection } from "./wrestlerSelection"
-import { ExecutionLog } from "./executionLlog"
+import { WreslterSelection } from 'app/wrespic/components/wrestlerSelection';
+import { ExecutionLog } from 'app/wrespic/components/executionLlog';
 
 const style = {
-  height: "550px",
-}
+  height: '550px',
+};
 
 export function Wrespic() {
   return (
@@ -17,5 +17,5 @@ export function Wrespic() {
         <ExecutionLog />
       </div>
     </div>
-  )
+  );
 }

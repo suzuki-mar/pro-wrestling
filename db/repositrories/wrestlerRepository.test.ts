@@ -1,5 +1,5 @@
-import { WrestlerRepository } from './wrestlerRepository';
-import { ContextCreator } from '../../test/contextCreator';
+import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
+import { ContextCreator } from 'test/contextCreator';
 import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
 import { dbClose } from 'test/lib';
 

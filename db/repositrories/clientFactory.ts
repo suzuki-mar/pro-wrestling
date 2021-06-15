@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import prisma from '../index';
-import { Client as TwitterClient } from '../../integrations/twitter/client';
-import { ITwitterParams } from '../../integrations/twitter/interface';
-import { TTweet } from '../../app/sub_contexts/tweet';
+import prisma from 'db/index';
+import { Client as TwitterClient } from 'integrations/twitter/client';
+import { ITwitterParams } from 'integrations/twitter/interface';
+import { TTweet } from 'app/sub_contexts/tweet';
 import faker from 'faker';
 
 export class ClientFactory {

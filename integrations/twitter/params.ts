@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { TwitterQueryOperator, TwitterFiliter } from './interface';
+import { TwitterQueryOperator, TwitterFiliter } from 'integrations/twitter/interface';
 
 export class TwitterParams {
   private hashtags: HashTag[] = [];

@@ -1,5 +1,5 @@
-import { AirTable, Record } from './airTable';
-import { AirTableURL } from './interface';
+import { AirTable, Record } from 'integrations/airTable/airTable';
+import { AirTableURL } from 'integrations/airTable/interface';
 
 describe('AirTable', () => {
   describe.skip('外部ネットワークへの接続なため必要なとき以外はテストをしない', () => {

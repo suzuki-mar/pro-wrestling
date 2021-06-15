@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as _ from 'lodash';
 import dotenv from 'dotenv';
-import { IAirTable, IRecord, AirTableURL } from './interface';
+import { IAirTable, IRecord, AirTableURL } from 'integrations/airTable/interface';
 
 dotenv.config();
 

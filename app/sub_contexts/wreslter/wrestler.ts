@@ -1,4 +1,4 @@
-import { IWrestler } from './interface';
+import { IWrestler } from 'app/sub_contexts/wreslter/interface';
 
 export class Wrestler implements IWrestler {
   constructor(private _name: string) {}

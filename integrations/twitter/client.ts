@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
-import { TTweet } from '../../app/sub_contexts/tweet';
-import { ITwitter, ITwitterParams } from './interface';
-// Libaryのクラスを使用しているためクラス自体は使わないがimportしている
+import { TTweet } from 'app/sub_contexts/tweet';
+import { ITwitter, ITwitterParams } from 'integrations/twitter/interface';
 import Twitter, { RequestParams } from 'twitter';
 
 export class Client implements ITwitter {
@@ -24,8 +23,6 @@ export class Client implements ITwitter {
         throw error;
       });
   }
-
-  // https://twitter.com/intent/retweet?tweet_id=1394872423397269510
 
   private buildClient(): Twitter {
     return new Twitter({
