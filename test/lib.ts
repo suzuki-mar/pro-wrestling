@@ -1,5 +1,5 @@
 import faker from 'faker';
-import { ClientFactory } from 'db/repositrories/clientFactory';
+import prisma from 'db/index';
 
 export const sleep = (someFunction) => {
   return new Promise((resolve) => {
@@ -10,6 +10,6 @@ export const sleep = (someFunction) => {
 };
 
 export const dbClose = async (done: jest.DoneCallback) => {
-  await ClientFactory.factoryPrismaClient().$disconnect();
+  await prisma.$disconnect();
   done();
 };
