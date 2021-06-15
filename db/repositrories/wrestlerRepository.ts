@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import { IWrestler } from 'app/sub_contexts/wreslter/interface';
-import { IWrestlerRepository } from 'app/sub_contexts/wreslter/interface';
-import { Wrestler as EWrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { IWrestler } from 'app/core/wreslter/interface';
+import { IWrestlerRepository } from 'app/core/wreslter/interface';
+import { Wrestler as EWrestler } from 'app/core/wreslter/wrestler';
 import prisma from 'db/index';
 
 export class WrestlerRepository implements IWrestlerRepository {

@@ -1,4 +1,4 @@
-import { IWrestler } from 'app/sub_contexts/wreslter/interface';
+import { IWrestler } from 'app/core/wreslter/interface';
 import { IPhoto } from 'app/wrespic/interface';
 
 export interface IFavoriteWrestlers {

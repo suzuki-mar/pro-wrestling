@@ -1,4 +1,4 @@
-import { IWrestler } from 'app/sub_contexts/wreslter/interface';
+import { IWrestler } from 'app/core/wreslter/interface';
 import { Source } from 'app/marvelous/source';
 import { IContent } from 'app/marvelous/interface';
 

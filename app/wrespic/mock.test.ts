@@ -1,6 +1,6 @@
 import { IListener, IAlbum } from 'app/wrespic/components/interface';
 import { MockExecutionLog, MockPhoto } from 'app/wrespic/mock';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { Wrestler } from 'app/core/wreslter/wrestler';
 import { IPhoto } from 'app/wrespic/interface';
 import faker from 'faker';
 import { Album } from 'app/wrespic/entities/albmu';

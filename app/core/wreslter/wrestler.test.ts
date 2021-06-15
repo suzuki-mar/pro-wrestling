@@ -1,4 +1,4 @@
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { Wrestler } from 'app/core/wreslter/wrestler';
 
 describe('Wrestler', () => {
   describe('name', () => {

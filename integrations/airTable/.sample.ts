@@ -1,11 +1,11 @@
 // // クライアントコード
 // import * as _ from 'lodash';
-// import { IWrestler } from '../../app/sub_contexts/wreslter/interface';
-// import { IWrestlerRepository as IBaseContextRepository } from 'app/sub_contexts/wreslter/interface';
+// import { IWrestler } from '../../app/core/wreslter/interface';
+// import { IWrestlerRepository as IBaseContextRepository } from 'app/core/wreslter/interface';
 // import { IWrestlerRepository as IWrespicContextRepository } from '../../app/wrespic/interface';
 // import { IAirTable, AirTableURL } from '../../integrations/interface';
 // import { Record, AirTable } from '../../integrations/air_table';
-// import { Wrestler } from '../../app/sub_contexts/wreslter/wrestler';
+// import { Wrestler } from '../../app/core/wreslter/wrestler';
 // import * as Lib from '../../app/core/lib';
 
 // export class WrestlerRepository implements IWrespicContextRepository, IBaseContextRepository {
@@ -55,7 +55,7 @@
 // }
 
 // // テストコード
-// import { Wrestler } from '../../app/sub_contexts/wreslter/wrestler';
+// import { Wrestler } from '../../app/core/wreslter/wrestler';
 // import { WrestlerRepository } from './wrestler_repository';
 // import { AirTable, Record } from '../../integrations/air_table';
 
