@@ -1,17 +1,10 @@
 import { FavoriteWrestlers } from './favoriteWrestlers';
 import { MockExecutionLog, MockPhoto } from '../mock';
-import { ContextCreator } from '../../../test/contextCreator';
 import { Album } from './albmu';
 import faker from 'faker';
 import { IWrestler } from 'app/sub_contexts/wreslter/interface';
 
-// import { ClientFactory } from 'db/repositrories/clientFactory';
-
 describe('IAlbum', () => {
-  beforeAll(async () => {
-    await ContextCreator.createContextInWrestlerExists();
-  });
-
   describe('downloads', () => {
     const album = new Album();
     const favoriteWrestlers = new FavoriteWrestlers();
