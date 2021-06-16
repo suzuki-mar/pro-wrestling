@@ -1,48 +1,24 @@
 import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
-import { MockExecutionLog, MockPhoto } from 'app/wrespic/mock';
 import { Album } from 'app/wrespic/entities/albmu';
-import faker from 'faker';
-import { IWrestler } from 'app/core/wreslter/interface';
+import { WrestlerPictureURL } from 'app/wrespic/components/interface';
+import { SampleData } from 'db/sampleData';
 
 describe('IAlbum', () => {
-  describe('downloads', () => {
+  describe('searchPhotos', () => {
     const album = new Album();
     const favoriteWrestlers = new FavoriteWrestlers();
-    const log = new MockExecutionLog();
 
-    it('完了結果を取得すること', async () => {
-      const wrestlers = await favoriteWrestlers.wrestlers();
-      const photo = buildPhoto(wrestlers[0]);
-
-      await album.uploads([photo], log);
-      expect(log.isAllDownloadComplete()).toEqual(true);
+    beforeAll(async () => {
+      await favoriteWrestlers.load();
     });
 
-    it('ダウンロードの処理結果が通知されていること', async () => {
-      log.notifyUploadedPhoto = jest.fn();
+    it('完了状態になっていること', async () => {
+      const url: WrestlerPictureURL = SampleData.wrestlerPictureURL();
 
-      const wrestlers = await favoriteWrestlers.wrestlers();
-      const photo = buildPhoto(wrestlers[0]);
-
-      await album.uploads([photo], log);
-      expect(log.notifyUploadedPhoto).toHaveBeenCalledTimes(1);
-    });
-
-    it('ダウンロードの完了結果が通知されていること', async () => {
-      log.notifyAllUploaded = jest.fn();
-
-      const wrestlers = await favoriteWrestlers.wrestlers();
-      const photo = buildPhoto(wrestlers[0]);
-
-      await album.uploads([photo], log);
-      expect(log.notifyAllUploaded).toHaveBeenCalledTimes(1);
+      await album.searchPhotos([url]);
+      expect(album.isAllDownloadComplete()).toEqual(true);
     });
   });
 });
-
-const buildPhoto = (wrestler: IWrestler | undefined) => {
-  const url = new URL(faker.image.imageUrl());
-  return new MockPhoto(wrestler as IWrestler, url);
-};
 
 export {};

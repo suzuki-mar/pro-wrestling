@@ -3,8 +3,14 @@ import { IWrestler } from 'app/core/wreslter/interface';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
 export class FavoriteWrestlers implements IFavoriteWrestlers {
-  async wrestlers(): Promise<IWrestler[]> {
+  private _wrestlers: IWrestler[];
+
+  async load(): Promise<void> {
     const repository = RepositoryFactory.factoryWrestlerRepository();
-    return repository.fetchAll();
+    this._wrestlers = await repository.fetchAll();
+  }
+
+  wrestlers(): IWrestler[] {
+    return this._wrestlers;
   }
 }

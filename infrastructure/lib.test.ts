@@ -1,4 +1,4 @@
-import { Wrestler } from 'app/core/wreslter/wrestler';
+import { SampleData } from 'db/sampleData';
 import { Logger } from 'infrastructure/lib';
 
 describe('Logger', () => {
@@ -15,8 +15,7 @@ describe('Logger', () => {
     });
 
     it('Hashに対応したログを返すこと', () => {
-      const value = new Wrestler('Maria');
-      Logger.log(value);
+      Logger.log(SampleData.wrestlers[0]);
     });
   });
 });

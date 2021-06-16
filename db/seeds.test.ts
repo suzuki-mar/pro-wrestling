@@ -15,7 +15,7 @@ describe('CreateWrestler', () => {
     const repository = new WrestlerRepository();
     const wrestlers = await repository.fetchAll();
 
-    expect(wrestlers.length).toEqual(SampleData.marvelousWrestlerNames().length);
+    expect(wrestlers.length).toEqual(SampleData.wrestlerNames().length);
     await dbClose(done);
   });
 });

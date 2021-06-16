@@ -20,7 +20,7 @@ const seed = async () => {
 
 // テストできるようにするためにexportしている
 export async function createWrestlers(): Promise<void> {
-  const names = SampleData.marvelousWrestlerNames();
+  const names = SampleData.wrestlerNames();
   const repository = new WrestlerRepository();
   await repository.addList(names);
 }

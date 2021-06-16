@@ -1,10 +1,12 @@
 import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
 
 describe('FavorteWrestlers', () => {
-  describe('wrestlers', () => {
+  describe('load ＆ wrestlers', () => {
     it('好きなレスラー一覧を取得すること', async () => {
       const favorteWrestlers = new FavoriteWrestlers();
-      const wrestlers = await favorteWrestlers.wrestlers();
+      await favorteWrestlers.load();
+
+      const wrestlers = favorteWrestlers.wrestlers();
 
       expect(wrestlers.length).not.toEqual(0);
     });
