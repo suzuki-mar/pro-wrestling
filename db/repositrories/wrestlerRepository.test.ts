@@ -2,7 +2,7 @@ import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { dbClose } from 'test/lib';
 import prisma from 'db/index';
-import { TestData } from 'test/testData';
+import { SampleData } from 'db/sampleData';
 
 describe('WrestlerRepository', () => {
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('WrestlerRepository', () => {
   describe('fetchAll', () => {
     beforeEach(async () => {
       await prisma.wrestler.create({
-        data: { name: TestData.marvelousWrestlerName() },
+        data: { name: SampleData.marvelousWrestlerName() },
       });
     });
 
@@ -31,10 +31,10 @@ describe('WrestlerRepository', () => {
   describe('addList', () => {
     it('レスラーが作成されること', async (done) => {
       const repository = new WrestlerRepository();
-      await repository.addList(TestData.marvelousWrestlerNames());
+      await repository.addList(SampleData.marvelousWrestlerNames());
 
       const wrestlers = await repository.fetchAll();
-      expect(wrestlers.length).toEqual(TestData.marvelousWrestlerNames().length);
+      expect(wrestlers.length).toEqual(SampleData.marvelousWrestlerNames().length);
       await dbClose(done);
     });
   });

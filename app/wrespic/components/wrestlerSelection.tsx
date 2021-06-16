@@ -2,9 +2,9 @@ import { Card, CardContent, CardHeader, FormGroup, CardActions } from '@material
 
 import useFavoriteWrestlers from 'app/wrespic/hooks/useFavoriteWrestlers';
 import * as _ from 'loadsh';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
-import WreslterSelectItem from './wrestlerSelectItem';
-import UploadButton from './uploadButton';
+import { Wrestler } from 'app/core/wreslter/wrestler';
+import WreslterSelectItem from 'app/wrespic/components/wrestlerSelectItem';
+import UploadButton from 'app/wrespic/components/uploadButton';
 
 export function WreslterSelection() {
   const wrestlers = useFavoriteWrestlers();

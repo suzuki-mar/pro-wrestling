@@ -1,8 +1,8 @@
 // import db from "./index"
 
-import { TestData } from 'test/testData';
-import { Wrestler } from 'app/core/wreslter/wrestler';
+import { SampleData } from 'db/sampleData';
 import prisma from 'db/index';
+import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 
 /*
  * This seed function is executed when you run `blitz db seed`.
@@ -20,8 +20,9 @@ const seed = async () => {
 
 // テストできるようにするためにexportしている
 export async function createWrestlers(): Promise<void> {
-  const names = TestData.marvelousWrestlerNames();
-  await Wrestler.creates(names);
+  const names = SampleData.marvelousWrestlerNames();
+  const repository = new WrestlerRepository();
+  await repository.addList(names);
 }
 
 export default seed;
