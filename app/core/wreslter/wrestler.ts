@@ -1,9 +1,11 @@
 import { IWrestler } from 'app/core/wreslter/interface';
+import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
 export class Wrestler implements IWrestler {
-  constructor(private _name: string) {}
+  constructor(readonly name: string) {}
 
-  name(): string {
-    return this._name;
+  static async creates(names: string[]) {
+    const repository = RepositoryFactory.factoryWrestlerRepository();
+    return repository.addList(names);
   }
 }

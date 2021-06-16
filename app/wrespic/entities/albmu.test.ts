@@ -25,7 +25,7 @@ describe('IAlbum', () => {
       const photo = buildPhoto(wrestlers[0]);
 
       await album.uploads([photo], log);
-      expect(log.notifyUploadedPhoto).toHaveBeenCalledTimes(wrestlers.length);
+      expect(log.notifyUploadedPhoto).toHaveBeenCalledTimes(1);
     });
 
     it('ダウンロードの完了結果が通知されていること', async () => {

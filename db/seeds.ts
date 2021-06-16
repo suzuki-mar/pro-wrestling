@@ -1,5 +1,9 @@
 // import db from "./index"
 
+import { SampleData } from 'db/sampleData';
+import prisma from 'db/index';
+import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
+
 /*
  * This seed function is executed when you run `blitz db seed`.
  *
@@ -8,9 +12,17 @@
  * realistic data.
  */
 const seed = async () => {
-  // for (let i = 0; i < 5; i++) {
-  //   await db.project.create({ data: { name: "Project " + i } })
-  // }
+  // ユニーク制約にひかっからないようにすむためにデータを消す
+  await prisma.$reset();
+
+  await createWrestlers();
 };
+
+// テストできるようにするためにexportしている
+export async function createWrestlers(): Promise<void> {
+  const names = SampleData.marvelousWrestlerNames();
+  const repository = new WrestlerRepository();
+  await repository.addList(names);
+}
 
 export default seed;

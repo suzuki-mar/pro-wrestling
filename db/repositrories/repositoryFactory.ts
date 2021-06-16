@@ -1,7 +1,6 @@
 import { IWrestlerRepository, IWrestler } from 'app/core/wreslter/interface';
-import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
-import faker from 'faker';
+import { SampleData } from 'db/sampleData';
 
 export class RepositoryFactory {
   private static _isConnectingToRealDB = false;
@@ -22,8 +21,11 @@ export class RepositoryFactory {
 
   public static MockWrestlerRepository = class implements IWrestlerRepository {
     async fetchAll(): Promise<IWrestler[]> {
-      // TODO レスラーの名前を使用したい
-      return [new Wrestler(faker.name.firstName())];
+      return SampleData.marvelousWrestlers();
+    }
+
+    async addList(names: string[]): Promise<IWrestler[]> {
+      return SampleData.marvelousWrestlers();
     }
   };
 }

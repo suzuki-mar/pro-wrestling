@@ -2,16 +2,20 @@ import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { dbClose } from 'test/lib';
 import prisma from 'db/index';
+import { SampleData } from 'db/sampleData';
 
 describe('WrestlerRepository', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await prisma.$reset();
-    await prisma.wrestler.create({
-      data: { name: '桃野美桜' },
-    });
   });
 
   describe('fetchAll', () => {
+    beforeEach(async () => {
+      await prisma.wrestler.create({
+        data: { name: SampleData.marvelousWrestlerName() },
+      });
+    });
+
     it('レスラーが返されていること', async (done) => {
       const repository = new WrestlerRepository();
       const wrestlers = await repository.fetchAll();
@@ -20,6 +24,17 @@ describe('WrestlerRepository', () => {
       const wrestler: Wrestler = wrestlers[0] as Wrestler;
 
       expect(wrestler.name).not.toBeUndefined();
+      await dbClose(done);
+    });
+  });
+
+  describe('addList', () => {
+    it('レスラーが作成されること', async (done) => {
+      const repository = new WrestlerRepository();
+      await repository.addList(SampleData.marvelousWrestlerNames());
+
+      const wrestlers = await repository.fetchAll();
+      expect(wrestlers.length).toEqual(SampleData.marvelousWrestlerNames().length);
       await dbClose(done);
     });
   });
