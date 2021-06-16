@@ -1,8 +1,8 @@
 // import db from "./index"
 
-import { TestData } from '../test/testData';
-import { Wrestler } from '../app/sub_contexts/wreslter/wrestler';
-import { ContextCreator } from '../test/contextCreator';
+import { TestData } from 'test/testData';
+import { Wrestler } from 'app/core/wreslter/wrestler';
+import prisma from 'db/index';
 
 /*
  * This seed function is executed when you run `blitz db seed`.
@@ -13,7 +13,8 @@ import { ContextCreator } from '../test/contextCreator';
  */
 const seed = async () => {
   // ユニーク制約にひかっからないようにすむためにデータを消す
-  await ContextCreator.resetAllData();
+  await prisma.$reset();
+
   await createWrestlers();
 };
 

@@ -1,5 +1,5 @@
-import { TwitterQueryOperator, TwitterFiliter } from './interface';
-import { TwitterParams } from './params';
+import { TwitterQueryOperator, TwitterFiliter } from 'integrations/twitter/interface';
+import { TwitterParams } from 'integrations/twitter/params';
 
 describe('toHash', () => {
   let params: TwitterParams;

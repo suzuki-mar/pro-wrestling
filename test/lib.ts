@@ -1,4 +1,5 @@
 import faker from 'faker';
+import prisma from 'db/index';
 
 export const sleep = (someFunction) => {
   return new Promise((resolve) => {
@@ -7,3 +8,15 @@ export const sleep = (someFunction) => {
     }, faker.datatype.number(100));
   });
 };
+
+export const dbClose = async (done: jest.DoneCallback) => {
+  await prisma.$disconnect();
+  done();
+};
+
+export class NotImplementedError extends Error {
+  constructor() {
+    super();
+    this.name = 'NotImplementedError';
+  }
+}

@@ -1,10 +1,14 @@
 import * as _ from 'loadsh';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { Wrestler } from 'app/core/wreslter/wrestler';
 
 export class TestData {
   static marvelousWrestlerNames(): string[] {
     const names = ['彩羽匠', '桃野美桜', '門倉凛', '神童ミコト', 'Maria', '星月芽依', '宝山愛'];
     return _.shuffle(names);
+  }
+
+  static marvelousWrestlerName(): string {
+    return this.marvelousWrestlerNames()[0] as string;
   }
 
   static marvelousWrestlers(): Wrestler[] {

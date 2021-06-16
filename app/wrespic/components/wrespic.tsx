@@ -1,6 +1,6 @@
-import { WreslterSelection } from './wrestlerSelection';
-import { ExecutionLog } from './executionLlog';
-import UploadButton from './uploadButton';
+import { WreslterSelection } from 'app/wrespic/components/wrestlerSelection';
+import { ExecutionLog } from 'app/wrespic/components/executionLlog';
+import UploadButton from 'app/wrespic/components/uploadButton';
 
 const style = {
   height: '550px',

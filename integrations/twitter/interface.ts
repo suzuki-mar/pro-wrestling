@@ -1,5 +1,5 @@
 import { TwitterParams } from 'integrations/twitter/params';
-import { TTweet } from '../../app/sub_contexts/tweet';
+import { TTweet } from 'app/core/tweet';
 
 export enum TwitterQueryOperator {
   AND = 'AND',

@@ -1,5 +1,5 @@
-import { IWrestler } from '../../sub_contexts/wreslter/interface';
-import { IPhoto } from '../interface';
+import { IWrestler } from 'app/core/wreslter/interface';
+import { IPhoto } from 'app/wrespic/interface';
 
 export interface IFavoriteWrestlers {
   wrestlers(): Promise<IWrestler[]>;

@@ -1,5 +1,5 @@
 import { Wrestler } from 'app/core/wreslter/wrestler';
-import { Logger } from 'app//core/lib';
+import { Logger } from 'infrastructure/lib';
 
 describe('Logger', () => {
   describe('log', () => {

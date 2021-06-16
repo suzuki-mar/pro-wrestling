@@ -1,17 +1,10 @@
-import { FavoriteWrestlers } from './favoriteWrestlers';
-import { MockExecutionLog, MockPhoto } from '../mock';
-import { ContextCreator } from '../../../test/contextCreator';
-import { Album } from './albmu';
+import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
+import { MockExecutionLog, MockPhoto } from 'app/wrespic/mock';
+import { Album } from 'app/wrespic/entities/albmu';
 import faker from 'faker';
-import { IWrestler } from 'app/sub_contexts/wreslter/interface';
-
-// import { ClientFactory } from 'db/repositrories/clientFactory';
+import { IWrestler } from 'app/core/wreslter/interface';
 
 describe('IAlbum', () => {
-  beforeAll(async () => {
-    await ContextCreator.createContextInWrestlerExists();
-  });
-
   describe('downloads', () => {
     const album = new Album();
     const favoriteWrestlers = new FavoriteWrestlers();

@@ -1,14 +1,22 @@
-import { WrestlerRepository } from './wrestlerRepository';
-import { ContextCreator } from '../../test/contextCreator';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
+import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
+import { Wrestler } from 'app/core/wreslter/wrestler';
+import { dbClose } from 'test/lib';
+import prisma from 'db/index';
+import { TestData } from 'test/testData';
 
 describe('WrestlerRepository', () => {
   beforeEach(async () => {
-    await ContextCreator.createContextInWrestlerExists();
+    await prisma.$reset();
   });
 
   describe('fetchAll', () => {
-    it('レスラーが返されていること', async () => {
+    beforeEach(async () => {
+      await prisma.wrestler.create({
+        data: { name: TestData.marvelousWrestlerName() },
+      });
+    });
+
+    it('レスラーが返されていること', async (done) => {
       const repository = new WrestlerRepository();
       const wrestlers = await repository.fetchAll();
 
@@ -16,6 +24,18 @@ describe('WrestlerRepository', () => {
       const wrestler: Wrestler = wrestlers[0] as Wrestler;
 
       expect(wrestler.name).not.toBeUndefined();
+      await dbClose(done);
+    });
+  });
+
+  describe('addList', () => {
+    it('レスラーが作成されること', async (done) => {
+      const repository = new WrestlerRepository();
+      await repository.addList(TestData.marvelousWrestlerNames());
+
+      const wrestlers = await repository.fetchAll();
+      expect(wrestlers.length).toEqual(TestData.marvelousWrestlerNames().length);
+      await dbClose(done);
     });
   });
 });

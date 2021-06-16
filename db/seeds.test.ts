@@ -1,13 +1,14 @@
 import { createWrestlers } from './seeds';
-import { Wrestler } from 'app/sub_contexts/wreslter/wrestler';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
-import { TestData } from '../test/testData';
-import * as _ from 'loadsh';
-import { ContextCreator } from '../test/contextCreator';
+import { TestData } from 'test/testData';
+import prisma from 'db/index';
 
 describe('CreateWrestler', () => {
   beforeEach(async () => {
-    await ContextCreator.resetAllData();
+    await prisma.$reset();
+    await prisma.wrestler.create({
+      data: { name: TestData.marvelousWrestlerName() },
+    });
   });
 
   it('マーベラスのレスラーを作成すること', async () => {

@@ -1,7 +1,7 @@
-import { Client } from './client';
-import { TwitterQueryOperator, TwitterFiliter } from './interface';
-import { TwitterParams } from './params';
-import { TTweet } from '../../app/sub_contexts/tweet';
+import { Client } from 'integrations/twitter/client';
+import { TwitterQueryOperator, TwitterFiliter } from 'integrations/twitter/interface';
+import { TwitterParams } from 'integrations/twitter/params';
+import { TTweet } from 'app/core/tweet';
 
 import dotenv from 'dotenv';
 dotenv.config();

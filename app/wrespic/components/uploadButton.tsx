@@ -1,5 +1,4 @@
 import { Button } from '@material-ui/core';
-import { useMutation } from 'blitz';
 
 export default function UploadButton() {
   const handleSubmit = async (e: React.FormEvent) => {

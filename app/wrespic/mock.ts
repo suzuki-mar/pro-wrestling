@@ -1,7 +1,7 @@
-import { IListener, IExecutionLog, IAlbum } from './components/interface';
+import { IListener, IExecutionLog, IAlbum } from 'app/wrespic/components/interface';
 import * as _ from 'lodash';
-import { IPhoto, ProcessStatus } from './interface';
-import { IWrestler } from '../sub_contexts/wreslter/interface';
+import { IPhoto, ProcessStatus } from 'app/wrespic/interface';
+import { IWrestler } from 'app/core/wreslter/interface';
 
 export class MockPhoto implements IPhoto {
   readonly file = undefined;

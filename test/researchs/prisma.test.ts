@@ -1,4 +1,4 @@
-import prisma from '../../db/index';
+import prisma from 'db/index';
 import { Wrestler } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 

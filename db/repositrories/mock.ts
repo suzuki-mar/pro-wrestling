@@ -1,7 +1,7 @@
-import { IPhoto } from '../../app/wrespic/interface';
+import { IPhoto } from 'app/wrespic/interface';
 
-import { IPictureRepository } from '../../app/wrespic/entities/';
-import { TTweet, ITweetRepository } from '../../app/sub_contexts/tweet';
+import { IPictureRepository } from 'app/wrespic/entities/';
+import { TTweet, ITweetRepository } from 'app/core/tweet';
 
 export class MockIPictureRepository implements IPictureRepository {
   async regist(photo: IPhoto): Promise<IPhoto[]> {
