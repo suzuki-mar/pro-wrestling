@@ -1,15 +1,18 @@
-import { WreslterSelection } from "./wrestlerSelection"
-import { ExecutionLog } from "./executionLlog"
+import { WreslterSelection } from './wrestlerSelection';
+import { ExecutionLog } from './executionLlog';
+import UploadButton from './uploadButton';
 
 const style = {
-  height: "550px",
-}
+  height: '550px',
+};
 
 export function Wrespic() {
+  const button = <UploadButton />;
+
   return (
     <div style={style} className="h-96">
       <div className="h-1/2">
-        <WreslterSelection />
+        <WreslterSelection button={button} />
       </div>
 
       <hr />
@@ -17,5 +20,5 @@ export function Wrespic() {
         <ExecutionLog />
       </div>
     </div>
-  )
+  );
 }
