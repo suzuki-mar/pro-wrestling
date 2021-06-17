@@ -1,7 +1,7 @@
 import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/interface';
-import { WrestlerPictureURL } from 'app/wrespic/components/interface';
+import { TWrestlerPictureURL } from 'app/wrespic/components/interface';
 
 export class SampleData {
   static wrestlerNames(): WrestlerName[] {
@@ -26,16 +26,19 @@ export class SampleData {
     });
   }
 
-  static wrestlerPictureURL(): WrestlerPictureURL {
+  static wrestlerPictureURL(): TWrestlerPictureURL {
+    const pictureURL: TWrestlerPictureURL = { name: this.wrestlerName(), url: this.url() };
+    return pictureURL;
+  }
+
+  static url(): URL {
     const urlStrs = [
       'https://pbs.twimg.com/profile_images/1379722405220782080/GPA5Q9M-_400x400.jpg',
       'https://pbs.twimg.com/profile_images/1306992114270527489/j2rjqGMg_400x400.jpg',
       'https://pbs.twimg.com/profile_images/1370429023579348992/xijhpU9c_400x400.jpg',
       'https://pbs.twimg.com/profile_images/1065855408378601472/5QteaT_0_400x400.jpg',
     ];
-    const url = new URL(_.shuffle(urlStrs));
-
-    const pictureURL: WrestlerPictureURL = { name: this.wrestlerName(), url: url };
-    return pictureURL;
+    const urlStr = _.shuffle(urlStrs)[0];
+    return new URL(urlStr);
   }
 }

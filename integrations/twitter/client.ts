@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { TTweet } from 'app/core/tweet';
+import { TTextOnlyTweet, TPictureTweet, TTweet } from 'app/core/tweet';
 import { ITwitter, ITwitterParams } from 'integrations/twitter/interface';
 import Twitter, { RequestParams } from 'twitter';
 
@@ -38,11 +38,18 @@ export class TweetBuilder {
   static build(data: any): TTweet {
     const media = data['entities']['media'];
 
-    return {
+    const base: TTextOnlyTweet = {
       id: data['id_str'] as Number,
       text: data['text'] as string,
-      photoURL: this.buildPhotoURL(media),
     };
+
+    const photoURL = this.buildPhotoURL(media);
+    if (photoURL === undefined) {
+      return base;
+    }
+
+    const tweet: TPictureTweet = Object.assign(base, { photoURL: photoURL });
+    return tweet;
   }
 
   // FIXME 一旦画像は１つだけの前提
