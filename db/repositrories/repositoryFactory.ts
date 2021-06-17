@@ -1,4 +1,4 @@
-import { IWrestlerRepository, IWrestler } from 'app/core/wreslter/interface';
+import { IWrestlerRepository, IWrestler, WrestlerName } from 'app/core/wreslter/interface';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { SampleData } from 'db/sampleData';
 
@@ -21,11 +21,11 @@ export class RepositoryFactory {
 
   public static MockWrestlerRepository = class implements IWrestlerRepository {
     async fetchAll(): Promise<IWrestler[]> {
-      return SampleData.marvelousWrestlers();
+      return SampleData.wrestlers();
     }
 
-    async addList(names: string[]): Promise<IWrestler[]> {
-      return SampleData.marvelousWrestlers();
+    async addList(names: WrestlerName[]): Promise<IWrestler[]> {
+      return SampleData.wrestlers();
     }
   };
 }

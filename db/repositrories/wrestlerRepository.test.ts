@@ -12,7 +12,7 @@ describe('WrestlerRepository', () => {
   describe('fetchAll', () => {
     beforeEach(async () => {
       await prisma.wrestler.create({
-        data: { name: SampleData.marvelousWrestlerName() },
+        data: { name: SampleData.wrestlerName().full },
       });
     });
 
@@ -31,10 +31,10 @@ describe('WrestlerRepository', () => {
   describe('addList', () => {
     it('レスラーが作成されること', async (done) => {
       const repository = new WrestlerRepository();
-      await repository.addList(SampleData.marvelousWrestlerNames());
+      await repository.addList(SampleData.wrestlerNames());
 
       const wrestlers = await repository.fetchAll();
-      expect(wrestlers.length).toEqual(SampleData.marvelousWrestlerNames().length);
+      expect(wrestlers.length).toEqual(SampleData.wrestlerNames().length);
       await dbClose(done);
     });
   });

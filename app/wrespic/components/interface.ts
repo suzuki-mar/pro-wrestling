@@ -1,23 +1,24 @@
-import { IWrestler } from 'app/core/wreslter/interface';
-import { IPhoto } from 'app/wrespic/interface';
+import { IWrestler, WrestlerName } from 'app/core/wreslter/interface';
 
 export interface IFavoriteWrestlers {
-  wrestlers(): Promise<IWrestler[]>;
+  load(): Promise<void>;
+  wrestlers(): IWrestler[];
 }
 
 export interface IAlbum {
-  uploads(uploadPhotos: IPhoto[], log: IExecutionLog): Promise<IExecutionLog>;
-}
-
-export interface IExecutionLog {
+  searchPhotos(photoURLs: WrestlerPictureURL[]): Promise<IPhoto[]>;
+  downloadedPhotos(): IPhoto[];
   isAllDownloadComplete(): boolean;
-
-  addProcessListener(listener: IListener): void;
-  notifyUploadedPhoto(photo: IPhoto): void;
-  notifyAllUploaded(alumb: IAlbum): void;
 }
 
-export interface IListener {
-  update(photo: IPhoto): void;
-  updateAllFinsh(albmu: IAlbum): void;
+export type WrestlerPictureURL = {
+  name: WrestlerName;
+  url: URL;
+};
+
+export interface IPhoto {
+  readonly pictureURL: WrestlerPictureURL;
+  // Fileだと実装が大変なため一旦Stringｓにしている
+  readonly file: string;
+  fixFileName(): void;
 }

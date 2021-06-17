@@ -2,15 +2,15 @@ import { Card, CardContent, CardHeader, FormGroup, CardActions } from '@material
 
 import useFavoriteWrestlers from 'app/wrespic/hooks/useFavoriteWrestlers';
 import * as _ from 'loadsh';
-import { Wrestler } from 'app/core/wreslter/wrestler';
+import { IWrestler } from 'app/core/wreslter/interface';
 import WreslterSelectItem from 'app/wrespic/components/wrestlerSelectItem';
 import UploadButton from 'app/wrespic/components/uploadButton';
 
 export function WreslterSelection() {
   const wrestlers = useFavoriteWrestlers();
 
-  const list = _.map(wrestlers, (wrestler: Wrestler) => {
-    return <WreslterSelectItem key={wrestler.name} wrestler={wrestler} />;
+  const list = _.map(wrestlers, (wrestler: IWrestler) => {
+    return <WreslterSelectItem key={wrestler.name.full} wrestler={wrestler} />;
   });
 
   return (
