@@ -1,9 +1,11 @@
-export type TTweet = {
+export type TTextOnlyTweet = {
   id: Number;
   text: string;
-  photoURL?: URL;
 };
 
+type TPictureTweet = TTextOnlyTweet & { photoURL: URL };
+type TTweet = TPictureTweet | TTextOnlyTweet;
+
 export interface ITweetRepository {
-  fetchPictureTweetByWrestlerNames(): Tweet[];
+  fetchPictureTweetByWrestlerNames(): Promise<TTPictureTweet[]>;
 }

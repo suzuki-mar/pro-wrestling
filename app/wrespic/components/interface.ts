@@ -6,19 +6,21 @@ export interface IFavoriteWrestlers {
 }
 
 export interface IAlbum {
-  searchPhotos(photoURLs: WrestlerPictureURL[]): Promise<IPhoto[]>;
-  downloadedPhotos(): IPhoto[];
+  searchPhotos(photoURLs: TWrestlerPictureURL[]): Promise<void>;
+  downloadPhotos(): Promise<void>;
   isAllDownloadComplete(): boolean;
+  photos(): IPhoto[];
 }
 
-export type WrestlerPictureURL = {
-  name: WrestlerName;
-  url: URL;
+export type TWrestlerPictureURL = {
+  readonly name: WrestlerName;
+  readonly url: URL;
 };
 
 export interface IPhoto {
-  readonly pictureURL: WrestlerPictureURL;
-  // Fileだと実装が大変なため一旦Stringｓにしている
-  readonly file: string;
+  readonly pictureURL: TWrestlerPictureURL;
+  // Fileだと実装が大変なため一旦anyにしている
+  readonly file: any;
   fixFileName(): void;
+  downloadFile(): Promise<void>;
 }
