@@ -1,7 +1,7 @@
 import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { TWrestlerPictureURL } from 'app/wrespic/components/interface';
+import { TWrestlerPictureURL } from 'app/wrespic';
 
 export class SampleData {
   static wrestlerNames(): WrestlerName[] {

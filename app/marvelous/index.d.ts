@@ -1,4 +1,4 @@
-import { IWrestler } from 'app/core/wreslter/interface';
+import { IWrestler } from 'app/core/wreslter';
 
 export interface ISourceId {
   readonly id: string;

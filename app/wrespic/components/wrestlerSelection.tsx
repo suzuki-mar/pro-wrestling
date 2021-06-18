@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, FormGroup, CardActions } from '@material
 
 import useFavoriteWrestlers from 'app/wrespic/hooks/useFavoriteWrestlers';
 import * as _ from 'loadsh';
-import { IWrestler } from 'app/core/wreslter/interface';
+import { IWrestler } from 'app/core/wreslter';
 import WreslterSelectItem from 'app/wrespic/components/wrestlerSelectItem';
 import UploadButton from 'app/wrespic/components/uploadButton';
 

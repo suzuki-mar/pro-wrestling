@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
-import { IWrestlerRepository } from 'app/core/wreslter/interface';
+import { IWrestler, TWrestlerName } from 'app/core/wreslter';
+import { IWrestlerRepository } from 'app/core/wreslter';
 import { Wrestler as EWrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { Wrestler } from 'db/index';

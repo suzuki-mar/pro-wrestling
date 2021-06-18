@@ -1,4 +1,4 @@
-import { ISource, ISourceId } from 'app/marvelous/interface';
+import { ISource, ISourceId } from 'app/marvelous';
 
 export class Source implements ISource {
   readonly title: string;

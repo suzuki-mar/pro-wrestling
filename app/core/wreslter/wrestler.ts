@@ -1,4 +1,4 @@
-import { IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
+import { IWrestler, TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 

@@ -1,4 +1,4 @@
-import { IHTTPClient } from 'integrations/httpClient';
+import { IHTTPClient } from 'integrations/httpClient/interface';
 import axios from 'axios';
 
 export class HTTPClient implements IHTTPClient {

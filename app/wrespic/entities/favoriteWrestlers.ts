@@ -1,5 +1,5 @@
-import { IFavoriteWrestlers } from 'app/wrespic/components/interface';
-import { IWrestler } from 'app/core/wreslter/interface';
+import { IFavoriteWrestlers } from 'app/wrespic';
+import { IWrestler } from 'app/core/wreslter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
 export class FavoriteWrestlers implements IFavoriteWrestlers {
