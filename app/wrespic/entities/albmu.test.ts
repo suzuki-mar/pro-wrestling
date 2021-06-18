@@ -24,6 +24,9 @@ describe('IAlbum', () => {
     });
 
     it('完了状態になっていること', async () => {
+      const url: TWrestlerPictureURL = SampleData.wrestlerPictureURL();
+
+      await album.searchPhotos([url]);
       await album.downloadPhotos();
       expect(album.isAllDownloadComplete()).toEqual(true);
     });

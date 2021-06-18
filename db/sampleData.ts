@@ -1,6 +1,6 @@
 import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
-import { WrestlerName } from 'app/core/wreslter/interface';
+import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TWrestlerPictureURL } from 'app/wrespic/components/interface';
 
 export class SampleData {
@@ -9,7 +9,7 @@ export class SampleData {
 
     const names: WrestlerName[] = _.map(nameStrs, (str: string) => {
       // タイプを定義しやすくするために一時変数に代入している
-      const name: WrestlerName = { full: str };
+      const name = new WrestlerName(str);
       return name;
     });
 
