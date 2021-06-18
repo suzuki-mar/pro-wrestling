@@ -1,37 +1,8 @@
-import { z } from 'zod';
 import { SampleData } from 'db/sampleData';
-import { IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
-import { IFavoriteWrestlers } from 'app/wrespic/components/interface';
-import _ from 'lodash';
-import { Wrestler } from 'app/core/wreslter/wrestler';
+import { WreslerNames, isExistsWreslerNames } from 'app/wrespic/validation';
 import faker from 'faker';
-
-export const WreslerNames = z.array(
-  z.object({
-    full: z.string(),
-  })
-);
-
-export function isExistsWreslerNames(names: WrestlerName[], favoriteWrestlers: IFavoriteWrestlers) {
-  const exsitsWrestlers: (IWrestler | undefined)[] = _.map(names, (name: WrestlerName) => {
-    const matchs = _.filter(favoriteWrestlers.wrestlers(), (wrestler: Wrestler) => {
-      return name.equal(wrestler.name);
-    });
-
-    return matchs[0];
-  });
-
-  let result = true;
-  _.each(exsitsWrestlers, (wrestler) => {
-    if (typeof wrestler !== 'object') {
-      result = false;
-    }
-  });
-
-  return result;
-}
 
 describe('WreslerNames', () => {
   it('fullがある場合はパースされる', () => {

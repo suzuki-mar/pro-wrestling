@@ -1,4 +1,4 @@
-import { ClientFactory } from 'db/repositrories/clientFactory';
+import { ClientFactory } from 'integrations/clientFactory';
 import { Client as TwitterClient } from 'integrations/twitter/client';
 
 describe('ClientFactory', () => {
