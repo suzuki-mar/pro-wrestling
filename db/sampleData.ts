@@ -1,7 +1,7 @@
 import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
-import { WrestlerName } from 'app/core/wreslter/interface';
-import { WrestlerPictureURL } from 'app/wrespic/components/interface';
+import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { TWrestlerPictureURL } from 'app/wrespic/components/interface';
 
 export class SampleData {
   static wrestlerNames(): WrestlerName[] {
@@ -9,7 +9,7 @@ export class SampleData {
 
     const names: WrestlerName[] = _.map(nameStrs, (str: string) => {
       // タイプを定義しやすくするために一時変数に代入している
-      const name: WrestlerName = { full: str };
+      const name = new WrestlerName(str);
       return name;
     });
 
@@ -26,7 +26,7 @@ export class SampleData {
     });
   }
 
-  static wrestlerPictureURL(): WrestlerPictureURL {
+  static wrestlerPictureURL(): TWrestlerPictureURL {
     const urlStrs = [
       'https://pbs.twimg.com/profile_images/1379722405220782080/GPA5Q9M-_400x400.jpg',
       'https://pbs.twimg.com/profile_images/1306992114270527489/j2rjqGMg_400x400.jpg',
@@ -35,7 +35,7 @@ export class SampleData {
     ];
     const url = new URL(_.shuffle(urlStrs));
 
-    const pictureURL: WrestlerPictureURL = { name: this.wrestlerName(), url: url };
+    const pictureURL: TWrestlerPictureURL = { name: this.wrestlerName(), url: url };
     return pictureURL;
   }
 }

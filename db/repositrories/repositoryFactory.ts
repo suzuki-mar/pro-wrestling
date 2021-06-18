@@ -1,4 +1,4 @@
-import { IWrestlerRepository, IWrestler, WrestlerName } from 'app/core/wreslter/interface';
+import { IWrestlerRepository, IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { SampleData } from 'db/sampleData';
 
@@ -24,7 +24,7 @@ export class RepositoryFactory {
       return SampleData.wrestlers();
     }
 
-    async addList(names: WrestlerName[]): Promise<IWrestler[]> {
+    async addList(names: TWrestlerName[]): Promise<IWrestler[]> {
       return SampleData.wrestlers();
     }
   };

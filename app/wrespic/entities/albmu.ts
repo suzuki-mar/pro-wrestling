@@ -1,14 +1,14 @@
-import { IAlbum, IPhoto, WrestlerPictureURL } from 'app/wrespic/components/interface';
+import { IAlbum, IPhoto, TWrestlerPictureURL } from 'app/wrespic/components/interface';
 import * as _ from 'loadsh';
 
 export class Album implements IAlbum {
   private _isAllDownloadComplete = false;
   private _downloadedPhotos: IPhoto[] = [];
 
-  async searchPhotos(photoURLs: WrestlerPictureURL[]): Promise<IPhoto[]> {
+  async searchPhotos(photoURLs: TWrestlerPictureURL[]): Promise<IPhoto[]> {
     this._isAllDownloadComplete = true;
 
-    return _.map(photoURLs, (url: WrestlerPictureURL) => {
+    return _.map(photoURLs, (url: TWrestlerPictureURL) => {
       return new Photo(url);
     });
   }
@@ -25,7 +25,7 @@ export class Album implements IAlbum {
 class Photo implements IPhoto {
   // Fileだと実装が大変なため一旦Stringｓにしている
   readonly file: string;
-  constructor(readonly pictureURL: WrestlerPictureURL) {}
+  constructor(readonly pictureURL: TWrestlerPictureURL) {}
 
   fixFileName() {}
 }

@@ -1,4 +1,4 @@
-import { IWrestler, WrestlerName } from 'app/core/wreslter/interface';
+import { IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
 
 export interface IFavoriteWrestlers {
   load(): Promise<void>;
@@ -6,18 +6,18 @@ export interface IFavoriteWrestlers {
 }
 
 export interface IAlbum {
-  searchPhotos(photoURLs: WrestlerPictureURL[]): Promise<IPhoto[]>;
+  searchPhotos(photoURLs: TWrestlerPictureURL[]): Promise<IPhoto[]>;
   downloadedPhotos(): IPhoto[];
   isAllDownloadComplete(): boolean;
 }
 
-export type WrestlerPictureURL = {
-  name: WrestlerName;
+export type TWrestlerPictureURL = {
+  name: TWrestlerName;
   url: URL;
 };
 
 export interface IPhoto {
-  readonly pictureURL: WrestlerPictureURL;
+  readonly pictureURL: TWrestlerPictureURL;
   // Fileだと実装が大変なため一旦Stringｓにしている
   readonly file: string;
   fixFileName(): void;
