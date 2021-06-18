@@ -1,5 +1,5 @@
-import { IFavoriteWrestlers } from 'app/wrespic/components/interface';
-import { IWrestler } from 'app/core/wreslter/interface';
+import { IFavoriteWrestlers } from 'app/wrespic';
+import { IWrestler } from 'app/core/wreslter';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { z } from 'zod';

@@ -1,5 +1,5 @@
 import { ITweetRepository, TPictureTweet } from 'app/core/tweet';
-import { IWrestlerRepository, IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
+import { IWrestlerRepository, IWrestler, TWrestlerName } from 'app/core/wreslter';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { SampleData } from 'db/sampleData';
 import faker from 'faker';

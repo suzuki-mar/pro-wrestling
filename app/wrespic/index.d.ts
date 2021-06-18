@@ -1,4 +1,4 @@
-import { IWrestler, TWrestlerName } from 'app/core/wreslter/interface';
+import { IWrestler, TWrestlerName } from 'app/core/wreslter';
 
 export interface IFavoriteWrestlers {
   load(): Promise<void>;

@@ -1,5 +1,5 @@
-import { TWrestlerPictureURL } from 'app/wrespic/components/interface';
-import { TWrestlerName } from 'app/core/wreslter/interface';
+import { TWrestlerPictureURL } from 'app/wrespic';
+import { TWrestlerName } from 'app/core/wreslter';
 import * as _ from 'loadsh';
 
 class WrestlerPictureURL implements TWrestlerPictureURL {

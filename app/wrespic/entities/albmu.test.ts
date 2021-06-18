@@ -1,6 +1,6 @@
 import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
 import { Album } from 'app/wrespic/entities/albmu';
-import { TWrestlerPictureURL } from 'app/wrespic/components/interface';
+import { TWrestlerPictureURL } from 'app/wrespic';
 import { SampleData } from 'db/sampleData';
 
 describe('IAlbum', () => {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as Lib from 'app/core/lib';
+import { log } from 'infrastructure';
 
 const fs = require('fs');
 const FormData = require('form-data');
@@ -23,12 +23,12 @@ describe('学習テストのため必要になるまではSkip GooglePhotoのテ
 
     it('アップロードできていること', async () => {
       const form = new FormData();
-      Lib.Logger.log(form);
+      log(form);
 
       const file = fs.createReadStream(__dirname + '/test.png');
       form.append('file', file, file.name);
 
-      Lib.Logger.log(form);
+      log(form);
 
       let data = new FormData();
       data.append('file', file, file.name);

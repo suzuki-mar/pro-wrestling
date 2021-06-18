@@ -1,4 +1,4 @@
-import { IAlbum, IPhoto, TWrestlerPictureURL } from 'app/wrespic/components/interface';
+import { IAlbum, IPhoto, TWrestlerPictureURL } from 'app/wrespic';
 import * as _ from 'loadsh';
 import { createFileFromURL } from 'infrastructure';
 
