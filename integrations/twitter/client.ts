@@ -1,27 +1,45 @@
 import * as _ from 'lodash';
-import { TTextOnlyTweet, TPictureTweet, TTweet } from 'app/core/tweet';
-import { ITwitter, ITwitterParams } from 'integrations/twitter/interface';
+import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterFiliter } from './interface';
+import { TweetBuilder } from './tweetBuilder';
+
+// 'esModuleInterop'を設定しているがコンパイル時に正しく読み込まれていない
+// @ts-ignore
 import Twitter, { RequestParams } from 'twitter';
 
 export class Client implements ITwitter {
+  private params: ITwitterParams;
+
   async search(params: ITwitterParams): Promise<TTweet[]> {
+    this.params = params;
     const client = this.buildClient();
     const requestParams: RequestParams = {
       screen_name: 'nodejs',
-      q: '(#STARDOM AND #中野たむ)',
-      filter: 'images',
+      q: this.params.toQuery(),
+      filter: this.params.filter(),
+      count: this.params.count(),
     };
-    return client
+
+    const searchResult = await client
       .get('search/tweets', requestParams)
-      .then(function (response: Twitter.ResponseData) {
-        const tweets = _.map(response['statuses'], function (tweetData: any) {
-          return TweetBuilder.build(tweetData);
-        });
-        return tweets;
-      })
       .catch(function (error: unknown) {
         throw error;
       });
+
+    return this.buildTweet(searchResult);
+  }
+
+  private buildTweet(response: any): TTweet[] {
+    const tweets = _.map(response['statuses'].slice(0), function (tweetData: any) {
+      return TweetBuilder.build(tweetData);
+    });
+
+    if (this.params.filter() !== TwitterFiliter.IMAGES) {
+      return tweets;
+    }
+
+    return _.filter(tweets, (tweet) => {
+      return tweet.type === TweetType.Picture;
+    });
   }
 
   private buildClient(): Twitter {
@@ -31,38 +49,5 @@ export class Client implements ITwitter {
       access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY!,
       access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET!,
     });
-  }
-}
-
-export class TweetBuilder {
-  static build(data: any): TTweet {
-    const media = data['entities']['media'];
-
-    const base: TTextOnlyTweet = {
-      id: data['id_str'] as Number,
-      text: data['text'] as string,
-    };
-
-    const photoURL = this.buildPhotoURL(media);
-    if (photoURL === undefined) {
-      return base;
-    }
-
-    const tweet: TPictureTweet = Object.assign(base, { photoURL: photoURL });
-    return tweet;
-  }
-
-  // FIXME 一旦画像は１つだけの前提
-  private static buildPhotoURL(media: any): URL | undefined {
-    if (media === undefined) {
-      return undefined;
-    }
-
-    const medium = media[0];
-    if (medium['type'] === 'photo') {
-      return new URL(medium['media_url']);
-    }
-
-    return undefined;
   }
 }

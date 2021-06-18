@@ -1,3 +1,3 @@
 export interface IHTTPClient {
-  findBlobParts(url: URL): Promise<BlobPart[]>;
+  findBlobParts(urlStr: string): Promise<BlobPart[]>;
 }

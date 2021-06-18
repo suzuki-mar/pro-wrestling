@@ -7,7 +7,7 @@ describe('HTTPClient', () => {
 
     describe('findBlobParts', () => {
       it('BlogPartsをを取得できること', async () => {
-        const result: BlobPart[] = await client.findBlobParts(SampleData.url());
+        const result: BlobPart[] = await client.findBlobParts(SampleData.url().href);
         expect(result[0]?.toString()).not.toBeUndefined();
       });
     });

@@ -15,14 +15,14 @@ export function log(value: string | Array<any> | Object) {
   console.dir(value);
 }
 
-export async function createFileFromURL(url: URL): Promise<File> {
+export async function createFileFromURL(urlStr: string): Promise<File> {
   const client = new HTTPClient();
 
-  const blob = await client.findBlobParts(url).then((blobParts) => {
+  const blob = await client.findBlobParts(urlStr).then((blobParts) => {
     return new Blob(blobParts, { type: 'image/jpg' });
   });
 
-  const paths = url.toString().split('/');
+  const paths = urlStr.split('/');
   const name = _.last(paths) as string;
 
   return new File([blob], name);

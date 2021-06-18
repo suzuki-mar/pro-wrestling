@@ -20,7 +20,7 @@ describe('log', () => {
 
 describe('createFileFromURL', () => {
   it('Fileを返すこと', async () => {
-    const file = await createFileFromURL(SampleData.url());
+    const file = await createFileFromURL(SampleData.url().href);
     expect(file).toBeInstanceOf(File);
   });
 });
