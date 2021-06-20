@@ -22,6 +22,8 @@ export async function createFileFromURL(urlStr: string): Promise<File> {
     return new Blob(blobParts, { type: 'image/jpg' });
   });
 
+  console.log(blob);
+
   const paths = urlStr.split('/');
   const name = _.last(paths) as string;
 

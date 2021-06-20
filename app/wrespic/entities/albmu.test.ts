@@ -2,39 +2,40 @@ import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
 import { Album } from 'app/wrespic/entities/albmu';
 import { TWrestlerPictureURL } from 'app/wrespic';
 import { SampleData } from 'db/sampleData';
+import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 
 describe('IAlbum', () => {
   const album = new Album();
   const favoriteWrestlers = new FavoriteWrestlers();
-  const url: TWrestlerPictureURL = SampleData.wrestlerPictureURL();
+
+  let urls: TWrestlerPictureURL[];
+  const nameMio = new WrestlerName('桃野美桜');
+  const nameMei = new WrestlerName('星月芽依');
+
+  beforeEach(() => {
+    const image1 = SampleData.imageURLStr();
+    const image2 = SampleData.imageURLStr();
+
+    urls = [
+      { name: nameMio, urlStr: image1 },
+      { name: nameMei, urlStr: image1 },
+      { name: nameMio, urlStr: image2 },
+    ];
+  });
+
   beforeEach(async () => {
     await favoriteWrestlers.load();
   });
 
-  describe('searchPhotos', () => {
-    it('検索したファイルを取得していること', async () => {
-      await album.searchPhotos([url]);
-      expect(album.photos().length).toEqual(1);
+  describe('buildPictures', () => {
+    it('Pictureを作成していること', async () => {
+      album.setUpPictures(urls);
+      expect(album.pictures()[0]!['wrestlerNames']).toEqual([nameMio, nameMei]);
     });
   });
 
-  describe('downloads', () => {
-    beforeEach(async () => {
-      await album.searchPhotos([url]);
-    });
-
-    it('完了状態になっていること', async () => {
-      const url: TWrestlerPictureURL = SampleData.wrestlerPictureURL();
-
-      await album.searchPhotos([url]);
-      await album.downloadPhotos();
-      expect(album.isAllDownloadComplete()).toEqual(true);
-    });
-
-    it('ファイルをダウンロードしていること', async () => {
-      await album.downloadPhotos();
-      expect(album.photos()[0]?.file()).toBeInstanceOf(File);
-    });
+  describe.skip('prepareDownload APIの実装が必要なため未実装', () => {
+    it('ダウンロードするファイルを作成していること', async () => {});
   });
 });
 

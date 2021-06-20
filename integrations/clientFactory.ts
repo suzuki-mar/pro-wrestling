@@ -40,7 +40,7 @@ export class ClientFactory {
       const picture: TPictureTweet = {
         id: faker.datatype.number(),
         text: faker.lorem.text(),
-        pictureURL: faker.image.imageUrl(),
+        pictureURL: SampleData.imageURLStr(),
         hashtags: [faker.lorem.slug(), wreslerNames[0]!.full],
         type: TweetType.Picture,
       };

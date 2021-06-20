@@ -1,46 +1,31 @@
-import { IAlbum, IPhoto, TWrestlerPictureURL } from 'app/wrespic';
+import { IAlbum, TPicture, TWrestlerPictureURL } from 'app/wrespic';
 import * as _ from 'loadsh';
-import { createFileFromURL } from 'infrastructure';
 
 export class Album implements IAlbum {
-  private _isAllDownloadComplete = false;
-  private _photos: IPhoto[] = [];
+  private _pictures: TPicture[] = [];
 
-  async searchPhotos(photoURLs: TWrestlerPictureURL[]): Promise<void> {
-    this._photos = _.map(photoURLs, (photoURL: TWrestlerPictureURL) => {
-      return new MockPhoto(photoURL);
+  setUpPictures(pictureURLs: TWrestlerPictureURL[]): void {
+    let pictureList = {};
+    _.each(pictureURLs, (pu) => {
+      pictureList[pu.urlStr] = { urlStr: pu.urlStr, wrestlerNames: [], file: undefined };
+    });
+
+    _.each(pictureList, (picture, urlStr) => {
+      _.each(pictureURLs, (pictureUrl) => {
+        if (urlStr === pictureUrl.urlStr) {
+          picture['wrestlerNames'].push(pictureUrl.name);
+        }
+      });
+    });
+
+    this._pictures = _.map(pictureList, (photo, _) => {
+      return photo;
     });
   }
 
-  async downloadPhotos(): Promise<void> {
-    const donwloadPromises = _.map(this._photos, (photo: IPhoto) => {
-      return photo.downloadFile();
-    });
+  async prepareDownload(): Promise<void> {}
 
-    await Promise.all(donwloadPromises);
-    this._isAllDownloadComplete = true;
+  pictures(): TPicture[] {
+    return this._pictures;
   }
-
-  photos() {
-    return this._photos;
-  }
-
-  isAllDownloadComplete(): boolean {
-    return this._isAllDownloadComplete;
-  }
-}
-
-class MockPhoto implements IPhoto {
-  private _file: File;
-  constructor(readonly pictureURL: TWrestlerPictureURL) {}
-
-  async downloadFile(): Promise<void> {
-    this._file = await createFileFromURL(this.pictureURL.urlStr);
-  }
-
-  file(): File {
-    return this._file;
-  }
-
-  fixFileName() {}
 }
