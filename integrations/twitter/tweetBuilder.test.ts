@@ -1,6 +1,7 @@
 import { TweetType, TPictureTweet } from './interface';
 import faker from 'faker';
 import { TweetBuilder } from './tweetBuilder';
+import { SampleData } from 'db/sampleData';
 
 describe('Twitter', () => {
   describe('TextのTweet', () => {
@@ -42,7 +43,7 @@ function buildPhotoData() {
   const medium = {
     id: faker.datatype.number(),
     id_str: faker.datatype.number().toString(),
-    media_url: faker.image.imageUrl(),
+    media_url: SampleData.imageURLStr(),
     type: 'photo',
     source_user_id: faker.datatype.number(),
     source_user_id_str: faker.datatype.number().toString(),

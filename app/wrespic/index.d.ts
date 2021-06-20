@@ -12,10 +12,9 @@ export interface ISelectedWrestlers {
 }
 
 export interface IAlbum {
-  searchPhotos(photoURLs: TWrestlerPictureURL[]): Promise<void>;
-  downloadPhotos(): Promise<void>;
-  isAllDownloadComplete(): boolean;
-  photos(): IPhoto[];
+  setUpPictures(pictureURLs: TWrestlerPictureURL[]): void;
+  pictures(): TPicture[];
+  prepareDownload(): Promise<void>;
 }
 
 export type TWrestlerPictureURL = {
@@ -23,12 +22,11 @@ export type TWrestlerPictureURL = {
   readonly urlStr: string;
 };
 
-export interface IPhoto {
-  readonly pictureURL: TWrestlerPictureURL;
-  file(): File;
-  fixFileName(): void;
-  downloadFile(): Promise<void>;
-}
+export type TPicture = {
+  readonly urlStr: string;
+  readonly wrestlerNames: TWrestlerName[];
+  file?: File;
+};
 
 export interface ITweetRepository {
   fetchPictureTweetByWrestlerNames(
