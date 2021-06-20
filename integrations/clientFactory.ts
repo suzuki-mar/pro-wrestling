@@ -7,7 +7,7 @@ import {
   TweetType,
   ITwitter,
 } from 'integrations/twitter/interface';
-import faker from 'faker';
+import faker, { fake } from 'faker';
 import { SampleData } from 'db/sampleData';
 
 export class ClientFactory {
@@ -35,6 +35,7 @@ export class ClientFactory {
         text: faker.lorem.text(),
         type: TweetType.TextOnly,
         hashtags: [faker.lorem.slug(), wreslerNames[0]!.full, wreslerNames[1]!.full],
+        tweeted_at: faker.datatype.datetime(),
       };
 
       const picture: TPictureTweet = {
@@ -43,6 +44,7 @@ export class ClientFactory {
         pictureURL: SampleData.imageURLStr(),
         hashtags: [faker.lorem.slug(), wreslerNames[0]!.full],
         type: TweetType.Picture,
+        tweeted_at: faker.datatype.datetime(),
       };
       return [textOnly, picture];
     }

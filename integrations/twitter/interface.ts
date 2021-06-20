@@ -3,6 +3,7 @@ export type TTweetBase = {
   text: string;
   type: TweetType;
   hashtags: string[];
+  tweeted_at: Date;
 };
 
 export type TTextOnlyTweet = TTweetBase;

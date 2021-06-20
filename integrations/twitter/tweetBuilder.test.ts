@@ -13,6 +13,7 @@ describe('Twitter', () => {
       expect(tweet.text).not.toBeUndefined();
       expect(tweet.id).not.toBeUndefined();
       expect(tweet.hashtags).not.toBeUndefined();
+      expect(tweet.tweeted_at.toDateString()).toEqual('Sun Jun 20 2021');
     });
   });
 
@@ -28,6 +29,7 @@ describe('Twitter', () => {
 
 function buildTextOnlyData() {
   return {
+    created_at: 'Sun Jun 20 07:54:09 +0000 2021',
     id_str: faker.datatype.number().toString(),
     text: faker.lorem.text(),
     entities: {

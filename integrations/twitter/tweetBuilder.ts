@@ -14,6 +14,7 @@ export class TweetBuilder {
       text: data['text'] as string,
       hashtags: hashtags,
       type: TweetType.Unknown,
+      tweeted_at: new Date(data['created_at']),
     };
 
     const photoURL = this.buildPhotoURL(media);

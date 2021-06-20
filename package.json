@@ -39,6 +39,7 @@
     "autoprefixer": "10",
     "axios": "0.21.1",
     "blitz": "0.36.3",
+    "date-fns": "2.22.1",
     "dotenv": "8.2.0",
     "eslint": "7.27.0",
     "eslint-config-airbnb-base": "14.2.1",

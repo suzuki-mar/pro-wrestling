@@ -4,7 +4,7 @@ import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TWrestlerPictureURL } from 'app/wrespic';
 import { TWrestlerName, IWrestler } from 'app/core/wreslter';
 import { TPictureTweet, TTweet, TweetType } from 'integrations/twitter/interface';
-import faker from 'faker';
+import faker, { fake } from 'faker';
 
 export class SampleData {
   static wrestlerNames(): TWrestlerName[] {
@@ -30,7 +30,11 @@ export class SampleData {
   }
 
   static wrestlerPictureURL(): TWrestlerPictureURL {
-    const pictureURL: TWrestlerPictureURL = { name: this.wrestlerName(), urlStr: this.url().href };
+    const pictureURL: TWrestlerPictureURL = {
+      name: this.wrestlerName(),
+      urlStr: this.url().href,
+      date: faker.datatype.datetime(),
+    };
     return pictureURL;
   }
 
@@ -60,6 +64,7 @@ export class SampleData {
       text: faker.lorem.text(),
       type: TweetType.TextOnly,
       hashtags: [faker.lorem.slug(), wreslerNames[0]!.full],
+      tweeted_at: faker.datatype.datetime(),
     });
 
     return tweets;
@@ -75,6 +80,7 @@ export class SampleData {
         pictureURL: this.imageURLStr(),
         hashtags: [faker.lorem.slug(), names[0]!.full],
         type: TweetType.Picture,
+        tweeted_at: faker.datatype.datetime(),
       },
 
       {
@@ -83,6 +89,7 @@ export class SampleData {
         pictureURL: this.imageURLStr(),
         hashtags: [faker.lorem.slug(), names[0]!.full, names[1]!.full],
         type: TweetType.Picture,
+        tweeted_at: faker.datatype.datetime(),
       },
     ];
   }
