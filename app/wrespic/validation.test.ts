@@ -1,4 +1,4 @@
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
 import { WreslerNames, isExistsWreslerNames } from 'app/wrespic/validation';

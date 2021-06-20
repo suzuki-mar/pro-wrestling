@@ -1,6 +1,6 @@
 import { TweetType } from 'integrations/twitter/interface';
 import { IPromoter } from 'app/core/wreslter';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 import * as _ from 'lodash';
 import { RepositoryFactory } from './repositoryFactory';
 import { TweetRepository } from './tweetRepository';

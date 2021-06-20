@@ -22,7 +22,7 @@ export class SelectedWrestlers implements ISelectedWrestlers {
   private createAllWrestlerPictureURLs(pictureTweets: TPictureTweet[], names: TWrestlerName[]) {
     const groupedWrestlerPictureURLs = _.map(pictureTweets, (pictureTweet: TPictureTweet) => {
       const wrestlerPictureURLs = _.map(pictureTweet.hashtags, (hashtag: string) => {
-        return this.createWrestlerPictureURLs(names, pictureTweet.pictureURL, hashtag);
+        return this.createWrestlerPictureURLs(names, pictureTweet, hashtag);
       });
 
       return wrestlerPictureURLs;
@@ -33,14 +33,15 @@ export class SelectedWrestlers implements ISelectedWrestlers {
 
   private createWrestlerPictureURLs(
     names: TWrestlerName[],
-    pictureURL: string,
+    tweet: TPictureTweet,
     hashtag: string
   ): TWrestlerPictureURL[] {
     const wpus = _.map(names, (name: TWrestlerName) => {
       if (name.full === hashtag) {
         return {
           name: name,
-          urlStr: pictureURL,
+          urlStr: tweet.pictureURL,
+          dateStr: tweet.tweeted_at,
         };
       } else {
         return undefined;

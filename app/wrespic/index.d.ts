@@ -12,6 +12,8 @@ export interface ISelectedWrestlers {
 }
 
 export interface IAlbum {
+  readonly uploadedID?: Number;
+
   setUpPictures(pictureURLs: TWrestlerPictureURL[]): void;
   pictures(): TPicture[];
   prepareDownload(): Promise<void>;
@@ -20,12 +22,14 @@ export interface IAlbum {
 export type TWrestlerPictureURL = {
   readonly name: TWrestlerName;
   readonly urlStr: string;
+  readonly date: Date;
 };
 
 export type TPicture = {
   readonly urlStr: string;
   readonly wrestlerNames: TWrestlerName[];
-  file?: File;
+  readonly date: Date;
+  fileName?: string;
 };
 
 export interface ITweetRepository {

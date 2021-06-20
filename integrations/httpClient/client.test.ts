@@ -1,5 +1,5 @@
 import { HTTPClient } from 'integrations/httpClient/client';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 
 describe('HTTPClient', () => {
   describe('外部ネットワークへの接続なため必要なとき以外はテストをしない', () => {

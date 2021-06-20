@@ -1,5 +1,5 @@
 import { SelectedWrestlers } from 'app/wrespic/entities/selectedWrestlers';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 
 describe('SelectedWrestlers', () => {
   describe('search ＆ pictureUrls', () => {
