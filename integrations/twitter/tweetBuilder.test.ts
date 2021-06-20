@@ -1,7 +1,7 @@
 import { TweetType, TPictureTweet } from './interface';
 import faker from 'faker';
 import { TweetBuilder } from './tweetBuilder';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 
 describe('Twitter', () => {
   describe('TextのTweet', () => {

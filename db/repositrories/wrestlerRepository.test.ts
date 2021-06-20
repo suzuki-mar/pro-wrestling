@@ -2,7 +2,7 @@ import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { dbClose } from 'test/lib';
 import prisma from 'db/index';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 
 describe('WrestlerRepository', () => {
   beforeEach(async () => {

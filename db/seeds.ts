@@ -1,6 +1,6 @@
 // import db from "./index"
 
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 import prisma from 'db/index';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 

@@ -1,5 +1,5 @@
 import { Wrestler } from 'app/core/wreslter/wrestler';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 
 describe('Wrestler', () => {
   describe('name', () => {

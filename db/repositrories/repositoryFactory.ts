@@ -8,7 +8,7 @@ import {
 
 import { ITweetRepository } from 'app/wrespic';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 import { PromoterRepository } from './promoterRepository';
 import { TweetRepository } from './tweetRepository';
 

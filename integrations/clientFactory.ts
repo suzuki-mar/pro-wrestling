@@ -7,8 +7,8 @@ import {
   TweetType,
   ITwitter,
 } from 'integrations/twitter/interface';
-import faker, { fake } from 'faker';
-import { SampleData } from 'db/sampleData';
+import faker from 'faker';
+import { SampleData } from 'sampleData';
 
 export class ClientFactory {
   private static _isConnectingToExternalAPI = false;

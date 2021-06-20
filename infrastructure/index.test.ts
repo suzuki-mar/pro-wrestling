@@ -1,4 +1,4 @@
-import { SampleData } from 'db/sampleData';
+import { SampleData } from 'sampleData';
 import { log, createFileFromURL } from 'infrastructure';
 
 describe.skip('log', () => {
