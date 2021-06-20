@@ -1,8 +1,14 @@
-import { IWrestler, TWrestlerName } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName, IPromoter } from 'app/core/wreslter';
+import { TPictureTweet } from 'integrations/twitter/interface';
 
 export interface IFavoriteWrestlers {
   load(): Promise<void>;
   wrestlers(): IWrestler[];
+}
+
+export interface ISelectedWrestlers {
+  searchFromTwitter(): Promise<void>;
+  pictureUrls(): TWrestlerPictureURL[];
 }
 
 export interface IAlbum {
@@ -14,7 +20,7 @@ export interface IAlbum {
 
 export type TWrestlerPictureURL = {
   readonly name: TWrestlerName;
-  readonly url: URL;
+  readonly urlStr: string;
 };
 
 export interface IPhoto {
@@ -22,4 +28,11 @@ export interface IPhoto {
   file(): File;
   fixFileName(): void;
   downloadFile(): Promise<void>;
+}
+
+export interface ITweetRepository {
+  fetchPictureTweetByWrestlerNames(
+    wrestlers: IWrestler[],
+    poromoters: IPromoter[]
+  ): Promise<TPictureTweet[]>;
 }

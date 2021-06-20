@@ -2,9 +2,12 @@ import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TWrestlerPictureURL } from 'app/wrespic';
+import { TWrestlerName, IWrestler } from 'app/core/wreslter';
+import { TPictureTweet, TTweet, TweetType } from 'integrations/twitter/interface';
+import faker from 'faker';
 
 export class SampleData {
-  static wrestlerNames(): WrestlerName[] {
+  static wrestlerNames(): TWrestlerName[] {
     const nameStrs = ['彩羽匠', '桃野美桜', '門倉凛', '神童ミコト', 'Maria', '星月芽依', '宝山愛'];
 
     const names: WrestlerName[] = _.map(nameStrs, (str: string) => {
@@ -16,18 +19,18 @@ export class SampleData {
     return _.shuffle(names);
   }
 
-  static wrestlerName(): WrestlerName {
-    return this.wrestlerNames()[0] as WrestlerName;
+  static wrestlerName(): TWrestlerName {
+    return this.wrestlerNames()[0]!;
   }
 
-  static wrestlers(): Wrestler[] {
+  static wrestlers(): IWrestler[] {
     return _.map(this.wrestlerNames(), (name: WrestlerName) => {
       return new Wrestler(name);
     });
   }
 
   static wrestlerPictureURL(): TWrestlerPictureURL {
-    const pictureURL: TWrestlerPictureURL = { name: this.wrestlerName(), url: this.url() };
+    const pictureURL: TWrestlerPictureURL = { name: this.wrestlerName(), urlStr: this.url().href };
     return pictureURL;
   }
 
@@ -40,5 +43,40 @@ export class SampleData {
     ];
     const urlStr = _.shuffle(urlStrs)[0];
     return new URL(urlStr);
+  }
+
+  static tweets(): TTweet[] {
+    const wreslerNames = this.wrestlerNames();
+    let tweets = this.pictureTweets() as TTweet[];
+    tweets.push({
+      id: faker.datatype.number(),
+      text: faker.lorem.text(),
+      type: TweetType.TextOnly,
+      hashtags: [faker.lorem.slug(), wreslerNames[0]!.full],
+    });
+
+    return tweets;
+  }
+
+  static pictureTweets(): TPictureTweet[] {
+    const names = this.wrestlerNames().slice(0, 2);
+
+    return [
+      {
+        id: faker.datatype.number(),
+        text: faker.lorem.text(),
+        pictureURL: faker.image.imageUrl(),
+        hashtags: [faker.lorem.slug(), names[0]!.full],
+        type: TweetType.Picture,
+      },
+
+      {
+        id: faker.datatype.number(),
+        text: faker.lorem.text(),
+        pictureURL: faker.image.imageUrl(),
+        hashtags: [faker.lorem.slug(), names[0]!.full, names[1]!.full],
+        type: TweetType.Picture,
+      },
+    ];
   }
 }

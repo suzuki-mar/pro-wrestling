@@ -1,5 +1,20 @@
-import { TwitterParams } from 'integrations/twitter/params';
-import { TTweet } from 'app/core/tweet';
+export type TTweetBase = {
+  id: Number;
+  text: string;
+  type: TweetType;
+  hashtags: string[];
+};
+
+export type TTextOnlyTweet = TTweetBase;
+
+export type TPictureTweet = TTweetBase & { pictureURL: string };
+export type TTweet = TPictureTweet | TTextOnlyTweet;
+
+export enum TweetType {
+  TextOnly = 'TextOnly',
+  Picture = 'Picture',
+  Unknown = 'Unknown',
+}
 
 export enum TwitterQueryOperator {
   AND = 'AND',
@@ -12,17 +27,25 @@ export enum TwitterFiliter {
   TWIMG = 'twimg',
   VIDEOS = 'videos',
   MEDIA = 'media',
-  UNFILTERED = 'unfiltered',
+  UNFILTERED = '',
 }
 
 export interface ITwitter {
-  search(params: TwitterParams): Promise<TTweet[]>;
+  search(params: ITwitterParams): Promise<TTweet[]>;
 }
 
 export interface ITwitterParams {
-  toHash(): { [key: string]: string };
-  reset(): void;
-  initializeHashtaGroup(tag: string): ITwitterParams;
-  addHashTag(tag: string, operator: TwitterQueryOperator): TwitterParams;
+  toQuery(): string;
+  filter(): TwitterFiliter;
+  count(): Number;
+  addHashTag(hashTag: ITwitterHashtag): ITwitterParams;
   addFilter(filter: TwitterFiliter): ITwitterParams;
+  addCountMax(): ITwitterParams;
+  addCount(count: Number): ITwitterParams;
+}
+
+export interface ITwitterHashtag {
+  toString(): string;
+  addString(tag: string, operator: TwitterQueryOperator): ITwitterHashtag;
+  initialize(tag: string): ITwitterHashtag;
 }

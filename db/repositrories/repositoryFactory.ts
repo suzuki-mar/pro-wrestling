@@ -1,8 +1,16 @@
-import { ITweetRepository, TPictureTweet } from 'app/core/tweet';
-import { IWrestlerRepository, IWrestler, TWrestlerName } from 'app/core/wreslter';
+import { TPictureTweet } from 'integrations/twitter/interface';
+import {
+  IWrestlerRepository,
+  IWrestler,
+  TWrestlerName,
+  IPromoterRepository,
+} from 'app/core/wreslter';
+
+import { ITweetRepository } from 'app/wrespic';
 import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { SampleData } from 'db/sampleData';
-import faker from 'faker';
+import { PromoterRepository } from './promoterRepository';
+import { TweetRepository } from './tweetRepository';
 
 export class RepositoryFactory {
   private static _isConnectingToRealDB = false;
@@ -22,7 +30,11 @@ export class RepositoryFactory {
   }
 
   static factoryTweetRepository(): ITweetRepository {
-    return new this.MockTweetRepository();
+    return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
+  }
+
+  static factoryPromoterRepository(): IPromoterRepository {
+    return new PromoterRepository();
   }
 
   public static MockWrestlerRepository = class implements IWrestlerRepository {
@@ -37,13 +49,7 @@ export class RepositoryFactory {
 
   public static MockTweetRepository = class implements ITweetRepository {
     async fetchPictureTweetByWrestlerNames(): Promise<TPictureTweet[]> {
-      const tweet: TPictureTweet = {
-        id: faker.datatype.number(),
-        text: faker.lorem.text(),
-        photoURL: new URL(faker.image.imageUrl()),
-      };
-
-      return [tweet];
+      return SampleData.pictureTweets();
     }
   };
 }

@@ -1,5 +1,5 @@
 import { IFavoriteWrestlers } from 'app/wrespic';
-import { IWrestler } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName } from 'app/core/wreslter';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { z } from 'zod';
@@ -11,7 +11,10 @@ export const WreslerNames = z.array(
   })
 );
 
-export function isExistsWreslerNames(names: WrestlerName[], favoriteWrestlers: IFavoriteWrestlers) {
+export function isExistsWreslerNames(
+  names: TWrestlerName[],
+  favoriteWrestlers: IFavoriteWrestlers
+) {
   const exsitsWrestlers: (IWrestler | undefined)[] = _.map(names, (name: WrestlerName) => {
     const matchs = _.filter(favoriteWrestlers.wrestlers(), (wrestler: Wrestler) => {
       return name.equal(wrestler.name);

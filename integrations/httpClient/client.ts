@@ -2,9 +2,9 @@ import { IHTTPClient } from 'integrations/httpClient/interface';
 import axios from 'axios';
 
 export class HTTPClient implements IHTTPClient {
-  async findBlobParts(url: URL): Promise<BlobPart[]> {
+  async findBlobParts(urlStr: string): Promise<BlobPart[]> {
     return await axios
-      .get(url.toString(), {
+      .get(urlStr, {
         responseType: 'arraybuffer',
       })
       .then((response) => {

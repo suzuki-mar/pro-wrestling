@@ -1,13 +1,22 @@
 import * as _ from 'lodash';
-import { TwitterQueryOperator, TwitterFiliter } from 'integrations/twitter/interface';
+import { TwitterQueryOperator, TwitterFiliter, ITwitterHashtag, ITwitterParams } from './interface';
 
-export class TwitterParams {
-  private hashtags: HashTag[] = [];
-  private filter: TwitterFiliter = TwitterFiliter.UNFILTERED;
+export class TwitterParams implements ITwitterParams {
+  PAGES_PER_COUNT_MAX = 100;
+  PAGES_PER_COUNT_DEFAULT = 10;
 
-  toHash(): { [key: string]: string } {
-    if (this.hashtags.length === 0 && this.filter === TwitterFiliter.UNFILTERED) {
-      return {};
+  private hashtags: ITwitterHashtag[] = [];
+  private _filter: TwitterFiliter = TwitterFiliter.UNFILTERED;
+  private _count: Number;
+
+  constructor() {
+    this._count = this.PAGES_PER_COUNT_DEFAULT;
+  }
+
+  // FIX fileterはいらない
+  toQuery(): string {
+    if (this.hashtags.length === 0 && this._filter === TwitterFiliter.UNFILTERED) {
+      return '';
     }
 
     const strs: string[] = [];
@@ -15,32 +24,38 @@ export class TwitterParams {
       strs.push(this.toHashtagString());
     }
 
-    if (this.filter !== TwitterFiliter.UNFILTERED) {
-      strs.push(`filter:${this.filter}`);
+    if (this._filter !== TwitterFiliter.UNFILTERED) {
+      strs.push(`filter:${this._filter}`);
     }
 
-    return { q: strs.join(' ') };
+    return strs.join(' ');
   }
 
-  reset() {
-    this.hashtags = [];
-    this.filter = TwitterFiliter.UNFILTERED;
+  count(): Number {
+    return this._count;
   }
 
-  initializeHashtaGroup(tag: string): TwitterParams {
-    this.hashtags.push(HashTag.createTagOnly(tag));
-    return this;
+  filter(): TwitterFiliter {
+    return this._filter;
   }
 
-  addHashTag(tag: string, operator: TwitterQueryOperator): TwitterParams {
-    const hashtag = HashTag.createWithOperator(tag, operator);
+  addHashTag(hashtag: ITwitterHashtag): ITwitterParams {
     this.hashtags.push(hashtag);
-
     return this;
   }
 
-  addFilter(filter: TwitterFiliter): TwitterParams {
-    this.filter = filter;
+  addFilter(filter: TwitterFiliter): ITwitterParams {
+    this._filter = filter;
+    return this;
+  }
+
+  addCount(count: Number): ITwitterParams {
+    this._count = count;
+    return this;
+  }
+
+  addCountMax(): ITwitterParams {
+    this._count = this.PAGES_PER_COUNT_MAX;
     return this;
   }
 
@@ -49,38 +64,12 @@ export class TwitterParams {
       return '';
     }
 
-    let strs: string[] = [];
+    let string = `(${this.hashtags[0]!.toString()})`;
 
-    if (this.hashtags.length >= 1) {
-      const hashTag = this.hashtags[0] as HashTag;
-      strs.push(`#${hashTag.tag}`);
-    }
+    _.each(this.hashtags.slice(1), (hashtag: ITwitterHashtag) => {
+      string += ` ${TwitterQueryOperator.OR} (${hashtag.toString()})`;
+    });
 
-    if (this.hashtags.length > 1) {
-      _.each(this.hashtags.slice(1), function (hashtag: HashTag) {
-        strs.push(`${hashtag.operator} #${hashtag.tag}`);
-      });
-    }
-
-    const query = strs.join(' ');
-    return `(${query})`;
-  }
-}
-
-class HashTag {
-  tag: string;
-  operator: string;
-
-  public static createWithOperator(tag: string, operator: TwitterQueryOperator): HashTag {
-    const hastag = new HashTag();
-    hastag.tag = tag;
-    hastag.operator = operator;
-    return hastag;
-  }
-
-  public static createTagOnly(tag: string): HashTag {
-    const hastag = new HashTag();
-    hastag.tag = tag;
-    return hastag;
+    return string;
   }
 }

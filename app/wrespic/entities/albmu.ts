@@ -35,7 +35,7 @@ class MockPhoto implements IPhoto {
   constructor(readonly pictureURL: TWrestlerPictureURL) {}
 
   async downloadFile(): Promise<void> {
-    this._file = await createFileFromURL(this.pictureURL.url);
+    this._file = await createFileFromURL(this.pictureURL.urlStr);
   }
 
   file(): File {
