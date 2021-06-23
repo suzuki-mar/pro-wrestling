@@ -1,6 +1,6 @@
 import { render } from 'test/utils';
 
-import { WreslterSelection } from 'app/wrespic/components/wrestlerSelection';
+import WreslterSelection from 'app/wrespic/components/wrestlerSelection';
 import useFavoriteWrestlers from 'app/wrespic/hooks/useFavoriteWrestlers';
 import { SampleData } from 'sampleData';
 import { TWrestlerName } from 'app/core/wreslter';

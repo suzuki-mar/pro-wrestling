@@ -1,4 +1,4 @@
-import { WreslterSelection } from 'app/wrespic/components/wrestlerSelection';
+import WreslterSelection from 'app/wrespic/components/wrestlerSelection';
 import { ExecutionLog } from 'app/wrespic/components/executionLlog';
 
 const style = {

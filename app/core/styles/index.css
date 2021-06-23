@@ -17,3 +17,7 @@
 .description {
   @apply text-center;
 }
+
+.margin-bottom {
+  margin-bottom: '50px';
+}

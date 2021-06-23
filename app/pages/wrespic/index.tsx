@@ -6,7 +6,7 @@ const WrespicsPage: BlitzPage = () => {
   return (
     <>
       <Head>
-        <title>Wrespics</title>
+        <title>Wrespicsz</title>
       </Head>
 
       <Wrespic />
