@@ -6,7 +6,7 @@ import { IWrestler } from 'app/core/wreslter';
 import WreslterSelectItem from 'app/wrespic/components/wrestlerSelectItem';
 import UploadButton from 'app/wrespic/components/uploadButton';
 
-export function WreslterSelection() {
+export default function WreslterSelection() {
   const wrestlers = useFavoriteWrestlers();
 
   const list = _.map(wrestlers, (wrestler: IWrestler) => {

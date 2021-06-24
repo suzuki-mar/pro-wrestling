@@ -7,6 +7,9 @@ const config: BlitzConfig = {
     if (!isServer) {
       config.node = {
         fs: 'empty',
+        'forever-agent': 'empty',
+        net: 'empty',
+        tls: 'empty',
       };
     }
     return config;

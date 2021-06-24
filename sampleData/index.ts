@@ -18,6 +18,10 @@ export class SampleData {
     return WrestlerData.wrestlers();
   }
 
+  static wrestler(): IWrestler {
+    return WrestlerData.wrestlers()[0]!;
+  }
+
   static wrestlerPictureURL(): TWrestlerPictureURL {
     return WrestlerData.pictureURL();
   }
