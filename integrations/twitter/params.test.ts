@@ -11,6 +11,8 @@ describe('toQuery', () => {
   let params: TwitterParams;
   beforeEach(() => {
     params = new TwitterParams();
+    // 余計な文字列が含まれないようにするため
+    params.setIncldueRT();
   });
 
   it('値がセットされていない場合は空の配列を返すこと', () => {

@@ -26,7 +26,9 @@ describe('Twitter', () => {
       );
 
       params.addHashTag(
-        new TwitterHashtag().initialize('AZM').addString('STARDOM', TwitterQueryOperator.AND)
+        new TwitterHashtag()
+          .initialize('桃野美桜')
+          .addString('Marvelouspro', TwitterQueryOperator.AND)
       );
     });
 
@@ -37,20 +39,20 @@ describe('Twitter', () => {
 
       it('TypeがPictureのものみ返すこと', async () => {
         const tweets = await client.search(params);
-        const textOnly = _.filter(tweets, (tweet: TTweetBase) => {
+        const textOnlys = _.filter(tweets, (tweet: TTweetBase) => {
           return tweet.type === TweetType.TextOnly;
         });
-        expect(textOnly.length).toEqual(0);
+        expect(textOnlys.length).toEqual(0);
 
-        const picture = _.filter(tweets, (tweet: TTweetBase) => {
+        const pictures = _.filter(tweets, (tweet: TTweetBase) => {
           return tweet.type === TweetType.Picture;
         });
 
-        expect(picture.length).not.toEqual(0);
+        expect(pictures.length).not.toEqual(0);
       });
     });
 
-    describe('すべてのタイプを取得する場合', () => {
+    describe.skip('すべてのタイプを取得する場合', () => {
       it('TypeがPictureのものみ返すこと', async () => {
         const tweets = await client.search(params);
 
@@ -64,6 +66,21 @@ describe('Twitter', () => {
         });
 
         expect(picture.length).not.toEqual(0);
+      });
+    });
+
+    describe.skip('RTを含める場合', () => {
+      beforeEach(() => {
+        params.setIncldueRT();
+      });
+
+      it('RTの画像も返されていること', async () => {
+        const tweets = await client.search(params);
+
+        const rtweets = tweets.filter((tweet) => {
+          return tweet.text.indexOf('RT ') === 0;
+        });
+        expect(rtweets.length).not.toEqual(0);
       });
     });
   });

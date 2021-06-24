@@ -61,7 +61,7 @@ describe('TweetRepository', () => {
       const params = TweetRepository.SearchParamsCreator.createParams(wrestlers, promoters);
       const expected = `(#${names[0]!.full} AND #Marvelouspro) OR (#${
         names[1]!.full
-      } AND #Marvelouspro) filter:images`;
+      } AND #Marvelouspro) filter:images -filter:retweets`;
       expect(params.toQuery()).toEqual(expected);
     });
   });

@@ -11,7 +11,7 @@ export class Client implements ITwitter {
 
   async search(params: ITwitterParams): Promise<TTweet[]> {
     this.params = params;
-    this.params.addCount(1);
+    this.params.addCount(20);
 
     const client = this.buildClient();
     const requestParams: RequestParams = {
