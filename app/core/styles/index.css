@@ -2,22 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .hero {
-    @apply w-full text-[#333];
-  }
+.defaultButtonColor {
+  background-color: red;
 }
 
-.title {
-  @apply m-0 w-full pt-20;
-  font-size: 48px;
+.backgroundColor {
+  background-color: #50e5cb;
 }
 
-.title,
-.description {
-  @apply text-center;
+.backgroundColor {
+  background-color: #50e5cb;
+}
+
+.buttonColor {
+  background-color: #ffd3b6 !important;
+}
+
+.aws-btn {
+  background-color: #ffd3b6 !important;
 }
 
 .margin-bottom {
-  margin-bottom: '50px';
+  margin-bottom: 10em;
+}
+
+.button-size {
+  width: 6em;
+}
+
+.list-size {
+  width: 20em;
 }
