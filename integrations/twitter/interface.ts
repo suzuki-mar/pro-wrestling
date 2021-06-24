@@ -41,8 +41,9 @@ export interface ITwitterParams {
   count(): Number;
   addHashTag(hashTag: ITwitterHashtag): ITwitterParams;
   addFilter(filter: TwitterFiliter): ITwitterParams;
-  addCountMax(): ITwitterParams;
+  setCountMax(): ITwitterParams;
   addCount(count: Number): ITwitterParams;
+  setIncldueRT(): ITwitterParams;
 }
 
 export interface ITwitterHashtag {

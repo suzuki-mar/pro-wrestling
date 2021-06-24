@@ -30,7 +30,7 @@ export class TweetRepository implements ITweetRepository {
   public static SearchParamsCreator = class {
     static createParams(wrestlers: IWrestler[], promoters: IPromoter[]) {
       const params = Factory.createParams();
-      params.addCountMax();
+      params.setCountMax();
       params.addFilter(TwitterFiliter.IMAGES);
 
       _.each(wrestlers, (wresler: IWrestler) => {

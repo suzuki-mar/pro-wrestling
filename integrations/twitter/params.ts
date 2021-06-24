@@ -8,6 +8,7 @@ export class TwitterParams implements ITwitterParams {
   private hashtags: ITwitterHashtag[] = [];
   private _filter: TwitterFiliter = TwitterFiliter.UNFILTERED;
   private _count: Number;
+  private isIncludeRT: boolean = false;
 
   constructor() {
     this._count = this.PAGES_PER_COUNT_DEFAULT;
@@ -15,7 +16,10 @@ export class TwitterParams implements ITwitterParams {
 
   // FIX fileterはいらない
   toQuery(): string {
-    if (this.hashtags.length === 0 && this._filter === TwitterFiliter.UNFILTERED) {
+    const unconfiguredCondition =
+      this.hashtags.length === 0 && this._filter === TwitterFiliter.UNFILTERED && this.isIncludeRT;
+
+    if (unconfiguredCondition) {
       return '';
     }
 
@@ -28,6 +32,10 @@ export class TwitterParams implements ITwitterParams {
       strs.push(`filter:${this._filter}`);
     }
 
+    if (!this.isIncludeRT) {
+      strs.push('-filter:retweets');
+    }
+
     return strs.join(' ');
   }
 
@@ -37,6 +45,11 @@ export class TwitterParams implements ITwitterParams {
 
   filter(): TwitterFiliter {
     return this._filter;
+  }
+
+  setIncldueRT(): ITwitterParams {
+    this.isIncludeRT = true;
+    return this;
   }
 
   addHashTag(hashtag: ITwitterHashtag): ITwitterParams {
@@ -54,7 +67,7 @@ export class TwitterParams implements ITwitterParams {
     return this;
   }
 
-  addCountMax(): ITwitterParams {
+  setCountMax(): ITwitterParams {
     this._count = this.PAGES_PER_COUNT_MAX;
     return this;
   }
