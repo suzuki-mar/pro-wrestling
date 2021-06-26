@@ -4,13 +4,13 @@ import { Wrespic } from 'app/wrespic/components/wrespic';
 
 const WrespicsPage: BlitzPage = () => {
   return (
-    <>
+    <div className="backgroundColor">
       <Head>
-        <title>Wrespicsz</title>
+        <title>Wrespic</title>
       </Head>
 
       <Wrespic />
-    </>
+    </div>
   );
 };
 

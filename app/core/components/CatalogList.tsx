@@ -14,8 +14,9 @@ export type CatalogGroupsProps = {
 };
 
 export enum ComponentType {
-  Parts = 'Parts',
-  Set = 'Set',
+  Atom = 'Atom',
+  Molecules = 'Molecules',
+  Organisms = 'Organisms',
   Templates = 'Templates',
 }
 
@@ -29,9 +30,10 @@ export function CatalogList({ catalogListProps }) {
   });
 
   const sorteCatalogs = _.flatten([
-    groupedCatalogs[ComponentType.Parts],
-    groupedCatalogs[ComponentType.Set],
     groupedCatalogs[ComponentType.Templates],
+    groupedCatalogs[ComponentType.Organisms],
+    groupedCatalogs[ComponentType.Molecules],
+    groupedCatalogs[ComponentType.Atom],
   ]);
 
   return <>{sorteCatalogs}</>;

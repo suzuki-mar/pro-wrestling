@@ -1,21 +1,21 @@
-import WreslterSelection from 'app/wrespic/components/wrestlerSelection';
+import { WrestlerSelection } from 'app/wrespic/components/organisms/WrestlerSelection';
 import { ExecutionLog } from 'app/wrespic/components/executionLlog';
-
-const style = {
-  height: '550px',
-};
+import { Header } from 'app/wrespic/components/organisms/header';
+import { useFavoriteWrestlers, useSelectedWrestlers } from 'app/wrespic/hooks';
 
 export function Wrespic() {
-  return (
-    <div style={style} className="h-96">
-      <div className="h-1/2">
-        <WreslterSelection />
-      </div>
+  const favoriteWrestlers = useFavoriteWrestlers();
 
-      <hr />
-      <div className="h-1/2">
-        <ExecutionLog />
-      </div>
+  return (
+    <div className="grid justify-items-center h-96 w-10/12 ...">
+      <Header />
+
+      <WrestlerSelection
+        favoriteWrestlers={favoriteWrestlers}
+        selectedWrestlers={useSelectedWrestlers()}
+      />
+
+      <ExecutionLog />
     </div>
   );
 }
