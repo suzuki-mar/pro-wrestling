@@ -3,7 +3,7 @@ import { IWrestler } from 'app/core/wreslter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
 export class FavoriteWrestlers implements IFavoriteWrestlers {
-  private _wrestlers: IWrestler[];
+  protected _wrestlers: IWrestler[] = [];
 
   async load(): Promise<void> {
     const repository = RepositoryFactory.factoryWrestlerRepository();

@@ -1,25 +1,39 @@
 import { TWrestlerPictureURL, ISelectedWrestlers } from 'app/wrespic';
-import { IWrestler, TWrestlerName } from 'app/core/wreslter';
+import { IWrestler, IWrestlerName } from 'app/core/wreslter';
+import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TPictureTweet } from 'integrations/twitter/interface';
 import * as _ from 'loadsh';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
 export class SelectedWrestlers implements ISelectedWrestlers {
-  private _pictureUrls: TWrestlerPictureURL[];
+  private _pictureUrls: TWrestlerPictureURL[] = [];
+  private _names: IWrestlerName[] = [];
 
-  constructor(private readonly wreslers: IWrestler[]) {}
+  selectWreslerName(name: WrestlerName): IWrestlerName[] {
+    const nextNames = this._names.slice(0, this._names.length);
 
-  async searchFromTwitter(): Promise<void> {
-    const pictureTweets = await await this.searchPictureTweets();
+    const sameNames = this._names.find((n) => {
+      return n.equal(name);
+    });
 
-    const names = _.map(this.wreslers, (wresler) => {
-      return wresler.name;
-    }) as TWrestlerName[];
+    if (sameNames !== undefined) {
+      console.warn('同じレスラーを追加しようとした');
+      return this._names;
+    }
 
-    this._pictureUrls = this.createAllWrestlerPictureURLs(pictureTweets, names);
+    nextNames.push(name);
+    this._names = nextNames;
+
+    return this._names;
   }
 
-  private createAllWrestlerPictureURLs(pictureTweets: TPictureTweet[], names: TWrestlerName[]) {
+  async searchFromTwitter(): Promise<void> {
+    const pictureTweets = await this.searchPictureTweets();
+
+    this._pictureUrls = this.createAllWrestlerPictureURLs(pictureTweets, this._names);
+  }
+
+  private createAllWrestlerPictureURLs(pictureTweets: TPictureTweet[], names: IWrestlerName[]) {
     const groupedWrestlerPictureURLs = _.map(pictureTweets, (pictureTweet: TPictureTweet) => {
       const wrestlerPictureURLs = _.map(pictureTweet.hashtags, (hashtag: string) => {
         return this.createWrestlerPictureURLs(names, pictureTweet, hashtag);
@@ -32,11 +46,11 @@ export class SelectedWrestlers implements ISelectedWrestlers {
   }
 
   private createWrestlerPictureURLs(
-    names: TWrestlerName[],
+    names: IWrestlerName[],
     tweet: TPictureTweet,
     hashtag: string
   ): TWrestlerPictureURL[] {
-    const wpus = _.map(names, (name: TWrestlerName) => {
+    const wpus = _.map(names, (name: IWrestlerName) => {
       if (name.full === hashtag) {
         return {
           name: name,
@@ -57,10 +71,14 @@ export class SelectedWrestlers implements ISelectedWrestlers {
     const tweetRepository = RepositoryFactory.factoryTweetRepository();
     const promotRepository = RepositoryFactory.factoryPromoterRepository();
     const promots = await promotRepository.featchAll();
-    return tweetRepository.fetchPictureTweetByWrestlerNames(this.wreslers, promots);
+    return tweetRepository.fetchPictureTweetByWrestlerNames(this._names, promots);
   }
 
   pictureUrls(): TWrestlerPictureURL[] {
     return this._pictureUrls;
+  }
+
+  names(): IWrestlerName[] {
+    return this._names;
   }
 }

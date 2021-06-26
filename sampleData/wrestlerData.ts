@@ -2,12 +2,12 @@ import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TWrestlerPictureURL } from 'app/wrespic';
-import { TWrestlerName, IWrestler } from 'app/core/wreslter';
+import { IWrestlerName, IWrestler } from 'app/core/wreslter';
 import { SampleData } from '../sampleData';
 import faker from 'faker';
 
 export class WrestlerData {
-  static names(): TWrestlerName[] {
+  static names(): IWrestlerName[] {
     const nameStrs = ['彩羽匠', '桃野美桜', '門倉凛', '神童ミコト', 'Maria', '星月芽依', '宝山愛'];
 
     const names: WrestlerName[] = _.map(nameStrs, (str: string) => {
@@ -20,7 +20,7 @@ export class WrestlerData {
   }
 
   // nameはビルトインメソッドと名前が衝突してしまうため使用していない
-  static wrestlerName(): TWrestlerName {
+  static wrestlerName(): IWrestlerName {
     return this.names()[0]!;
   }
 

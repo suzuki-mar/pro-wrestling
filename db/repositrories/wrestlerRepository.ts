@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { TWrestlerName, IWrestler } from 'app/core/wreslter';
+import { IWrestlerName, IWrestler } from 'app/core/wreslter';
 import { IWrestlerRepository } from 'app/core/wreslter';
 import { Wrestler as EWrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
@@ -16,8 +16,8 @@ export class WrestlerRepository implements IWrestlerRepository {
     });
   }
 
-  async addList(names: TWrestlerName[]): Promise<IWrestler[]> {
-    const records = _.map(names, (name: TWrestlerName) => {
+  async addList(names: IWrestlerName[]): Promise<IWrestler[]> {
+    const records = _.map(names, (name: IWrestlerName) => {
       return prisma.wrestler.create({ data: { name: name.full } });
     });
 

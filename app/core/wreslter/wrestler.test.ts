@@ -2,14 +2,6 @@ import { Wrestler } from 'app/core/wreslter/wrestler';
 import { SampleData } from 'sampleData';
 
 describe('Wrestler', () => {
-  describe('name', () => {
-    it('名前を返す', () => {
-      const name = SampleData.wrestlerName();
-      const wrestler = new Wrestler(name);
-      expect(wrestler.name).toEqual(name);
-    });
-  });
-
   describe('creates', () => {
     it('作成できていること', async () => {
       const names = SampleData.wrestlerNames();

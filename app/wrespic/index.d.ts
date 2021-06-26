@@ -1,4 +1,4 @@
-import { IWrestler, TWrestlerName, IPromoter } from 'app/core/wreslter';
+import { IWrestler, IWrestlerName, IPromoter } from 'app/core/wreslter';
 import { TPictureTweet } from 'integrations/twitter/interface';
 
 export interface IFavoriteWrestlers {
@@ -9,6 +9,8 @@ export interface IFavoriteWrestlers {
 export interface ISelectedWrestlers {
   searchFromTwitter(): Promise<void>;
   pictureUrls(): TWrestlerPictureURL[];
+  names(): IWrestlerName[];
+  selectWreslerName(name: IWrestlerName): IWrestlerName[];
 }
 
 export interface IAlbum {
@@ -20,21 +22,21 @@ export interface IAlbum {
 }
 
 export type TWrestlerPictureURL = {
-  readonly name: TWrestlerName;
+  readonly name: IWrestlerName;
   readonly urlStr: string;
   readonly date: Date;
 };
 
 export type TPicture = {
   readonly urlStr: string;
-  readonly wrestlerNames: TWrestlerName[];
+  readonly wrestlerNames: IWrestlerName[];
   readonly date: Date;
   fileName?: string;
 };
 
 export interface ITweetRepository {
   fetchPictureTweetByWrestlerNames(
-    wrestlers: IWrestler[],
+    names: IWrestlerName[],
     poromoters: IPromoter[]
   ): Promise<TPictureTweet[]>;
 }

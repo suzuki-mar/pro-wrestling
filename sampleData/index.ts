@@ -1,16 +1,16 @@
 import * as _ from 'loadsh';
 import { TWrestlerPictureURL } from 'app/wrespic';
-import { TWrestlerName, IWrestler } from 'app/core/wreslter';
+import { IWrestlerName, IWrestler } from 'app/core/wreslter';
 import { TPictureTweet, TTweet } from 'integrations/twitter/interface';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
 
 export class SampleData {
-  static wrestlerNames(): TWrestlerName[] {
+  static wrestlerNames(): IWrestlerName[] {
     return WrestlerData.names();
   }
 
-  static wrestlerName(): TWrestlerName {
+  static wrestlerName(): IWrestlerName {
     return WrestlerData.wrestlerName();
   }
 

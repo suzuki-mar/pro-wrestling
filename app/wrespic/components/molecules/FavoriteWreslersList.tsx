@@ -1,13 +1,14 @@
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
-import { TWrestlerName } from 'app/core/wreslter';
-import { WrestlerName } from '../atoms/WreslerName';
+import { IWrestlerName } from 'app/core/wreslter';
+import { WrestlerNameItem } from '../atoms/WreslerNameItem';
 import { IFavoriteWrestlers } from 'app/wrespic';
+import { VModelCreator } from 'app/wrespic/view_models/modelCreator';
 
 type Props = {
   favoriteWrestlers: IFavoriteWrestlers;
 };
 
-export const FavoriteWrestlers: React.VFC<Props> = ({ favoriteWrestlers }) => {
+export const FavoriteWrestlersList: React.VFC<Props> = ({ favoriteWrestlers }) => {
   if (favoriteWrestlers.wrestlers() === undefined) {
     return <div data-testid="custom-element"></div>;
   }
@@ -42,8 +43,6 @@ export const FavoriteWrestlers: React.VFC<Props> = ({ favoriteWrestlers }) => {
 
 function renderRow(props: ListChildComponentProps) {
   const { style, data, index } = props;
-
-  const name: TWrestlerName = data[index]! as TWrestlerName;
-
-  return <WrestlerName name={name} style={style} />;
+  const name: IWrestlerName = VModelCreator.buildWreslerName(data[index]!);
+  return <WrestlerNameItem name={name} style={style} />;
 }

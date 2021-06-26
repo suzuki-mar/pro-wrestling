@@ -2,9 +2,9 @@ import { render } from 'test/utils';
 
 import { WrestlerSelection } from 'app/wrespic/components/organisms/WrestlerSelection';
 import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
-import { SelectedWrestlers } from 'app/wrespic/entities/selectedWrestlers';
+import { ContextWrapper } from 'app/wrespic/components/Context';
 import { SampleData } from 'sampleData';
-import { TWrestlerName } from 'app/core/wreslter';
+import { IWrestlerName } from 'app/core/wreslter';
 
 let screen;
 
@@ -12,18 +12,15 @@ beforeEach(async () => {
   const favoriteWrestlers = new FavoriteWrestlers();
   await favoriteWrestlers.load();
 
-  const selectedWrestlers = new SelectedWrestlers([]);
-
   screen = render(
-    <WrestlerSelection
-      selectedWrestlers={selectedWrestlers}
-      favoriteWrestlers={favoriteWrestlers}
-    />
+    <ContextWrapper>
+      <WrestlerSelection favoriteWrestlers={favoriteWrestlers} />
+    </ContextWrapper>
   );
 });
 
 test('レスラー名が表示されていること', () => {
-  const name: TWrestlerName = SampleData.wrestlerNames()[0]!;
+  const name: IWrestlerName = SampleData.wrestlerNames()[0]!;
 
   expect(screen.getByText(name.full)).not.toBeUndefined();
 });
