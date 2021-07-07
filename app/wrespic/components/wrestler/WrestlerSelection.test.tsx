@@ -1,7 +1,7 @@
 import { render } from 'test/utils';
 
-import { WrestlerSelection } from 'app/wrespic/components/organisms/WrestlerSelection';
-import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
+import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
+import { FavoriteWrestlers } from 'app/wrespic/domain/favoriteWrestlers';
 import { ContextWrapper } from 'app/wrespic/components/Context';
 import { SampleData } from 'sampleData';
 import { IWrestlerName } from 'app/core/wreslter';

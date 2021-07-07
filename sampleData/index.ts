@@ -1,9 +1,11 @@
-import * as _ from 'loadsh';
-import { TWrestlerPictureURL } from 'app/wrespic';
+import { TPicture, TSource } from 'app/wrespic';
 import { IWrestlerName, IWrestler } from 'app/core/wreslter';
 import { TPictureTweet, TTweet } from 'integrations/twitter/interface';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
+import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { PictureURLStr } from './pictureURLStr';
+import faker from 'faker';
 
 export class SampleData {
   static wrestlerNames(): IWrestlerName[] {
@@ -22,22 +24,50 @@ export class SampleData {
     return WrestlerData.wrestlers()[0]!;
   }
 
-  static wrestlerPictureURL(): TWrestlerPictureURL {
+  static wrestlerPictureURL(): TSource {
     return WrestlerData.pictureURL();
   }
 
-  static imageURLStr(): string {
-    const urlStrs = [
-      'https://pbs.twimg.com/profile_images/1379722405220782080/GPA5Q9M-_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1306992114270527489/j2rjqGMg_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1370429023579348992/xijhpU9c_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1065855408378601472/5QteaT_0_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1356870860192186370/DqxmMKKZ_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1368942294036967430/xg-Rbmv2_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1163873490052632576/gNdvtfeP_400x400.jpg',
-    ];
+  static picture(): TPicture {
+    const wrestlerPictureURL = this.wrestlerPictureURL();
+    return {
+      urlStr: wrestlerPictureURL.urlStr,
+      wrestlerNames: [wrestlerPictureURL.name],
+      date: wrestlerPictureURL.date,
+      fileName: undefined,
+    };
+  }
 
-    return _.shuffle(urlStrs)[0];
+  static picturesOfMei(): TSource[] {
+    const urls = PictureURLStr.mei();
+
+    const name = new WrestlerName('星月芽依');
+
+    return urls.map((url) => {
+      return {
+        urlStr: url,
+        name: name,
+        date: this.matchDay(),
+      };
+    });
+  }
+
+  static picturesOfMaria(): TSource[] {
+    const urls = PictureURLStr.maria();
+
+    const name = new WrestlerName('Maria');
+
+    return urls.map((url) => {
+      return {
+        urlStr: url,
+        name: name,
+        date: this.matchDay(),
+      };
+    });
+  }
+
+  static imageURLStr(): string {
+    return PictureURLStr.str();
   }
 
   static url(): URL {
@@ -50,5 +80,9 @@ export class SampleData {
 
   static pictureTweets(): TPictureTweet[] {
     return TweetData.pictures();
+  }
+
+  private static matchDay(): Date {
+    return faker.date.recent(10);
   }
 }

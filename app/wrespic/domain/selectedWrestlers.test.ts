@@ -1,5 +1,5 @@
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { SelectedWrestlers } from 'app/wrespic/entities/selectedWrestlers';
+import { SelectedWrestlers } from 'app/wrespic/domain/selectedWrestlers';
 import { SampleData } from 'sampleData';
 
 describe('SelectedWrestlers', () => {

@@ -2,12 +2,11 @@ import { Client } from 'integrations/twitter/client';
 import {
   TwitterQueryOperator,
   TwitterFiliter,
-  TTweetBase,
-  TweetType,
+  TPictureTweet,
 } from 'integrations/twitter/interface';
 import { TwitterParams } from 'integrations/twitter/params';
 import { TwitterHashtag } from 'integrations/twitter/twitterHashtag';
-import * as _ from 'lodash';
+import { TweetFilter } from 'integrations/twitter/tweetFilter';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -34,42 +33,33 @@ describe('Twitter', () => {
 
     describe('Pictureの画像を取得する場合', () => {
       beforeEach(() => {
+        params = new TwitterParams();
         params.addFilter(TwitterFiliter.IMAGES);
       });
 
       it('TypeがPictureのものみ返すこと', async () => {
         const tweets = await client.search(params);
-        const textOnlys = _.filter(tweets, (tweet: TTweetBase) => {
-          return tweet.type === TweetType.TextOnly;
-        });
+        const textOnlys = TweetFilter.filterTextOnlys(tweets);
         expect(textOnlys.length).toEqual(0);
 
-        const pictures = _.filter(tweets, (tweet: TTweetBase) => {
-          return tweet.type === TweetType.Picture;
-        });
-
+        const pictures: TPictureTweet[] = TweetFilter.filterPictures(tweets);
         expect(pictures.length).not.toEqual(0);
       });
     });
 
-    describe.skip('すべてのタイプを取得する場合', () => {
+    describe('すべてのタイプを取得する場合', () => {
       it('TypeがPictureのものみ返すこと', async () => {
         const tweets = await client.search(params);
 
-        const textOnly = _.filter(tweets, (tweet: TTweetBase) => {
-          return tweet.type === TweetType.TextOnly;
-        });
+        const textOnly = TweetFilter.filterTextOnlys(tweets);
         expect(textOnly.length).not.toEqual(0);
 
-        const picture = _.filter(tweets, (tweet: TTweetBase) => {
-          return tweet.type === TweetType.Picture;
-        });
-
+        const picture = TweetFilter.filterPictures(tweets);
         expect(picture.length).not.toEqual(0);
       });
     });
 
-    describe.skip('RTを含める場合', () => {
+    describe('RTを含める場合', () => {
       beforeEach(() => {
         params.setIncldueRT();
       });
@@ -77,11 +67,40 @@ describe('Twitter', () => {
       it('RTの画像も返されていること', async () => {
         const tweets = await client.search(params);
 
-        const rtweets = tweets.filter((tweet) => {
-          return tweet.text.indexOf('RT ') === 0;
-        });
+        const rtweets = TweetFilter.filterRtweets(tweets);
         expect(rtweets.length).not.toEqual(0);
       });
+    });
+  });
+});
+
+// TODO テストコードではなくスクリプトとして実行できるようにする
+describe('指定の選手の写真URLを取得するスクリプト代わり', () => {
+  describe.skip('スクリプトとして実行するとき以外はskip', () => {
+    const wrestlerName = 'Maria';
+    const promoterName = 'Marvelouspro';
+    const client = new Client();
+    let params: TwitterParams;
+
+    beforeEach(() => {
+      params = new TwitterParams();
+      params.addCount(30);
+      params.addHashTag(
+        new TwitterHashtag()
+          .initialize(wrestlerName)
+          .addString(promoterName, TwitterQueryOperator.AND)
+      );
+      params.addFilter(TwitterFiliter.TWIMG);
+    });
+
+    it('TypeがPictureのものみ返すこと', async () => {
+      const tweets = await client.search(params);
+      const pictures: TPictureTweet[] = TweetFilter.filterPictures(tweets);
+      const urls = pictures.map((picture: TPictureTweet) => {
+        return picture.pictureURL;
+      });
+
+      console.log(urls);
     });
   });
 });

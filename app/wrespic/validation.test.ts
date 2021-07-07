@@ -1,6 +1,6 @@
 import { SampleData } from 'sampleData';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { FavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
+import { FavoriteWrestlers } from 'app/wrespic/domain/favoriteWrestlers';
 import { WreslerNames, isExistsWreslerNames } from 'app/wrespic/validation';
 import faker from 'faker';
 

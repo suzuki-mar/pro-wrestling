@@ -4,7 +4,6 @@ import { SampleData } from 'sampleData';
 import * as _ from 'lodash';
 import { RepositoryFactory } from './repositoryFactory';
 import { TweetRepository } from './tweetRepository';
-import { Wrestler } from 'app/core/wreslter/wrestler';
 import { IWrestlerName } from 'app/core/wreslter';
 import { ClientFactory } from 'integrations/clientFactory';
 

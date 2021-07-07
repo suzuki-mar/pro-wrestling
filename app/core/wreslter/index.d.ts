@@ -1,7 +1,7 @@
-export type IWrestlerName = {
+export interface IWrestlerName {
   readonly full: string;
   equal(IWrestlerName): boolean;
-};
+}
 
 export type TPromoterName = {
   readonly shortName: string;

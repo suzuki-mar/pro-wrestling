@@ -1,7 +1,7 @@
 import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { TWrestlerPictureURL } from 'app/wrespic';
+import { TSource } from 'app/wrespic';
 import { IWrestlerName, IWrestler } from 'app/core/wreslter';
 import { SampleData } from '../sampleData';
 import faker from 'faker';
@@ -30,8 +30,8 @@ export class WrestlerData {
     });
   }
 
-  static pictureURL(): TWrestlerPictureURL {
-    const pictureURL: TWrestlerPictureURL = {
+  static pictureURL(): TSource {
+    const pictureURL: TSource = {
       name: this.wrestlerName(),
       urlStr: SampleData.url().href,
       date: faker.datatype.datetime(),

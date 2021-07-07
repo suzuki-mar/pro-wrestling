@@ -1,8 +1,10 @@
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { IWrestlerName } from 'app/core/wreslter';
-import { WrestlerNameItem } from '../atoms/WreslerNameItem';
 import { IFavoriteWrestlers } from 'app/wrespic';
-import { VModelCreator } from 'app/wrespic/view_models/modelCreator';
+import { JSONConvert } from 'app/wrespic/states/jsonConvert';
+import { useState, useContext } from 'react';
+import { ListItemText, ListItem, Checkbox } from '@material-ui/core';
+import { findValuesFromContext, WrespicContext } from '../Context';
 
 type Props = {
   favoriteWrestlers: IFavoriteWrestlers;
@@ -43,6 +45,32 @@ export const FavoriteWrestlersList: React.VFC<Props> = ({ favoriteWrestlers }) =
 
 function renderRow(props: ListChildComponentProps) {
   const { style, data, index } = props;
-  const name: IWrestlerName = VModelCreator.buildWreslerName(data[index]!);
+
+  const name: IWrestlerName = JSONConvert.toWreslerName(data[index]!);
+
   return <WrestlerNameItem name={name} style={style} />;
 }
+
+type ItemProps = {
+  name: IWrestlerName;
+  style: any;
+};
+
+const WrestlerNameItem: React.VFC<ItemProps> = ({ name, style }) => {
+  const contextValues = findValuesFromContext(useContext(WrespicContext));
+
+  const [isClicked, setIsClicked] = useState(false);
+
+  const onChange = () => {
+    contextValues.setSelectedWrestlersList(contextValues.selectedWrestlers.selectWreslerName(name));
+
+    setIsClicked(!isClicked);
+  };
+
+  return (
+    <ListItem data-testid="custom-element" style={style} key={name.full}>
+      <ListItemText id={name.full} primary={name.full} />
+      <Checkbox edge="end" onChange={onChange} checked={isClicked} />
+    </ListItem>
+  );
+};

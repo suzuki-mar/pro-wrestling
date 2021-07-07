@@ -4,24 +4,29 @@ import { TPictureTweet } from 'integrations/twitter/interface';
 export interface IFavoriteWrestlers {
   load(): Promise<void>;
   wrestlers(): IWrestler[];
+  names(): IWrestlerName[];
 }
 
 export interface ISelectedWrestlers {
   searchFromTwitter(): Promise<void>;
-  pictureUrls(): TWrestlerPictureURL[];
+  pictureUrls(): TSource[];
   names(): IWrestlerName[];
   selectWreslerName(name: IWrestlerName): IWrestlerName[];
 }
 
-export interface IAlbum {
-  readonly uploadedID?: Number;
-
-  setUpPictures(pictureURLs: TWrestlerPictureURL[]): void;
-  pictures(): TPicture[];
+export interface IAlbumCollection {
+  setUpFromPictures(pictureURLs: TSource[]): void;
+  albums(): IAlbum[];
   prepareDownload(): Promise<void>;
 }
 
-export type TWrestlerPictureURL = {
+export interface IAlbum {
+  readonly wrestlerName: IWrestlerName;
+  pictures(): TPicture[];
+  count(): number;
+}
+
+export type TSource = {
   readonly name: IWrestlerName;
   readonly urlStr: string;
   readonly date: Date;
@@ -31,7 +36,7 @@ export type TPicture = {
   readonly urlStr: string;
   readonly wrestlerNames: IWrestlerName[];
   readonly date: Date;
-  fileName?: string;
+  readonly fileName?: string;
 };
 
 export interface ITweetRepository {

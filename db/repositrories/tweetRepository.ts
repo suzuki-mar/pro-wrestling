@@ -7,7 +7,7 @@ import {
   TwitterQueryOperator,
 } from 'integrations/twitter/interface';
 import { Factory } from 'integrations/twitter/factory';
-import { IWrestler, IPromoter, IWrestlerName } from 'app/core/wreslter';
+import { IPromoter, IWrestlerName } from 'app/core/wreslter';
 import * as _ from 'lodash';
 
 export class TweetRepository implements ITweetRepository {

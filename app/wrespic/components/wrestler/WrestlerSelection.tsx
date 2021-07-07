@@ -1,6 +1,6 @@
-import { FavoriteWrestlersList } from 'app/wrespic/components/molecules/FavoriteWreslersList';
-import { SearchButton } from 'app/wrespic/components/atoms/SearchButton';
-import { IFavoriteWrestlers, ISelectedWrestlers } from 'app/wrespic';
+import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteWreslersList';
+import { SearchButton } from 'app/wrespic/components/wrestler/SearchButton';
+import { IFavoriteWrestlers } from 'app/wrespic';
 
 type Props = {
   favoriteWrestlers: IFavoriteWrestlers;

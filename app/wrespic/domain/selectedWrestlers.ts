@@ -1,12 +1,12 @@
-import { TWrestlerPictureURL, ISelectedWrestlers } from 'app/wrespic';
-import { IWrestler, IWrestlerName } from 'app/core/wreslter';
+import { TSource, ISelectedWrestlers } from 'app/wrespic';
+import { IWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TPictureTweet } from 'integrations/twitter/interface';
 import * as _ from 'loadsh';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
 export class SelectedWrestlers implements ISelectedWrestlers {
-  private _pictureUrls: TWrestlerPictureURL[] = [];
+  private _sources: TSource[] = [];
   private _names: IWrestlerName[] = [];
 
   selectWreslerName(name: WrestlerName): IWrestlerName[] {
@@ -30,7 +30,7 @@ export class SelectedWrestlers implements ISelectedWrestlers {
   async searchFromTwitter(): Promise<void> {
     const pictureTweets = await this.searchPictureTweets();
 
-    this._pictureUrls = this.createAllWrestlerPictureURLs(pictureTweets, this._names);
+    this._sources = this.createAllWrestlerPictureURLs(pictureTweets, this._names);
   }
 
   private createAllWrestlerPictureURLs(pictureTweets: TPictureTweet[], names: IWrestlerName[]) {
@@ -49,7 +49,7 @@ export class SelectedWrestlers implements ISelectedWrestlers {
     names: IWrestlerName[],
     tweet: TPictureTweet,
     hashtag: string
-  ): TWrestlerPictureURL[] {
+  ): TSource[] {
     const wpus = _.map(names, (name: IWrestlerName) => {
       if (name.full === hashtag) {
         return {
@@ -60,11 +60,11 @@ export class SelectedWrestlers implements ISelectedWrestlers {
       } else {
         return undefined;
       }
-    }) as (TWrestlerPictureURL | undefined)[];
+    }) as (TSource | undefined)[];
 
     return _.filter(wpus, (wpu) => {
       return wpu !== undefined;
-    }) as TWrestlerPictureURL[];
+    }) as TSource[];
   }
 
   private async searchPictureTweets(): Promise<TPictureTweet[]> {
@@ -74,8 +74,8 @@ export class SelectedWrestlers implements ISelectedWrestlers {
     return tweetRepository.fetchPictureTweetByWrestlerNames(this._names, promots);
   }
 
-  pictureUrls(): TWrestlerPictureURL[] {
-    return this._pictureUrls;
+  pictureUrls(): TSource[] {
+    return this._sources;
   }
 
   names(): IWrestlerName[] {

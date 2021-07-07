@@ -1,21 +1,25 @@
 import { Head, BlitzPage } from 'blitz';
 import CatalogLayout from 'app/core/layouts/CatalogLayout';
 import { CatalogList, ComponentType } from 'app/core/components/CatalogList';
-import { FavoriteWrestlersList } from 'app/wrespic/components/molecules/FavoriteWreslersList';
-import { WrestlerNameItem } from 'app/wrespic/components/atoms/WreslerNameItem';
-import { SearchButton } from 'app/wrespic/components/atoms/SearchButton';
-import { WrestlerSelection } from 'app/wrespic/components/organisms/WrestlerSelection';
-import { SampleData } from 'sampleData';
-import { useSelectedWrestlers, useFavoriteWrestlers } from 'app/wrespic/hooks';
-import { FavoriteWrestlers as EFavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
-
+import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteWreslersList';
+import { SearchButton } from 'app/wrespic/components/wrestler/SearchButton';
+import { useSelectedWrestlers, useLoadFavoriteWrestlers } from 'app/wrespic/states/hooks';
 import { IFavoriteWrestlers, ISelectedWrestlers } from 'app/wrespic';
+import { AlbumGroup } from 'app/wrespic/components/AlbumGroup';
+import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
 
 function createCatalogListProps(
   selectedWrestlers: ISelectedWrestlers,
   favoriteWrestlers: IFavoriteWrestlers
 ) {
   return [
+    {
+      title: 'PictureList',
+      description: '写真リスト',
+      content: <AlbumGroup />,
+      type: ComponentType.Molecules,
+    },
+
     {
       title: 'WrestlerSelection',
       description: 'レスラー検索コンポーネント',
@@ -35,19 +39,11 @@ function createCatalogListProps(
       content: <FavoriteWrestlersList favoriteWrestlers={favoriteWrestlers} />,
       type: ComponentType.Molecules,
     },
-    {
-      title: 'WreslerName',
-      description: 'レスラーの名前',
-      content: (
-        <WrestlerNameItem name={SampleData.wrestlerName()} style={{ width: '100%', height: 30 }} />
-      ),
-      type: ComponentType.Atom,
-    },
   ];
 }
 
 const WrespicsPage: BlitzPage = () => {
-  const favoriteWrestlers = useFavoriteWrestlers();
+  const favoriteWrestlers = useLoadFavoriteWrestlers();
   const catalogListProps = createCatalogListProps(useSelectedWrestlers(), favoriteWrestlers);
 
   return (
