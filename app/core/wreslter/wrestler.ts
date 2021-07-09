@@ -1,16 +1,23 @@
-import { IWrestler, TWrestlerName, TPromoterName } from 'app/core/wreslter';
+import { IWrestler, IWrestlerName, TPromoterName } from 'app/core/wreslter';
 import { Promoter } from 'app/core/wreslter/promoter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
+import { WrestlerName } from './wrestlerName';
 
 export class Wrestler implements IWrestler {
   readonly currentBelongsPromoterName: TPromoterName;
 
-  constructor(readonly name: TWrestlerName) {
+  constructor(readonly name: IWrestlerName) {
     //FIX MVP時はMarvelousしか対応させない
     this.currentBelongsPromoterName = Promoter.buildMarvelous().name;
   }
 
-  static async creates(names: TWrestlerName[]) {
+  equal(wrestler: IWrestler): boolean {
+    const name = this.name as WrestlerName;
+    const compare = wrestler.name as WrestlerName;
+    return name.equal(compare);
+  }
+
+  static async creates(names: IWrestlerName[]) {
     const repository = RepositoryFactory.factoryWrestlerRepository();
     return repository.addList(names);
   }

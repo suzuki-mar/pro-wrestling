@@ -30,10 +30,10 @@ export function CatalogList({ catalogListProps }) {
   });
 
   const sorteCatalogs = _.flatten([
-    groupedCatalogs[ComponentType.Templates],
-    groupedCatalogs[ComponentType.Organisms],
-    groupedCatalogs[ComponentType.Molecules],
     groupedCatalogs[ComponentType.Atom],
+    groupedCatalogs[ComponentType.Molecules],
+    groupedCatalogs[ComponentType.Organisms],
+    groupedCatalogs[ComponentType.Templates],
   ]);
 
   return <>{sorteCatalogs}</>;

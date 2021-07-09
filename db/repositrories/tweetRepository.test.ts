@@ -4,12 +4,12 @@ import { SampleData } from 'sampleData';
 import * as _ from 'lodash';
 import { RepositoryFactory } from './repositoryFactory';
 import { TweetRepository } from './tweetRepository';
-import { Wrestler } from 'app/core/wreslter/wrestler';
+import { IWrestlerName } from 'app/core/wreslter';
 import { ClientFactory } from 'integrations/clientFactory';
 
 describe('TweetRepository', () => {
   const repository = new TweetRepository();
-  const wrestlers = SampleData.wrestlers();
+  const names = SampleData.wrestlerNames();
   let promoters: IPromoter[];
 
   beforeEach(async () => {
@@ -18,9 +18,9 @@ describe('TweetRepository', () => {
 
   describe('fetchPictureByWrelsers', () => {
     it('写真付きTweetが返されていること', async () => {
-      const tweets = await repository.fetchPictureTweetByWrestlerNames(wrestlers, promoters);
+      const tweets = await repository.fetchPictureTweetByWrestlerNames(names, promoters);
 
-      const anoterType = _.find(tweets, (tweet) => {
+      const anoterType = tweets.find((tweet) => {
         return tweet.type !== TweetType.Picture;
       });
 
@@ -37,28 +37,27 @@ describe('TweetRepository', () => {
       });
 
       it('写真付きTweetが返されていること', async () => {
-        const tweets = await repository.fetchPictureTweetByWrestlerNames(wrestlers, promoters);
+        const tweets = await repository.fetchPictureTweetByWrestlerNames(names, promoters);
         let success = false;
 
-        _.each(wrestlers, (w) => {
+        names.forEach((n: IWrestlerName) => {
           _.each(tweets[0]!.hashtags, (hashtag) => {
-            if (w.name.full === hashtag) {
+            if (n.full === hashtag) {
               success = true;
             }
           });
-        });
 
-        expect(success).toEqual(true);
+          expect(success).toEqual(true);
+        });
       });
     });
   });
 
   describe('createParams', () => {
-    const names = SampleData.wrestlerNames().slice(1);
-    const wrestlers = [new Wrestler(names[0]!), new Wrestler(names[1]!)];
+    const names = [SampleData.wrestlerName(), SampleData.wrestlerName()];
 
     it('パラメーターが作成できていること', () => {
-      const params = TweetRepository.SearchParamsCreator.createParams(wrestlers, promoters);
+      const params = TweetRepository.SearchParamsCreator.createParams(names, promoters);
       const expected = `(#${names[0]!.full} AND #Marvelouspro) OR (#${
         names[1]!.full
       } AND #Marvelouspro) filter:images -filter:retweets`;

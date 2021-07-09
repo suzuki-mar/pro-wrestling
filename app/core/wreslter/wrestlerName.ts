@@ -1,8 +1,8 @@
-import { TWrestlerName } from 'app/core/wreslter';
+import { IWrestlerName } from 'app/core/wreslter';
 
-export class WrestlerName implements TWrestlerName {
+export class WrestlerName implements IWrestlerName {
   constructor(readonly full: string) {}
-  equal(compare: TWrestlerName): boolean {
+  equal(compare: IWrestlerName): boolean {
     return compare.full === this.full;
   }
 }

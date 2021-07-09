@@ -1,15 +1,12 @@
 import { Head, BlitzPage } from 'blitz';
 import CatalogLayout from 'app/core/layouts/CatalogLayout';
 import { CatalogList, ComponentType } from 'app/core/components/CatalogList';
-import { FavoriteWrestlers } from 'app/wrespic/components/molecules/FavoriteWreslers';
-import { WrestlerName } from 'app/wrespic/components/atoms/WreslerName';
-import { SearchButton } from 'app/wrespic/components/atoms/SearchButton';
-import { WrestlerSelection } from 'app/wrespic/components/organisms/WrestlerSelection';
-import { SampleData } from 'sampleData';
-import { useSelectedWrestlers } from 'app/wrespic/hooks';
-import { FavoriteWrestlers as EFavoriteWrestlers } from 'app/wrespic/entities/favoriteWrestlers';
-
+import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteWreslersList';
+import { SearchButton } from 'app/wrespic/components/wrestler/SearchButton';
+import { useSelectedWrestlers, useLoadFavoriteWrestlers } from 'app/wrespic/states/hooks';
 import { IFavoriteWrestlers, ISelectedWrestlers } from 'app/wrespic';
+import { AlbumGroup } from 'app/wrespic/components/AlbumGroup';
+import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
 
 function createCatalogListProps(
   selectedWrestlers: ISelectedWrestlers,
@@ -17,43 +14,37 @@ function createCatalogListProps(
 ) {
   return [
     {
+      title: 'PictureList',
+      description: '写真リスト',
+      content: <AlbumGroup />,
+      type: ComponentType.Molecules,
+    },
+
+    {
       title: 'WrestlerSelection',
       description: 'レスラー検索コンポーネント',
-      content: (
-        <WrestlerSelection
-          favoriteWrestlers={favoriteWrestlers}
-          selectedWrestlers={selectedWrestlers}
-        />
-      ),
+      content: <WrestlerSelection favoriteWrestlers={favoriteWrestlers} />,
       type: ComponentType.Templates,
     },
 
     {
       title: 'SearchButton',
       description: 'レスラーの画像検索ボタン',
-      content: <SearchButton selectedWrestlers={selectedWrestlers} />,
+      content: <SearchButton />,
       type: ComponentType.Atom,
     },
     {
       title: 'FavoriteWrestlers',
       description: '好きなレスラー一覧',
-      content: <FavoriteWrestlers favoriteWrestlers={favoriteWrestlers} />,
+      content: <FavoriteWrestlersList favoriteWrestlers={favoriteWrestlers} />,
       type: ComponentType.Molecules,
-    },
-    {
-      title: 'WreslerName',
-      description: 'レスラーの名前',
-      content: (
-        <WrestlerName name={SampleData.wrestlerName()} style={{ width: '100%', height: 30 }} />
-      ),
-      type: ComponentType.Atom,
     },
   ];
 }
 
 const WrespicsPage: BlitzPage = () => {
-  const favorteWreslers = new EFavoriteWrestlers();
-  const catalogListProps = createCatalogListProps(useSelectedWrestlers(), favorteWreslers);
+  const favoriteWrestlers = useLoadFavoriteWrestlers();
+  const catalogListProps = createCatalogListProps(useSelectedWrestlers(), favoriteWrestlers);
 
   return (
     <>

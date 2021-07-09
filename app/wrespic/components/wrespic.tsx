@@ -1,21 +1,20 @@
-import { WrestlerSelection } from 'app/wrespic/components/organisms/WrestlerSelection';
-import { ExecutionLog } from 'app/wrespic/components/executionLlog';
-import { Header } from 'app/wrespic/components/organisms/header';
-import { useFavoriteWrestlers, useSelectedWrestlers } from 'app/wrespic/hooks';
+import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
+import { Header } from 'app/wrespic/components/Header';
+import { useLoadFavoriteWrestlers } from 'app/wrespic/states/hooks';
+import { AlbumGroup } from 'app/wrespic/components/AlbumGroup';
+import { ContextWrapper } from './Context';
 
 export function Wrespic() {
-  const favoriteWrestlers = useFavoriteWrestlers();
+  const favoriteWrestlers = useLoadFavoriteWrestlers();
 
   return (
-    <div className="grid justify-items-center h-96 w-10/12 ...">
-      <Header />
+    <ContextWrapper>
+      <div>
+        <Header />
 
-      <WrestlerSelection
-        favoriteWrestlers={favoriteWrestlers}
-        selectedWrestlers={useSelectedWrestlers()}
-      />
-
-      <ExecutionLog />
-    </div>
+        <WrestlerSelection favoriteWrestlers={favoriteWrestlers} />
+        <AlbumGroup />
+      </div>
+    </ContextWrapper>
   );
 }

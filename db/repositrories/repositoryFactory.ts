@@ -2,7 +2,7 @@ import { TPictureTweet } from 'integrations/twitter/interface';
 import {
   IWrestlerRepository,
   IWrestler,
-  TWrestlerName,
+  IWrestlerName,
   IPromoterRepository,
 } from 'app/core/wreslter';
 
@@ -42,7 +42,7 @@ export class RepositoryFactory {
       return SampleData.wrestlers();
     }
 
-    async addList(names: TWrestlerName[]): Promise<IWrestler[]> {
+    async addList(names: IWrestlerName[]): Promise<IWrestler[]> {
       return SampleData.wrestlers();
     }
   };
