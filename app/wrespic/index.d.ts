@@ -2,9 +2,10 @@ import { IWrestler, IWrestlerName, IPromoter } from 'app/core/wreslter';
 import { TPictureTweet } from 'integrations/twitter/interface';
 
 export interface IFavoriteWrestlers {
-  load(): Promise<void>;
+  build(): Promise<void>;
   wrestlers(): IWrestler[];
   names(): IWrestlerName[];
+  sortById(): void;
 }
 
 export interface ISelectedWrestlers {
@@ -15,9 +16,11 @@ export interface ISelectedWrestlers {
 }
 
 export interface IAlbumCollection {
-  setUpFromPictures(pictureURLs: TSource[]): void;
+  buildFromSources(pictureURLs: TSource[]): void;
   albums(): IAlbum[];
+  currentDisplayAlbum(): IAlbum;
   prepareDownload(): Promise<void>;
+  changeCurrentDisplayAlbum(name: IWrestlerName): void;
 }
 
 export interface IAlbum {

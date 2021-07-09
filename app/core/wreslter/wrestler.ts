@@ -5,10 +5,12 @@ import { WrestlerName } from './wrestlerName';
 
 export class Wrestler implements IWrestler {
   readonly currentBelongsPromoterName: TPromoterName;
+  readonly id: number | undefined;
 
   constructor(readonly name: IWrestlerName) {
     //FIX MVP時はMarvelousしか対応させない
     this.currentBelongsPromoterName = Promoter.buildMarvelous().name;
+    this.id = name.id;
   }
 
   equal(wrestler: IWrestler): boolean {

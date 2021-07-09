@@ -4,7 +4,7 @@ describe('FavorteWrestlers', () => {
   describe('load ＆ wrestlers', () => {
     it('好きなレスラー一覧を取得すること', async () => {
       const favorteWrestlers = new FavoriteWrestlers();
-      await favorteWrestlers.load();
+      await favorteWrestlers.build();
 
       const wrestlers = favorteWrestlers.wrestlers();
 

@@ -8,7 +8,7 @@ import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 export class AlbumFactory {
   private pictures: { [key: string]: TPicture } = {};
 
-  constructor(private readonly pictureURLs: TSource[]) {}
+  constructor(private readonly sources: TSource[]) {}
 
   create(): IAlbum[] {
     this.setPictureCollection();
@@ -36,17 +36,17 @@ export class AlbumFactory {
   private setPictureCollection() {
     this.pictures = {};
 
-    this.pictureURLs.forEach((pu) => {
-      this.addPicture(Picture.buildFromSource(pu));
+    this.sources.forEach((source) => {
+      this.addPicture(Picture.buildFromSource(source));
     });
 
     _.each(this.pictures, (picture: Picture, urlStr: string) => {
-      let names = this.pictureURLs.map((pictureURL) => {
-        if (!picture.isSameURL(pictureURL)) {
+      let names = this.sources.map((source) => {
+        if (!picture.isSameURL(source)) {
           return undefined;
         }
 
-        return pictureURL.name;
+        return source.name;
       });
       names = _.compact(names);
 

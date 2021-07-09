@@ -19,7 +19,7 @@ describe('isExistsWreslerNames', () => {
   it('存在するNameだけの場合はtrueが返る', async () => {
     const names = SampleData.wrestlerNames();
     const favorites = new FavoriteWrestlers();
-    await favorites.load();
+    await favorites.build();
     expect(isExistsWreslerNames(names, favorites)).toEqual(true);
   });
 
@@ -28,7 +28,7 @@ describe('isExistsWreslerNames', () => {
     names.push(new WrestlerName(faker.name.firstName()));
 
     const favorites = new FavoriteWrestlers();
-    await favorites.load();
+    await favorites.build();
     expect(isExistsWreslerNames(names, favorites)).toEqual(false);
   });
 });

@@ -1,12 +1,10 @@
 import { Head, BlitzPage } from 'blitz';
 import CatalogLayout from 'app/core/layouts/CatalogLayout';
 import { CatalogList, ComponentType } from 'app/core/components/CatalogList';
-import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteWreslersList';
-import { SearchButton } from 'app/wrespic/components/wrestler/SearchButton';
-import { useSelectedWrestlers, useLoadFavoriteWrestlers } from 'app/wrespic/states/hooks';
 import { IFavoriteWrestlers, ISelectedWrestlers } from 'app/wrespic';
-import { AlbumGroup } from 'app/wrespic/components/AlbumGroup';
-import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
+import { AlbumCollectionSection } from 'app/wrespic/components/AlbumCollectionSection';
+import { SampleData } from 'sampleData';
+import { useBuildDomainModels } from 'app/wrespic/states/hooks/useBuildDomainModels';
 
 function createCatalogListProps(
   selectedWrestlers: ISelectedWrestlers,
@@ -16,35 +14,16 @@ function createCatalogListProps(
     {
       title: 'PictureList',
       description: '写真リスト',
-      content: <AlbumGroup />,
-      type: ComponentType.Molecules,
-    },
-
-    {
-      title: 'WrestlerSelection',
-      description: 'レスラー検索コンポーネント',
-      content: <WrestlerSelection favoriteWrestlers={favoriteWrestlers} />,
-      type: ComponentType.Templates,
-    },
-
-    {
-      title: 'SearchButton',
-      description: 'レスラーの画像検索ボタン',
-      content: <SearchButton />,
-      type: ComponentType.Atom,
-    },
-    {
-      title: 'FavoriteWrestlers',
-      description: '好きなレスラー一覧',
-      content: <FavoriteWrestlersList favoriteWrestlers={favoriteWrestlers} />,
+      content: <AlbumCollectionSection albumCollection={SampleData.albumCollection()} />,
       type: ComponentType.Molecules,
     },
   ];
 }
 
 const WrespicsPage: BlitzPage = () => {
-  const favoriteWrestlers = useLoadFavoriteWrestlers();
-  const catalogListProps = createCatalogListProps(useSelectedWrestlers(), favoriteWrestlers);
+  const [favoriteWrestlers, selectedWrestlers] = useBuildDomainModels();
+
+  const catalogListProps = createCatalogListProps(selectedWrestlers, favoriteWrestlers);
 
   return (
     <>

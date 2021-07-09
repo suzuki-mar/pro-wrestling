@@ -1,6 +1,7 @@
 import { IFavoriteWrestlers } from 'app/wrespic';
 import { IWrestler, IWrestlerName } from 'app/core/wreslter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
+import * as _ from 'loadsh';
 
 export class FavoriteWrestlers implements IFavoriteWrestlers {
   protected _wrestlers: IWrestler[] = [];
@@ -11,13 +12,17 @@ export class FavoriteWrestlers implements IFavoriteWrestlers {
     return fw;
   }
 
-  async load(): Promise<void> {
+  async build(): Promise<void> {
     const repository = RepositoryFactory.factoryWrestlerRepository();
     this._wrestlers = await repository.fetchAll();
   }
 
   wrestlers(): IWrestler[] {
     return this._wrestlers;
+  }
+
+  sortById(): void {
+    this._wrestlers = _.sortBy(this._wrestlers!, ['id']);
   }
 
   names(): IWrestlerName[] {

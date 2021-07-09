@@ -1,16 +1,20 @@
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { IWrestlerName } from 'app/core/wreslter';
-import { IFavoriteWrestlers } from 'app/wrespic';
+import { IFavoriteWrestlers, ISelectedWrestlers } from 'app/wrespic';
 import { JSONConvert } from 'app/wrespic/states/jsonConvert';
 import { useState, useContext } from 'react';
 import { ListItemText, ListItem, Checkbox } from '@material-ui/core';
-import { findValuesFromContext, WrespicContext } from '../Context';
+import { findContextValue, WrespicContext } from './Context';
 
 type Props = {
   favoriteWrestlers: IFavoriteWrestlers;
+  selectedWrestlers: ISelectedWrestlers;
 };
 
-export const FavoriteWrestlersList: React.VFC<Props> = ({ favoriteWrestlers }) => {
+export const FavoriteWrestlersList: React.VFC<Props> = ({
+  favoriteWrestlers,
+  selectedWrestlers,
+}) => {
   if (favoriteWrestlers.wrestlers() === undefined) {
     return <div data-testid="custom-element"></div>;
   }
@@ -33,7 +37,7 @@ export const FavoriteWrestlersList: React.VFC<Props> = ({ favoriteWrestlers }) =
       <FixedSizeList
         height={listHeight}
         width={200}
-        itemData={names}
+        itemData={{ names: names, selectedWrestlers: selectedWrestlers }}
         itemCount={names.length}
         itemSize={30}
       >
@@ -45,24 +49,25 @@ export const FavoriteWrestlersList: React.VFC<Props> = ({ favoriteWrestlers }) =
 
 function renderRow(props: ListChildComponentProps) {
   const { style, data, index } = props;
+  const names = data['names'];
+  const selectedWrestlers = data['selectedWrestlers'];
+  const name: IWrestlerName = JSONConvert.toWreslerName(names[index]!);
 
-  const name: IWrestlerName = JSONConvert.toWreslerName(data[index]!);
-
-  return <WrestlerNameItem name={name} style={style} />;
+  return <WrestlerNameItem name={name} style={style} selectedWrestlers={selectedWrestlers} />;
 }
 
 type ItemProps = {
   name: IWrestlerName;
   style: any;
+  selectedWrestlers: ISelectedWrestlers;
 };
 
-const WrestlerNameItem: React.VFC<ItemProps> = ({ name, style }) => {
-  const contextValues = findValuesFromContext(useContext(WrespicContext));
-
+const WrestlerNameItem: React.VFC<ItemProps> = ({ name, style, selectedWrestlers }) => {
+  const contextValue = findContextValue(useContext(WrespicContext));
   const [isClicked, setIsClicked] = useState(false);
 
   const onChange = () => {
-    contextValues.setSelectedWrestlersList(contextValues.selectedWrestlers.selectWreslerName(name));
+    contextValue.wrestler.setSelectedWrestlerNames(selectedWrestlers.selectWreslerName(name));
 
     setIsClicked(!isClicked);
   };

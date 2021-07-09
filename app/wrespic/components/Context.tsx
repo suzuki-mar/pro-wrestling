@@ -1,65 +1,78 @@
 import React, { useState, ReactNode, SetStateAction, Dispatch } from 'react';
-import { ISelectedWrestlers, IAlbumCollection, TPicture } from 'app/wrespic';
-import { IWrestler, IWrestlerName } from 'app/core/wreslter/index';
-import { useAlbmu, useSelectedWrestlers } from 'app/wrespic/states/hooks';
+import { ISelectedWrestlers, IAlbumCollection, IAlbum } from 'app/wrespic';
+import { IWrestlerName } from 'app/core/wreslter/index';
 
 export const WrespicContext = React.createContext({});
 
 type Props = {
   children: ReactNode;
+  selectedWrestlers: ISelectedWrestlers;
+  albumCollection: IAlbumCollection;
 };
 
-export const ContextWrapper: React.VFC<Props> = ({ children }) => {
-  const selectedWrestlers = useSelectedWrestlers();
-
-  const [selectedWrestlersList, setSelectedWrestlersList] = useState(selectedWrestlers.names());
-  const [_selectedWrestlers] = useState(selectedWrestlers);
-
-  const album = useAlbmu();
-  const [pictures, setPictures] = useState(album.albums());
-
+export const ContextWrapper: React.VFC<Props> = ({
+  children,
+  selectedWrestlers,
+  albumCollection,
+}) => {
+  const [selectedWrestlerNames, setSelectedWrestlerNames] = useState(selectedWrestlers.names());
+  const [currentDisplayAlbum, setCurrentDisplayAlbum] = useState(
+    albumCollection.currentDisplayAlbum()
+  );
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
-  const [_album] = useState(album);
+  const wrestler = {
+    selectedWrestlerNames: selectedWrestlerNames,
+    setSelectedWrestlerNames: setSelectedWrestlerNames,
+  };
+
+  const album = {
+    currentDisplayAlbum: currentDisplayAlbum,
+    setCurrentDisplayAlbum,
+    isLoadingComplete: isLoadingComplete,
+    setIsLoadingComplete: setIsLoadingComplete,
+  };
 
   const values = {
-    selectedWrestlersList,
-    setSelectedWrestlersList,
-    _selectedWrestlers,
-    pictures,
-    setPictures,
-    _album,
-    isLoadingComplete,
-    setIsLoadingComplete,
+    wrestler,
+    album,
   };
   return <WrespicContext.Provider value={values}>{children}</WrespicContext.Provider>;
 };
 
 type ContextValue = {
-  selectedWrestlersList: IWrestler[];
-  setSelectedWrestlersList: Dispatch<SetStateAction<IWrestlerName[]>>;
-  selectedWrestlers: ISelectedWrestlers;
-  pictures: TPicture[];
-  setPictures: Dispatch<React.SetStateAction<TPicture[]>>;
-  album: IAlbumCollection;
-  isLoadingComplete: boolean;
-  setIsLoadingComplete: Dispatch<React.SetStateAction<Boolean>>;
+  wrestler: {
+    selectedWrestlerNames: IWrestlerName[];
+    setSelectedWrestlerNames: Dispatch<SetStateAction<IWrestlerName[]>>;
+  };
+
+  album: {
+    currentDisplayAlbum: IAlbum;
+    setCurrentDisplayAlbum: Dispatch<React.SetStateAction<IAlbum>>;
+    isLoadingComplete: boolean;
+    setIsLoadingComplete: Dispatch<React.SetStateAction<Boolean>>;
+  };
 };
 
 // Reactの規約としてuseContextはここでは使用できないので引数に渡している
-export function findValuesFromContext(context: {}): ContextValue {
+export function findContextValue(context: {}): ContextValue {
   return {
-    selectedWrestlersList: context['selectedWrestlersList'] as IWrestler[],
-    setSelectedWrestlersList: context['setSelectedWrestlersList'] as Dispatch<
-      SetStateAction<IWrestlerName[]>
-    >,
-    selectedWrestlers: context['_selectedWrestlers'] as ISelectedWrestlers,
-    pictures: context['pictures'] as TPicture[],
-    setPictures: context['setPictures'] as Dispatch<React.SetStateAction<TPicture[]>>,
-    album: context['album'] as IAlbumCollection,
-    isLoadingComplete: context['isLoadingComplete'] as boolean,
-    setIsLoadingComplete: context['setIsLoadingComplete'] as Dispatch<
-      React.SetStateAction<Boolean>
-    >,
+    wrestler: {
+      selectedWrestlerNames: context['wrestler']['selectedWrestlerNames'] as IWrestlerName[],
+      setSelectedWrestlerNames: context['wrestler']['setSelectedWrestlerNames'] as Dispatch<
+        SetStateAction<IWrestlerName[]>
+      >,
+    },
+
+    album: {
+      isLoadingComplete: context['album']['isLoadingComplete'] as boolean,
+      setIsLoadingComplete: context['album']['setIsLoadingComplete'] as Dispatch<
+        React.SetStateAction<Boolean>
+      >,
+      currentDisplayAlbum: context['album']['currentDisplayAlbum'] as IAlbum,
+      setCurrentDisplayAlbum: context['album']['setCurrentDisplayAlbum'] as Dispatch<
+        React.SetStateAction<IAlbum>
+      >,
+    },
   };
 }

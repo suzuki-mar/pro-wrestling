@@ -1,5 +1,6 @@
 export interface IWrestlerName {
   readonly full: string;
+  readonly id?: number;
   equal(IWrestlerName): boolean;
 }
 
@@ -8,6 +9,7 @@ export type TPromoterName = {
 };
 
 export interface IWrestler {
+  readonly id: number | undefined;
   readonly name: IWrestlerName;
   readonly currentBelongsPromoterName: TPromoterName;
   equal(IWrestler): boolean;

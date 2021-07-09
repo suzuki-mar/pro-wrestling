@@ -1,19 +1,26 @@
-import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
+import { useBuildDomainModels } from 'app/wrespic/states/hooks/useBuildDomainModels';
 import { Header } from 'app/wrespic/components/Header';
-import { useLoadFavoriteWrestlers } from 'app/wrespic/states/hooks';
-import { AlbumGroup } from 'app/wrespic/components/AlbumGroup';
+import { AlbumCollectionSection } from 'app/wrespic/components/AlbumCollectionSection';
 import { ContextWrapper } from './Context';
+import { FavoriteWrestlersList } from 'app/wrespic/components/FavoriteWreslersList';
+import { SearchButton } from 'app/wrespic/components/SearchButton';
 
 export function Wrespic() {
-  const favoriteWrestlers = useLoadFavoriteWrestlers();
+  const [favoriteWrestlers, selectedWrestlers, albumCollection] = useBuildDomainModels();
 
   return (
-    <ContextWrapper>
-      <div>
-        <Header />
+    <ContextWrapper selectedWrestlers={selectedWrestlers} albumCollection={albumCollection}>
+      <Header />
 
-        <WrestlerSelection favoriteWrestlers={favoriteWrestlers} />
-        <AlbumGroup />
+      <div>
+        <div className="w-auto grid justify-items-center ...">
+          <FavoriteWrestlersList
+            favoriteWrestlers={favoriteWrestlers}
+            selectedWrestlers={selectedWrestlers}
+          />
+          <SearchButton selectedWrestlers={selectedWrestlers} albumCollection={albumCollection} />
+        </div>
+        <AlbumCollectionSection albumCollection={albumCollection} />
       </div>
     </ContextWrapper>
   );

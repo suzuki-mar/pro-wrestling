@@ -7,7 +7,7 @@ import { Wrestler } from 'app/core/wreslter/wrestler';
 
 export class JSONConvert {
   static toWreslerName(params: {}): IWrestlerName {
-    return new WrestlerName(params['full']);
+    return new WrestlerName(params['full'], params['id']);
   }
 
   static toSelectedWresler(params: {}): ISelectedWrestlers {
@@ -22,8 +22,8 @@ export class JSONConvert {
   }
 
   static toFavoriteWreslers(paramsList: {}): IFavoriteWrestlers {
-    const wrestlers = paramsList['_wrestlers'].map((param) => {
-      const name = this.toWreslerName(param['name']);
+    const wrestlers = paramsList['_wrestlers'].map((params) => {
+      const name = this.toWreslerName(params['name']);
       return new Wrestler(name);
     });
 

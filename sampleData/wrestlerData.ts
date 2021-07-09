@@ -8,11 +8,19 @@ import faker from 'faker';
 
 export class WrestlerData {
   static names(): IWrestlerName[] {
-    const nameStrs = ['彩羽匠', '桃野美桜', '門倉凛', '神童ミコト', 'Maria', '星月芽依', '宝山愛'];
+    const nameParams = [
+      { name: '彩羽匠', id: 1 },
+      { name: '桃野美桜', id: 2 },
+      { name: '門倉凛', id: 3 },
+      { name: '神童ミコト', id: 4 },
+      { name: 'Maria', id: 5 },
+      { name: '星月芽依', id: 6 },
+      { name: '宝山愛', id: 7 },
+    ];
 
-    const names: WrestlerName[] = _.map(nameStrs, (str: string) => {
+    const names: WrestlerName[] = _.map(nameParams, (params) => {
       // タイプを定義しやすくするために一時変数に代入している
-      const name = new WrestlerName(str);
+      const name = new WrestlerName(params.name, params.id);
       return name;
     });
 
@@ -25,9 +33,11 @@ export class WrestlerData {
   }
 
   static wrestlers(): IWrestler[] {
-    return _.map(this.names(), (name: WrestlerName) => {
+    let wrestlers = _.map(this.names(), (name: WrestlerName) => {
       return new Wrestler(name);
     });
+
+    return wrestlers;
   }
 
   static pictureURL(): TSource {

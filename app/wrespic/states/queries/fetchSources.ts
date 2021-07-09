@@ -2,7 +2,7 @@ import { Ctx } from 'blitz';
 import { TSource } from 'app/wrespic';
 import { JSONConvert } from '../jsonConvert';
 
-export default async function getPictureUrls(
+export default async function fetchSources(
   selectedWrestlersParams: any,
   { session }: Ctx
 ): Promise<TSource[]> {

@@ -44,13 +44,13 @@ describe('jsonConvert', () => {
     });
   });
 
-  describe('toPictureURLs', () => {
+  describe('toSource', () => {
     it('JSONからインスタンスを作成すること', async () => {
-      const pictureUrls = SampleData.picturesOfMei();
-      const params = convertParams(pictureUrls);
+      const sources = SampleData.sources();
+      const params = convertParams(sources);
 
       const restored = JSONConvert.toSources(params);
-      expect(restored[0]!.urlStr).toEqual(pictureUrls[0]!.urlStr);
+      expect(restored[0]!.urlStr).toEqual(sources[0]!.urlStr);
       expect(Date.parse(restored['date'])).not.toEqual(0);
     });
   });

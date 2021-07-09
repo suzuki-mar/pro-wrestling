@@ -3,6 +3,7 @@ import { AlbumCollection } from 'app/wrespic/domain/albmus/albmuCollection';
 import { TSource } from 'app/wrespic';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import faker from 'faker';
+import { SampleData } from 'sampleData';
 
 describe('Album', () => {
   const collection = new AlbumCollection();
@@ -10,7 +11,7 @@ describe('Album', () => {
 
   let urls: TSource[];
   const nameMio = new WrestlerName('桃野美桜');
-  const nameMei = new WrestlerName('星月芽依');
+  const nameMei = SampleData.meiName();
 
   beforeEach(() => {
     const image = createImageURLStr(1);
@@ -26,12 +27,12 @@ describe('Album', () => {
   });
 
   beforeEach(async () => {
-    await favoriteWrestlers.load();
+    await favoriteWrestlers.build();
   });
 
   describe('build', () => {
     beforeEach(() => {
-      collection.setUpFromPictures(urls);
+      collection.buildFromSources(urls);
     });
 
     it('指定したレスラーのアルバムを取得すること', () => {
@@ -50,6 +51,21 @@ describe('Album', () => {
 
       const picture = collection.findByWrestlerName(nameMio)!.pictures()[2];
       expect(picture!.fileName).not.toEqual(expected);
+    });
+  });
+
+  describe('changeCurrentDisplayAlbum', () => {
+    beforeEach(() => {
+      collection.buildFromSources(SampleData.sources());
+    });
+
+    it('表示するアルバムを選択する', () => {
+      const targetName = SampleData.meiName();
+      collection.changeCurrentDisplayAlbum(new WrestlerName('神童ミコト'));
+      collection.changeCurrentDisplayAlbum(targetName);
+
+      const albmu = collection.currentDisplayAlbum();
+      expect(albmu.wrestlerName.equal(targetName)).toBeTruthy();
     });
   });
 
