@@ -76,7 +76,7 @@ describe('Twitter', () => {
 
 // TODO テストコードではなくスクリプトとして実行できるようにする
 describe('指定の選手の写真URLを取得するスクリプト代わり', () => {
-  describe('スクリプトとして実行するとき以外はskip', () => {
+  describe.skip('スクリプトとして実行するとき以外はskip', () => {
     const wrestlerName = '彩羽匠';
     const promoterName = 'Marvelouspro';
     const client = new Client();

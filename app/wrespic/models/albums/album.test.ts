@@ -1,5 +1,5 @@
-import { FavoriteWrestlers } from 'app/wrespic/domain/favoriteWrestlers';
-import { AlbumCollection } from 'app/wrespic/domain/albmus/albmuCollection';
+import { FavoriteWrestlers } from 'app/wrespic/models/favoriteWrestlers';
+import { AlbumCollection } from 'app/wrespic/models/albums/albmuCollection';
 import { TSource } from 'app/wrespic';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import faker from 'faker';
@@ -66,6 +66,20 @@ describe('Album', () => {
 
       const albmu = collection.currentDisplayAlbum();
       expect(albmu.wrestlerName.equal(targetName)).toBeTruthy();
+    });
+  });
+
+  describe.skip('prepareDownload APIの実装が必要なため未実装', () => {
+    it('ダウンロードするファイルを作成していること', async () => {});
+  });
+
+  describe('albumNames', () => {
+    beforeEach(() => {
+      collection.buildFromSources(SampleData.sources());
+    });
+
+    it('アルバム名の取得', () => {
+      expect(collection.albumNames()).toContain(SampleData.meiName().full);
     });
   });
 

@@ -1,30 +1,24 @@
 // デフォルト呼び出しをするようにコンパイルで警告がでるがデフォルト呼び出しをするとReact側のエラーになってしまう
 // @ts-ignore
 import { AwesomeButton } from 'react-awesome-button';
-import { findContextValue, WrespicContext } from './Context';
-import { useContext } from 'react';
-import { IAlbumCollection, ISelectedWrestlers } from 'app/wrespic';
+import { AppState, Action } from '../hooks/useAppStatusReducer';
+import { Dispatch } from 'react';
 
 type Props = {
-  selectedWrestlers: ISelectedWrestlers;
-  albumCollection: IAlbumCollection;
+  appState: AppState;
+  dispatch: Dispatch<Action>;
 };
 
-export const SearchButton: React.VFC<Props> = ({ selectedWrestlers, albumCollection }) => {
-  const contextValue = findContextValue(useContext(WrespicContext));
-
+export const SearchButton: React.VFC<Props> = ({ appState, dispatch }) => {
   const onPress = () => {
-    contextValue.album.setIsLoadingComplete(true);
-    const name = selectedWrestlers.names()[0]!;
-    albumCollection.changeCurrentDisplayAlbum(name);
-    contextValue.album.setCurrentDisplayAlbum(albumCollection.currentDisplayAlbum());
+    dispatch({ type: 'searchPicture' });
   };
 
   return (
     <div>
       <AwesomeButton
         type="primary"
-        disabled={contextValue.wrestler.selectedWrestlerNames.length === 0}
+        disabled={appState.selectedWrestlers.names().length === 0}
         onPress={onPress}
       >
         検索

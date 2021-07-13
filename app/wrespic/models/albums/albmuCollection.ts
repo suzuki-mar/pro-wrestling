@@ -1,5 +1,5 @@
 import { IAlbum, IAlbumCollection, TSource } from 'app/wrespic';
-import { IWrestlerName } from 'app/core/wreslter';
+import { TWrestlerName } from 'app/core/wreslter';
 import { AlbumFactory } from './albumFactory';
 
 export class AlbumCollection implements IAlbumCollection {
@@ -17,13 +17,19 @@ export class AlbumCollection implements IAlbumCollection {
     this._currentDisplayAlbum = this._albums[0]!;
   }
 
+  albumNames(): string[] {
+    return this._albums.map((album) => {
+      return album.wrestlerName.full;
+    });
+  }
+
   async prepareDownload(): Promise<void> {}
 
   albums(): IAlbum[] {
     return this._albums;
   }
 
-  changeCurrentDisplayAlbum(name: IWrestlerName): void {
+  changeCurrentDisplayAlbum(name: TWrestlerName): void {
     const album = this.findByWrestlerName(name);
     this._currentDisplayAlbum = album!;
   }
@@ -32,7 +38,7 @@ export class AlbumCollection implements IAlbumCollection {
     return this._currentDisplayAlbum!;
   }
 
-  findByWrestlerName(name: IWrestlerName): IAlbum | undefined {
+  findByWrestlerName(name: TWrestlerName): IAlbum | undefined {
     const album = this._albums.find((album) => {
       return name.equal(album.wrestlerName);
     });

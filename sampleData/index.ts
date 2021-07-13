@@ -1,20 +1,20 @@
 import { IAlbum, IAlbumCollection, TPicture, TSource } from 'app/wrespic';
-import { IWrestlerName, IWrestler } from 'app/core/wreslter';
+import { TWrestlerName, IWrestler } from 'app/core/wreslter';
 import { TPictureTweet, TTweet } from 'integrations/twitter/interface';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { Album } from 'app/wrespic/domain/albmus/album';
+import { Album } from 'app/wrespic/models/albums/album';
 import { PictureURLStr } from './pictureURLStr';
 import faker from 'faker';
-import { AlbumCollection } from 'app/wrespic/domain/albmus/albmuCollection';
+import { AlbumCollection } from 'app/wrespic/models/albums/albmuCollection';
 
 export class SampleData {
-  static wrestlerNames(): IWrestlerName[] {
+  static wrestlerNames(): TWrestlerName[] {
     return WrestlerData.names();
   }
 
-  static wrestlerName(): IWrestlerName {
+  static wrestlerName(): TWrestlerName {
     return WrestlerData.wrestlerName();
   }
 
@@ -26,7 +26,7 @@ export class SampleData {
     return WrestlerData.wrestlers()[0]!;
   }
 
-  static meiName(): IWrestlerName {
+  static meiName(): TWrestlerName {
     return new WrestlerName('星月芽依');
   }
 
@@ -65,11 +65,13 @@ export class SampleData {
     wreslterNames.forEach((name) => {
       const urlStrs = PictureURLStr.findByWreslterName(name)!;
       urlStrs.forEach((urlStr) => {
-        sources.push({
+        const source: TSource = {
           urlStr: urlStr,
           name: name,
           date: this.matchDay(),
-        });
+        };
+
+        sources = [...sources, source];
       });
     });
 

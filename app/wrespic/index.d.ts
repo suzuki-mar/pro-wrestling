@@ -1,18 +1,22 @@
-import { IWrestler, IWrestlerName, IPromoter } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName, IPromoter, WrestlerParam } from 'app/core/wreslter';
 import { TPictureTweet } from 'integrations/twitter/interface';
 
 export interface IFavoriteWrestlers {
   build(): Promise<void>;
   wrestlers(): IWrestler[];
-  names(): IWrestlerName[];
+  names(): TWrestlerName[];
   sortById(): void;
+  rebuild(params: WrestlerParam[]): void;
 }
 
 export interface ISelectedWrestlers {
+  filterFromSelected(): TSource[];
   searchFromTwitter(): Promise<void>;
-  pictureUrls(): TSource[];
-  names(): IWrestlerName[];
-  selectWreslerName(name: IWrestlerName): IWrestlerName[];
+  sources(): TSource[];
+  names(): TWrestlerName[];
+  selectWreslerName(name: TWrestlerName): TWrestlerName[];
+  deselectWreslerName(name: TWrestlerName): TWrestlerName[];
+  rebuild(names: TWrestlerName[], sources: TSource[]): void;
 }
 
 export interface IAlbumCollection {
@@ -20,31 +24,32 @@ export interface IAlbumCollection {
   albums(): IAlbum[];
   currentDisplayAlbum(): IAlbum;
   prepareDownload(): Promise<void>;
-  changeCurrentDisplayAlbum(name: IWrestlerName): void;
+  changeCurrentDisplayAlbum(name: TWrestlerName): void;
+  albumNames(): string[];
 }
 
 export interface IAlbum {
-  readonly wrestlerName: IWrestlerName;
+  readonly wrestlerName: TWrestlerName;
   pictures(): TPicture[];
   count(): number;
 }
 
 export type TSource = {
-  readonly name: IWrestlerName;
+  readonly name: TWrestlerName;
   readonly urlStr: string;
   readonly date: Date;
 };
 
 export type TPicture = {
   readonly urlStr: string;
-  readonly wrestlerNames: IWrestlerName[];
+  readonly wrestlerNames: TWrestlerName[];
   readonly date: Date;
   readonly fileName?: string;
 };
 
 export interface ITweetRepository {
   fetchPictureTweetByWrestlerNames(
-    names: IWrestlerName[],
+    names: TWrestlerName[],
     poromoters: IPromoter[]
   ): Promise<TPictureTweet[]>;
 }

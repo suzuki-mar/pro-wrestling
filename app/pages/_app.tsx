@@ -15,6 +15,7 @@ import 'app/core/styles/index.css';
 import 'react-awesome-button/dist/styles.css';
 import 'react-awesome-button/dist/themes/theme-amber.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import 'react-tabs/style/react-tabs.css';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';

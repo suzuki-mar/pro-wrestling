@@ -1,16 +1,11 @@
 import { IFavoriteWrestlers } from 'app/wrespic';
-import { IWrestler, IWrestlerName } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName, WrestlerParam } from 'app/core/wreslter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 import * as _ from 'loadsh';
+import { Wrestler } from 'app/core/wreslter/wrestler';
 
 export class FavoriteWrestlers implements IFavoriteWrestlers {
   protected _wrestlers: IWrestler[] = [];
-
-  static build(wrestlers: IWrestler[]): IFavoriteWrestlers {
-    const fw = new this();
-    fw._wrestlers = wrestlers;
-    return fw;
-  }
 
   async build(): Promise<void> {
     const repository = RepositoryFactory.factoryWrestlerRepository();
@@ -25,9 +20,13 @@ export class FavoriteWrestlers implements IFavoriteWrestlers {
     this._wrestlers = _.sortBy(this._wrestlers!, ['id']);
   }
 
-  names(): IWrestlerName[] {
+  names(): TWrestlerName[] {
     return this._wrestlers.map((wrestler) => {
       return wrestler.name;
     });
+  }
+
+  rebuild(params: WrestlerParam[]) {
+    this._wrestlers = params.map((param) => new Wrestler(param.name, param.id));
   }
 }

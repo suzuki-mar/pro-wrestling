@@ -1,6 +1,6 @@
 import { SampleData } from 'sampleData';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { FavoriteWrestlers } from 'app/wrespic/domain/favoriteWrestlers';
+import { FavoriteWrestlers } from 'app/wrespic/models/favoriteWrestlers';
 import { WreslerNames, isExistsWreslerNames } from 'app/wrespic/validation';
 import faker from 'faker';
 
@@ -25,8 +25,7 @@ describe('isExistsWreslerNames', () => {
 
   it('存在するNameだけではない場合はfalseが返る', async () => {
     let names = SampleData.wrestlerNames();
-    names.push(new WrestlerName(faker.name.firstName()));
-
+    names = [...names, new WrestlerName(faker.name.firstName())];
     const favorites = new FavoriteWrestlers();
     await favorites.build();
     expect(isExistsWreslerNames(names, favorites)).toEqual(false);

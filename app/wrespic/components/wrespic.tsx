@@ -1,27 +1,30 @@
-import { useBuildDomainModels } from 'app/wrespic/states/hooks/useBuildDomainModels';
+import { useFactoryDomainModels } from 'app/wrespic/hooks/useFactoryDomainModels';
 import { Header } from 'app/wrespic/components/Header';
-import { AlbumCollectionSection } from 'app/wrespic/components/AlbumCollectionSection';
-import { ContextWrapper } from './Context';
-import { FavoriteWrestlersList } from 'app/wrespic/components/FavoriteWreslersList';
+import { AlbumCollectionSection } from 'app/wrespic/components/album/AlbumCollectionSection';
+import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteWreslersList';
 import { SearchButton } from 'app/wrespic/components/SearchButton';
+import { useAppStatusReducer } from '../hooks/useAppStatusReducer';
 
-export function Wrespic() {
-  const [favoriteWrestlers, selectedWrestlers, albumCollection] = useBuildDomainModels();
+export const Wrespic: React.VFC = () => {
+  const [favoriteWrestlers, selectedWrestlers, albumCollection] = useFactoryDomainModels();
+  // const [appStatus, setAppStatus] = useFactoryAppStatus(selectedWrestlers, albumCollection);
+  const [appState, dispatch] = useAppStatusReducer(
+    selectedWrestlers,
+    albumCollection,
+    favoriteWrestlers
+  );
 
   return (
-    <ContextWrapper selectedWrestlers={selectedWrestlers} albumCollection={albumCollection}>
+    <>
       <Header />
 
       <div>
         <div className="w-auto grid justify-items-center ...">
-          <FavoriteWrestlersList
-            favoriteWrestlers={favoriteWrestlers}
-            selectedWrestlers={selectedWrestlers}
-          />
-          <SearchButton selectedWrestlers={selectedWrestlers} albumCollection={albumCollection} />
+          <FavoriteWrestlersList appState={appState} dispatch={dispatch} />
+          <SearchButton appState={appState} dispatch={dispatch} />
         </div>
-        <AlbumCollectionSection albumCollection={albumCollection} />
+        <AlbumCollectionSection appState={appState} />
       </div>
-    </ContextWrapper>
+    </>
   );
-}
+};

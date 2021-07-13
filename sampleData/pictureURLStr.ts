@@ -1,4 +1,4 @@
-import { IWrestlerName } from 'app/core/wreslter';
+import { TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import * as _ from 'loadsh';
 
@@ -17,7 +17,7 @@ export class PictureURLStr {
     return _.shuffle(urlStrs)[0]!;
   }
 
-  static findByWreslterName(name: IWrestlerName): string[] | undefined {
+  static findByWreslterName(name: TWrestlerName): string[] | undefined {
     const list = [
       { name: new WrestlerName('Maria'), urls: this.maria() },
       { name: new WrestlerName('星月芽依'), urls: this.mei() },

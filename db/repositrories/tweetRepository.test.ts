@@ -4,7 +4,7 @@ import { SampleData } from 'sampleData';
 import * as _ from 'lodash';
 import { RepositoryFactory } from './repositoryFactory';
 import { TweetRepository } from './tweetRepository';
-import { IWrestlerName } from 'app/core/wreslter';
+import { TWrestlerName } from 'app/core/wreslter';
 import { ClientFactory } from 'integrations/clientFactory';
 
 describe('TweetRepository', () => {
@@ -40,7 +40,7 @@ describe('TweetRepository', () => {
         const tweets = await repository.fetchPictureTweetByWrestlerNames(names, promoters);
         let success = false;
 
-        names.forEach((n: IWrestlerName) => {
+        names.forEach((n: TWrestlerName) => {
           _.each(tweets[0]!.hashtags, (hashtag) => {
             if (n.full === hashtag) {
               success = true;

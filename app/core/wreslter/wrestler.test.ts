@@ -6,9 +6,6 @@ describe('Wrestler', () => {
     it('作成できていること', async () => {
       const names = SampleData.wrestlerNames();
       const wrestlers = await Wrestler.creates(names);
-
-      console.log(SampleData.wrestlers());
-
       expect(wrestlers[0]).toBeInstanceOf(Wrestler);
     });
   });

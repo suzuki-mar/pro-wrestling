@@ -7,12 +7,12 @@ import {
   TwitterQueryOperator,
 } from 'integrations/twitter/interface';
 import { Factory } from 'integrations/twitter/factory';
-import { IPromoter, IWrestlerName } from 'app/core/wreslter';
+import { IPromoter, TWrestlerName } from 'app/core/wreslter';
 import * as _ from 'lodash';
 
 export class TweetRepository implements ITweetRepository {
   async fetchPictureTweetByWrestlerNames(
-    names: IWrestlerName[],
+    names: TWrestlerName[],
     promoters: IPromoter[]
   ): Promise<TPictureTweet[]> {
     const params = TweetRepository.SearchParamsCreator.createParams(names, promoters);
@@ -28,7 +28,7 @@ export class TweetRepository implements ITweetRepository {
   }
 
   public static SearchParamsCreator = class {
-    static createParams(names: IWrestlerName[], promoters: IPromoter[]) {
+    static createParams(names: TWrestlerName[], promoters: IPromoter[]) {
       const params = Factory.createParams();
       params.setCountMax();
       params.addFilter(TwitterFiliter.IMAGES);
