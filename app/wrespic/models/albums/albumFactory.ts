@@ -2,13 +2,13 @@ import { TPicture, TSource, IAlbum } from 'app/wrespic';
 import * as _ from 'loadsh';
 import { Picture } from './picture';
 import { Album } from './album';
-import { IWrestlerName } from 'app/core/wreslter';
+import { TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 
 export class AlbumFactory {
   private pictures: { [key: string]: TPicture } = {};
 
-  constructor(private readonly pictureURLs: TSource[]) {}
+  constructor(private readonly sources: TSource[]) {}
 
   create(): IAlbum[] {
     this.setPictureCollection();
@@ -19,7 +19,7 @@ export class AlbumFactory {
 
     names.forEach((name) => {
       groupedPictures[name.full] = _.filter(this.pictures, (picture: TPicture, urlStr: string) => {
-        return _.some(picture.wrestlerNames, (n: IWrestlerName) => {
+        return _.some(picture.wrestlerNames, (n: TWrestlerName) => {
           return name.equal(n);
         });
       });
@@ -36,21 +36,21 @@ export class AlbumFactory {
   private setPictureCollection() {
     this.pictures = {};
 
-    this.pictureURLs.forEach((pu) => {
-      this.addPicture(Picture.buildFromSource(pu));
+    this.sources.forEach((source) => {
+      this.addPicture(Picture.buildFromSource(source));
     });
 
     _.each(this.pictures, (picture: Picture, urlStr: string) => {
-      let names = this.pictureURLs.map((pictureURL) => {
-        if (!picture.isSameURL(pictureURL)) {
+      let names = this.sources.map((source) => {
+        if (!picture.isSameURL(source)) {
           return undefined;
         }
 
-        return pictureURL.name;
+        return source.name;
       });
       names = _.compact(names);
 
-      this.addPicture(Picture.rebuildWtihWrestlerNames(picture, names as IWrestlerName[]));
+      this.addPicture(Picture.rebuildWtihWrestlerNames(picture, names as TWrestlerName[]));
     });
   }
 
@@ -72,7 +72,7 @@ export class AlbumFactory {
     });
   }
 
-  private pluckWrestlerNames(): IWrestlerName[] {
+  private pluckWrestlerNames(): TWrestlerName[] {
     let names: WrestlerName[] = [];
     names = _.map(this.pictures, (picture: TPicture, urlStr: string) => {
       return _.flatten(picture.wrestlerNames);

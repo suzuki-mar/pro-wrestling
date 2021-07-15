@@ -1,5 +1,5 @@
 import { TPicture, TSource } from 'app/wrespic';
-import { IWrestlerName } from 'app/core/wreslter';
+import { TWrestlerName } from 'app/core/wreslter';
 import { format } from 'date-fns';
 
 export class Picture implements TPicture {
@@ -7,12 +7,12 @@ export class Picture implements TPicture {
     return new this(source.urlStr, source.date, []);
   }
 
-  static rebuildWtihWrestlerNames(picture: Picture, wrestlerNames: IWrestlerName[]) {
-    const fileNames: string[] = [];
+  static rebuildWtihWrestlerNames(picture: Picture, wrestlerNames: TWrestlerName[]) {
+    let fileNames: string[] = [];
     wrestlerNames.forEach((name) => {
-      fileNames.push(name.full);
+      fileNames = [...fileNames, name.full];
     });
-    fileNames.push(format(picture.date, 'yyyy_MM_dd_HH_mm'));
+    fileNames = [...fileNames, format(picture.date, 'yyyy_MM_dd_HH_mm')];
 
     const fileName = fileNames.join('_');
     return new this(picture.urlStr, picture.date, wrestlerNames, fileName);
@@ -32,7 +32,7 @@ export class Picture implements TPicture {
   private constructor(
     readonly urlStr: string,
     readonly date: Date,
-    readonly wrestlerNames: IWrestlerName[],
+    readonly wrestlerNames: TWrestlerName[],
     readonly fileName?: string
   ) {}
 }

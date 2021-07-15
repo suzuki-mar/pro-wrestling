@@ -1,33 +1,42 @@
-import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { TSource } from 'app/wrespic';
-import { IWrestlerName, IWrestler } from 'app/core/wreslter';
+import { TWrestlerName, IWrestler } from 'app/core/wreslter';
 import { SampleData } from '../sampleData';
 import faker from 'faker';
 
 export class WrestlerData {
-  static names(): IWrestlerName[] {
-    const nameStrs = ['彩羽匠', '桃野美桜', '門倉凛', '神童ミコト', 'Maria', '星月芽依', '宝山愛'];
+  static names(): TWrestlerName[] {
+    const nameParams = [
+      { name: '彩羽匠' },
+      { name: '桃野美桜' },
+      { name: '門倉凛' },
+      { name: '神童ミコト' },
+      { name: 'Maria' },
+      { name: '星月芽依' },
+      { name: '宝山愛' },
+    ];
 
-    const names: WrestlerName[] = _.map(nameStrs, (str: string) => {
+    const names: WrestlerName[] = nameParams.map((params) => {
       // タイプを定義しやすくするために一時変数に代入している
-      const name = new WrestlerName(str);
+      const name = new WrestlerName(params.name);
       return name;
     });
 
-    return _.shuffle(names);
+    return names;
   }
 
   // nameはビルトインメソッドと名前が衝突してしまうため使用していない
-  static wrestlerName(): IWrestlerName {
+  static wrestlerName(): TWrestlerName {
     return this.names()[0]!;
   }
 
   static wrestlers(): IWrestler[] {
-    return _.map(this.names(), (name: WrestlerName) => {
-      return new Wrestler(name);
+    let wrestlers = this.names().map((name: WrestlerName, index: number) => {
+      return new Wrestler(name, index);
     });
+
+    return wrestlers;
   }
 
   static pictureURL(): TSource {

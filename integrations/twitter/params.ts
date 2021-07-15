@@ -23,17 +23,17 @@ export class TwitterParams implements ITwitterParams {
       return '';
     }
 
-    const strs: string[] = [];
+    let strs: string[] = [];
     if (this.toHashtagString() !== '') {
-      strs.push(this.toHashtagString());
+      strs = [...strs, this.toHashtagString()];
     }
 
     if (this._filter !== TwitterFiliter.UNFILTERED) {
-      strs.push(`filter:${this._filter}`);
+      strs = [...strs, `filter:${this._filter}`];
     }
 
     if (!this.isIncludeRT) {
-      strs.push('-filter:retweets');
+      strs = [...strs, '-filter:retweets'];
     }
 
     return strs.join(' ');
@@ -53,7 +53,7 @@ export class TwitterParams implements ITwitterParams {
   }
 
   addHashTag(hashtag: ITwitterHashtag): ITwitterParams {
-    this.hashtags.push(hashtag);
+    this.hashtags = [...this.hashtags, hashtag];
     return this;
   }
 

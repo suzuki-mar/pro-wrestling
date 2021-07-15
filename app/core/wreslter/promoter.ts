@@ -1,14 +1,14 @@
-import { IPromoter, TPromoterName, IWrestlerName } from 'app/core/wreslter';
+import { IPromoter, TPromoterName, TWrestlerName } from 'app/core/wreslter';
 import { SampleData } from 'sampleData';
 
 export class Promoter implements IPromoter {
   constructor(
     readonly name: TPromoterName,
     readonly hashtag: string,
-    readonly memberNames: IWrestlerName[]
+    readonly memberNames: TWrestlerName[]
   ) {}
 
-  isBelongTo(wreslerName: IWrestlerName): boolean {
+  isBelongTo(wreslerName: TWrestlerName): boolean {
     const memberName = this.memberNames.find((name) => {
       return name.equal(wreslerName);
     });

@@ -1,0 +1,42 @@
+import { IAlbum } from 'app/wrespic';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { AppState } from '../../hooks/useAppStatusReducer';
+import { AlbumItem } from './AlbumItem';
+
+type Props = {
+  appState: AppState;
+};
+
+export const AlbumCollectionSection: React.VFC<Props> = ({ appState }) => {
+  if (!appState.isLoadingComplete) {
+    return <div></div>;
+  }
+
+  return (
+    <Tabs>
+      {renderTabList(appState.albumCollection.albums())}
+      {renderTabPanels(appState.albumCollection.albums())}
+    </Tabs>
+  );
+};
+
+function renderTabList(albums: IAlbum[]) {
+  const tabNames = albums.map((album) => {
+    const str = album.wrestlerName.full;
+    return <Tab>{str}</Tab>;
+  });
+
+  return <TabList>{tabNames}</TabList>;
+}
+
+function renderTabPanels(albums: IAlbum[]) {
+  const tabPanels = albums.map((album) => {
+    return (
+      <TabPanel>
+        <AlbumItem album={album}></AlbumItem>
+      </TabPanel>
+    );
+  });
+
+  return tabPanels;
+}

@@ -1,20 +1,30 @@
-import { WrestlerSelection } from 'app/wrespic/components/wrestler/WrestlerSelection';
+import { useFactoryDomainModels } from 'app/wrespic/hooks/useFactoryDomainModels';
 import { Header } from 'app/wrespic/components/Header';
-import { useLoadFavoriteWrestlers } from 'app/wrespic/states/hooks';
-import { AlbumGroup } from 'app/wrespic/components/AlbumGroup';
-import { ContextWrapper } from './Context';
+import { AlbumCollectionSection } from 'app/wrespic/components/album/AlbumCollectionSection';
+import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteWreslersList';
+import { SearchButton } from 'app/wrespic/components/SearchButton';
+import { useAppStatusReducer } from '../hooks/useAppStatusReducer';
 
-export function Wrespic() {
-  const favoriteWrestlers = useLoadFavoriteWrestlers();
+export const Wrespic: React.VFC = () => {
+  const [favoriteWrestlers, selectedWrestlers, albumCollection] = useFactoryDomainModels();
+  // const [appStatus, setAppStatus] = useFactoryAppStatus(selectedWrestlers, albumCollection);
+  const [appState, dispatch] = useAppStatusReducer(
+    selectedWrestlers,
+    albumCollection,
+    favoriteWrestlers
+  );
 
   return (
-    <ContextWrapper>
-      <div>
-        <Header />
+    <>
+      <Header />
 
-        <WrestlerSelection favoriteWrestlers={favoriteWrestlers} />
-        <AlbumGroup />
+      <div>
+        <div className="w-auto grid justify-items-center ...">
+          <FavoriteWrestlersList appState={appState} dispatch={dispatch} />
+          <SearchButton appState={appState} dispatch={dispatch} />
+        </div>
+        <AlbumCollectionSection appState={appState} />
       </div>
-    </ContextWrapper>
+    </>
   );
-}
+};
