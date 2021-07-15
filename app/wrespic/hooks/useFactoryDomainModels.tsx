@@ -14,8 +14,9 @@ export function useFactoryDomainModels(): [
   const [favoriteWrestlers, selectedWrestlers, albumCollection] = DomainModelFactory.createModels();
 
   const [_wrelsersParamsList] = useQuery(fetchFavoriteWrestlerParams, null);
+
   const wrelsersParamsList: WrestlerParam[] = _wrelsersParamsList.map((params) => {
-    return { name: ValueObjectConvert.toWreslerName(params), id: params.id };
+    return { name: ValueObjectConvert.toWreslerName(params.name), id: params.id };
   });
 
   favoriteWrestlers.rebuild(wrelsersParamsList);

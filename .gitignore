@@ -19,6 +19,8 @@ web_modules/
 .blitz-console-history
 blitz-log.log
 
+
+
 # misc
 .DS_Store
 
@@ -54,3 +56,5 @@ lib-cov
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+
+secret.md

@@ -1,6 +1,6 @@
 import { Head, BlitzPage } from 'blitz';
 import Layout from 'app/core/layouts/Layout';
-import { Wrespic } from 'app/wrespic/components/Wrespic';
+import { Contents } from 'app/wrespic/components/Contents';
 
 const WrespicsPage: BlitzPage = () => {
   return (
@@ -9,7 +9,7 @@ const WrespicsPage: BlitzPage = () => {
         <title>Wrespic</title>
       </Head>
 
-      <Wrespic />
+      <Contents />
     </div>
   );
 };
