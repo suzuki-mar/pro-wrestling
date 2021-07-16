@@ -5,7 +5,7 @@ import { FavoriteWrestlersList } from 'app/wrespic/components/wrestler/FavoriteW
 import { SearchButton } from 'app/wrespic/components/SearchButton';
 import { useAppStatusReducer } from '../hooks/useAppStatusReducer';
 
-export const Wrespic: React.VFC = () => {
+export const Contents: React.VFC = () => {
   const [favoriteWrestlers, selectedWrestlers, albumCollection] = useFactoryDomainModels();
   // const [appStatus, setAppStatus] = useFactoryAppStatus(selectedWrestlers, albumCollection);
   const [appState, dispatch] = useAppStatusReducer(

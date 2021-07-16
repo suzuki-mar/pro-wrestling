@@ -18,11 +18,11 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-tabs/style/react-tabs.css';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import React from 'react';
 
 //You can customize this as you want and even move it out to a separate file
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: 'light',
   },

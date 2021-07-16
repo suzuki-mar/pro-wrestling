@@ -45,7 +45,7 @@ function renderRow(props: ListChildComponentProps) {
 
   return (
     <WrestlerNameItem
-      nameJson={data['names'][index]}
+      name={data['names'][index]}
       style={style}
       appState={data['appState'] as AppState}
       dispatch={data['dispatch'] as Dispatch<Action>}
