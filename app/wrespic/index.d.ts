@@ -14,8 +14,9 @@ export interface ISelectedWrestlers {
   searchFromTwitter(): Promise<void>;
   sources(): TSource[];
   names(): TWrestlerName[];
-  selectWreslerName(name: TWrestlerName): TWrestlerName[];
-  deselectWreslerName(name: TWrestlerName): TWrestlerName[];
+  isSelected(name: TWrestlerName): boolean;
+  select(name: TWrestlerName): TWrestlerName[];
+  deselect(name: TWrestlerName): TWrestlerName[];
   rebuild(names: TWrestlerName[], sources: TSource[]): void;
 }
 

@@ -1,6 +1,7 @@
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import { SelectedWrestlers } from 'app/wrespic/models/selectedWrestlers';
 import { SampleData } from 'sampleData';
+import { ISelectedWrestlers } from '..';
 
 describe.skip('search ＆ pictureUrls', () => {
   it('レスラー名と写真の組み合わせを取得すること', async () => {
@@ -8,7 +9,7 @@ describe.skip('search ＆ pictureUrls', () => {
 
     const selectedWrestlers = new SelectedWrestlers();
     wreslers.forEach((wresler) => {
-      selectedWrestlers.selectWreslerName(wresler.name as WrestlerName);
+      selectedWrestlers.select(wresler.name as WrestlerName);
     });
 
     await selectedWrestlers.searchFromTwitter();
@@ -17,6 +18,26 @@ describe.skip('search ＆ pictureUrls', () => {
 
     // FIX テストを充実させたい
     expect(sources.length).toEqual(3);
+  });
+});
+
+describe('isSelected', () => {
+  let selectedWrestlers: ISelectedWrestlers;
+
+  beforeEach(() => {
+    selectedWrestlers = new SelectedWrestlers();
+  });
+
+  it('選択されている場合はtrueを返す', () => {
+    const name = SampleData.meiName();
+    selectedWrestlers.select(name);
+
+    expect(selectedWrestlers.isSelected(name)).toBeTruthy();
+  });
+
+  it('選択されている場合はfalseを返す', () => {
+    const name = SampleData.meiName();
+    expect(selectedWrestlers.isSelected(name)).toBeFalsy();
   });
 });
 
@@ -39,7 +60,7 @@ describe('selectWresler', () => {
     const selectedWrestlers = new SelectedWrestlers();
 
     const wreslerName = SampleData.wrestlerName();
-    const result = selectedWrestlers.selectWreslerName(wreslerName);
+    const result = selectedWrestlers.select(wreslerName);
 
     expect(result[0]!).toEqual(wreslerName);
     expect(result).toEqual(selectedWrestlers.names());
@@ -49,8 +70,8 @@ describe('selectWresler', () => {
     const selectedWrestlers = new SelectedWrestlers();
 
     const name = SampleData.wrestlerName();
-    selectedWrestlers.selectWreslerName(name);
-    const result = selectedWrestlers.selectWreslerName(name);
+    selectedWrestlers.select(name);
+    const result = selectedWrestlers.select(name);
 
     expect(result.length).toEqual(1);
   });
@@ -61,11 +82,11 @@ describe('deselectWresler', () => {
   const targetName = SampleData.meiName();
 
   beforeEach(async () => {
-    selectedWrestlers.selectWreslerName(targetName);
+    selectedWrestlers.select(targetName);
   });
 
   it('指定したレスラーの選択を削除すること', () => {
-    selectedWrestlers.deselectWreslerName(targetName);
+    selectedWrestlers.deselect(targetName);
     expect(selectedWrestlers.names()).toEqual([]);
   });
 });
@@ -76,7 +97,7 @@ describe('filterFromSelected', () => {
   beforeEach(async () => {
     const wreslers = SampleData.wrestlers();
     wreslers.forEach((wresler) => {
-      selectedWrestlers.selectWreslerName(wresler.name as WrestlerName);
+      selectedWrestlers.select(wresler.name as WrestlerName);
     });
 
     await selectedWrestlers.searchFromTwitter();
@@ -88,7 +109,7 @@ describe('filterFromSelected', () => {
     const wreslers = SampleData.wrestlers();
     wreslers.forEach((wresler) => {
       if (!wresler.name.equal(SampleData.meiName())) {
-        selectedWrestlers.deselectWreslerName(wresler.name as WrestlerName);
+        selectedWrestlers.deselect(wresler.name as WrestlerName);
       }
     });
 
