@@ -12,7 +12,7 @@ export class ValueObjectConvert {
     return {
       urlStr: params['urlStr'],
       name: this.toWreslerName(params['name']),
-      date: new Date(params['date']),
+      date: new Date(params['dateStr']),
     };
   }
 }

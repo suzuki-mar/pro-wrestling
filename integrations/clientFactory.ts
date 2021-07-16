@@ -11,7 +11,7 @@ import faker from 'faker';
 import { SampleData } from 'sampleData';
 
 export class ClientFactory {
-  private static _isConnectingToExternalAPI = false;
+  private static _isConnectingToExternalAPI = process.env.NODE_ENV === 'test' ? false : true;
 
   static connectingToExternalAPI(): void {
     this._isConnectingToExternalAPI = true;
@@ -21,8 +21,19 @@ export class ClientFactory {
     this._isConnectingToExternalAPI = false;
   }
 
+  static isConnectingToExternalAPI(): boolean {
+    return this._isConnectingToExternalAPI;
+  }
+
+  static setUpDefaultConnecting() {
+    return false;
+  }
+
   static factoryTwitterClient(): ITwitter {
-    return this._isConnectingToExternalAPI ? new TwitterClient() : new this.MockTwitterClient();
+    const result = this._isConnectingToExternalAPI
+      ? new TwitterClient()
+      : new this.MockTwitterClient();
+    return result;
   }
 
   public static MockTwitterClient = class {
