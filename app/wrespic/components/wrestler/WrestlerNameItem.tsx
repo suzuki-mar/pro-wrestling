@@ -18,10 +18,12 @@ export const WrestlerNameItem: React.VFC<Props> = (props) => {
     setIsClicked(!isClicked);
   };
 
+  const isSelected = props.appState.selectedWrestlers.isSelected(props.name);
+
   return (
     <ListItem data-testid="custom-element" style={props.style} key={props.name.full}>
       <ListItemText id={props.name.full} primary={props.name.full} />
-      <Checkbox edge="end" onChange={onChange} checked={isClicked} />
+      <Checkbox edge="end" onChange={onChange} checked={isSelected} />
     </ListItem>
   );
 };

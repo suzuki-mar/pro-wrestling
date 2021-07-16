@@ -15,10 +15,6 @@ export type Action =
       payload: { name: TWrestlerName };
     }
   | {
-      type: 'deslecteWrestler';
-      payload: { name: TWrestlerName };
-    }
-  | {
       type: 'searchPicture';
     };
 
@@ -30,10 +26,14 @@ export const appStatusReducer: Reducer<AppState, Action> = (state, action) => {
       state.albumCollection.changeCurrentDisplayAlbum(state.selectedWrestlers.names()[0]!);
       return { ...state, isLoadingComplete: true, albumCollection: state.albumCollection };
     case 'selecteWrestler':
-      state.selectedWrestlers.selectWreslerName(action.payload.name);
-      return { ...state, selectedWrestlers: state.selectedWrestlers };
-    case 'deslecteWrestler':
-      state.selectedWrestlers.deselectWreslerName(action.payload.name);
+      const name = action.payload.name;
+
+      if (state.selectedWrestlers.isSelected(name)) {
+        state.selectedWrestlers.deselect(action.payload.name);
+      } else {
+        state.selectedWrestlers.select(action.payload.name);
+      }
+
       return { ...state, selectedWrestlers: state.selectedWrestlers };
     default:
       throw new Error('未知のTYPE');

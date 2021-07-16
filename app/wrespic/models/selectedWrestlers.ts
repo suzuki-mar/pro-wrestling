@@ -8,12 +8,8 @@ export class SelectedWrestlers implements ISelectedWrestlers {
   private _sources: TSource[] = [];
   private _names: TWrestlerName[] = [];
 
-  selectWreslerName(name: WrestlerName): TWrestlerName[] {
-    const sameNames = this._names.find((n) => {
-      return n.equal(name);
-    });
-
-    if (sameNames !== undefined) {
+  select(name: WrestlerName): TWrestlerName[] {
+    if (this.isSelected(name)) {
       console.warn('同じレスラーを追加しようとした');
       return this._names;
     }
@@ -23,10 +19,18 @@ export class SelectedWrestlers implements ISelectedWrestlers {
     return this._names;
   }
 
-  deselectWreslerName(target: WrestlerName): TWrestlerName[] {
+  deselect(target: WrestlerName): TWrestlerName[] {
     return _.remove(this._names, (name: WrestlerName) => {
       return target.equal(name);
     });
+  }
+
+  isSelected(name: WrestlerName): boolean {
+    const sameName = this._names.find((n) => {
+      return n.equal(name);
+    });
+
+    return sameName !== undefined;
   }
 
   async searchFromTwitter(): Promise<void> {
@@ -58,7 +62,7 @@ export class SelectedWrestlers implements ISelectedWrestlers {
   rebuild(wreslerNames: TWrestlerName[], sources: TSource[]) {
     this._names = [];
 
-    wreslerNames.forEach((name: TWrestlerName) => this.selectWreslerName(name));
+    wreslerNames.forEach((name: TWrestlerName) => this.select(name));
     this._sources = sources;
   }
 }
