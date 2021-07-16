@@ -2,6 +2,12 @@ import { ClientFactory } from 'integrations/clientFactory';
 import { Client as TwitterClient } from 'integrations/twitter/client';
 
 describe('ClientFactory', () => {
+  describe('isConnectingToExternalAPI', () => {
+    it('Test環境はfalseが返ること', () => {
+      expect(ClientFactory.isConnectingToExternalAPI()).toBeFalsy();
+    });
+  });
+
   beforeEach(() => {
     ClientFactory.resetStatus();
   });

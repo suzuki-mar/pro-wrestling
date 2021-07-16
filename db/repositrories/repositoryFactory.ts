@@ -30,7 +30,8 @@ export class RepositoryFactory {
   }
 
   static factoryTweetRepository(): ITweetRepository {
-    return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
+    // 一時対策として
+    return process.env.NODE_ENV !== 'test' ? new TweetRepository() : new this.MockTweetRepository();
   }
 
   static factoryPromoterRepository(): IPromoterRepository {

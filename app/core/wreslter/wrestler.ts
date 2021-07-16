@@ -1,4 +1,4 @@
-import { IWrestler, TWrestlerName, TPromoterName } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName, TPromoterName, WrestlerParam } from 'app/core/wreslter';
 import { Promoter } from 'app/core/wreslter/promoter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 import { WrestlerName } from './wrestlerName';
@@ -9,6 +9,10 @@ export class Wrestler implements IWrestler {
   constructor(readonly name: TWrestlerName, readonly id: number) {
     //FIX MVP時はMarvelousしか対応させない
     this.currentBelongsPromoterName = Promoter.buildMarvelous().name;
+  }
+
+  static build(param: WrestlerParam): IWrestler {
+    return new this(param.name, param.id);
   }
 
   equal(wrestler: IWrestler): boolean {

@@ -23,7 +23,7 @@ export const AlbumCollectionSection: React.VFC<Props> = ({ appState }) => {
 function renderTabList(albums: IAlbum[]) {
   const tabNames = albums.map((album) => {
     const str = album.wrestlerName.full;
-    return <Tab>{str}</Tab>;
+    return <Tab key={album.wrestlerName}>{str}</Tab>;
   });
 
   return <TabList>{tabNames}</TabList>;
@@ -32,7 +32,7 @@ function renderTabList(albums: IAlbum[]) {
 function renderTabPanels(albums: IAlbum[]) {
   const tabPanels = albums.map((album) => {
     return (
-      <TabPanel>
+      <TabPanel key={album.wrestlerName}>
         <AlbumItem album={album}></AlbumItem>
       </TabPanel>
     );

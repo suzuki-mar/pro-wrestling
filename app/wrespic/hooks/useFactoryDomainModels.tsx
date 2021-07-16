@@ -4,7 +4,6 @@ import { useQuery } from 'blitz';
 import { ISelectedWrestlers, IAlbumCollection, IFavoriteWrestlers } from '..';
 import { ValueObjectConvert } from 'app/wrespic/hooks/valueObjectConvert';
 import { DomainModelFactory } from '../domainModelFactory';
-import { WrestlerParam } from 'app/core/wreslter';
 
 export function useFactoryDomainModels(): [
   IFavoriteWrestlers,
@@ -15,14 +14,14 @@ export function useFactoryDomainModels(): [
 
   const [_wrelsersParamsList] = useQuery(fetchFavoriteWrestlerParams, null);
 
-  const wrelsersParamsList: WrestlerParam[] = _wrelsersParamsList.map((params) => {
+  const wrelsersParamsList = _wrelsersParamsList.map((params) => {
     return { name: ValueObjectConvert.toWreslerName(params.name), id: params.id };
   });
 
   favoriteWrestlers.rebuild(wrelsersParamsList);
   favoriteWrestlers.sortById();
 
-  const [sourcesParamList] = useQuery(fetchSources, selectedWrestlers);
+  const [sourcesParamList] = useQuery(fetchSources, wrelsersParamsList);
   const sources = sourcesParamList.map((params) => ValueObjectConvert.toSource(params));
   selectedWrestlers.rebuild([], sources);
   albumCollection.buildFromSources(sources);
