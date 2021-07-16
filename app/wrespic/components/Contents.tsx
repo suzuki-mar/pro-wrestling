@@ -18,7 +18,7 @@ export const Contents: React.VFC = () => {
     <>
       <Header />
 
-      <div>
+      <div className="mt-5 ...">
         <div className="w-auto grid justify-items-center ...">
           <FavoriteWrestlersList appState={appState} dispatch={dispatch} />
           <SearchButton appState={appState} dispatch={dispatch} />
