@@ -7,7 +7,7 @@ export default async function fetchWrestlerParams(
   { session }: Ctx
 ): Promise<WrestlerParam[]> {
   const collection = new WrestlerCollection();
-  await collection.build();
+  await collection.load();
 
   return collection.wrestlers().map((wrestler) => {
     return { name: wrestler.name, id: wrestler.id };

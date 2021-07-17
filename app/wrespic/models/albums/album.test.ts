@@ -27,7 +27,7 @@ describe('Album', () => {
   });
 
   beforeEach(async () => {
-    await wrestlerCollection.build();
+    await wrestlerCollection.load();
   });
 
   describe('build', () => {

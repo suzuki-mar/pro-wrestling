@@ -19,7 +19,7 @@ describe('isExistsWreslerNames', () => {
   it('存在するNameだけの場合はtrueが返る', async () => {
     const names = SampleData.wrestlerNames();
     const collection = new WrestlerCollection();
-    await collection.build();
+    await collection.load();
     expect(isExistsWreslerNames(names, collection)).toEqual(true);
   });
 
@@ -27,7 +27,7 @@ describe('isExistsWreslerNames', () => {
     let names = SampleData.wrestlerNames();
     names = [...names, new WrestlerName(faker.name.firstName())];
     const collection = new WrestlerCollection();
-    await collection.build();
+    await collection.load();
     expect(isExistsWreslerNames(names, collection)).toEqual(false);
   });
 });

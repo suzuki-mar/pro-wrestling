@@ -1,12 +1,13 @@
 import { useReducer, Reducer, Dispatch } from 'react';
 import { TWrestlerName, IWrestlerCollection } from 'app/core/wreslter';
-import { ISelectedWrestlers, IAlbumCollection, TSource } from '..';
+import { ISelectedWrestlers, IAlbumCollection, TSource, ISourceCollection } from '..';
 
 export type AppState = {
   isLoadingComplete: boolean;
   selectedWrestlers: ISelectedWrestlers;
   albumCollection: IAlbumCollection;
   wrestlerCollection: IWrestlerCollection;
+  sourceCollection: ISourceCollection;
 };
 
 export type Action =
@@ -21,7 +22,9 @@ export type Action =
 export const appStatusReducer: Reducer<AppState, Action> = (state, action) => {
   switch (action.type) {
     case 'searchPicture':
-      const sources: TSource[] = state.selectedWrestlers.filterFromSelected();
+      const sources: TSource[] = state.sourceCollection.filterFromSelected(
+        state.selectedWrestlers.names()
+      );
       state.albumCollection.buildFromSources(sources);
       state.albumCollection.changeCurrentDisplayAlbum(state.selectedWrestlers.names()[0]!);
       return { ...state, isLoadingComplete: true, albumCollection: state.albumCollection };
@@ -43,13 +46,15 @@ export const appStatusReducer: Reducer<AppState, Action> = (state, action) => {
 export function useAppStatusReducer(
   selectedWrestlers: ISelectedWrestlers,
   albumCollection: IAlbumCollection,
-  wrestlerCollection: IWrestlerCollection
+  wrestlerCollection: IWrestlerCollection,
+  sourceCollection: ISourceCollection
 ): [AppState, Dispatch<Action>] {
   const initialState: AppState = {
     isLoadingComplete: false,
     selectedWrestlers: selectedWrestlers,
     albumCollection: albumCollection,
     wrestlerCollection: wrestlerCollection,
+    sourceCollection: sourceCollection,
   };
 
   const [state, dispatch] = useReducer(appStatusReducer, initialState);

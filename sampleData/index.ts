@@ -30,6 +30,10 @@ export class SampleData {
     return new WrestlerName('星月芽依');
   }
 
+  static mioName(): TWrestlerName {
+    return new WrestlerName('桃野美桜');
+  }
+
   static wrestlerPictureURL(): TSource {
     return WrestlerData.pictureURL();
   }

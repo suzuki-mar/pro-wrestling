@@ -6,12 +6,13 @@ import { SearchButton } from 'app/wrespic/components/SearchButton';
 import { useAppStatusReducer } from '../hooks/useAppStatusReducer';
 
 export const Contents: React.VFC = () => {
-  const [wrestlerCollection, selectedWrestlers, albumCollection] = useFactoryDomainModels();
-  // const [appStatus, setAppStatus] = useFactoryAppStatus(selectedWrestlers, albumCollection);
+  const [wrestlerCollection, selectedWrestlers, albumCollection, sourceCollection] =
+    useFactoryDomainModels();
   const [appState, dispatch] = useAppStatusReducer(
     selectedWrestlers,
     albumCollection,
-    wrestlerCollection
+    wrestlerCollection,
+    sourceCollection
   );
 
   return (

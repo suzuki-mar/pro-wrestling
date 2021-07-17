@@ -2,7 +2,7 @@ import { Ctx } from 'blitz';
 import { TSource } from 'app/wrespic';
 import { IWrestler, TWrestlerName, WrestlerParam } from 'app/core/wreslter';
 import { Wrestler } from 'app/core/wreslter/wrestler';
-import { SourceSearcher } from 'app/wrespic/models/sourceSearcher';
+import { SourceCollection } from 'app/wrespic/models/sourceCollection';
 import { ValueObjectConvert } from '../valueObjectConvert';
 
 export default async function fetchSources(
@@ -17,6 +17,7 @@ export default async function fetchSources(
 
   const wrestlers: IWrestler[] = wrestlerParamsList.map((params) => Wrestler.build(params));
   const names: TWrestlerName[] = wrestlers.map((w) => w.name);
-  const searcher = new SourceSearcher();
-  return await searcher.searchFromTwitter(names);
+  const sourceCollection = new SourceCollection();
+  await sourceCollection.load(names);
+  return sourceCollection.sources();
 }

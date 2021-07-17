@@ -9,11 +9,11 @@ export class WrestlerData {
   static names(): TWrestlerName[] {
     const nameParams = [
       { name: '彩羽匠' },
-      { name: '桃野美桜' },
+      { name: SampleData.mioName().full },
       { name: '門倉凛' },
       { name: '神童ミコト' },
       { name: 'Maria' },
-      { name: '星月芽依' },
+      { name: SampleData.meiName().full },
       { name: '宝山愛' },
     ];
 
