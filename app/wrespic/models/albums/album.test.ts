@@ -1,4 +1,4 @@
-import { FavoriteWrestlers } from 'app/wrespic/models/favoriteWrestlers';
+import { WrestlerCollection } from 'app/core/wreslter/wrestlerCollection';
 import { AlbumCollection } from 'app/wrespic/models/albums/albmuCollection';
 import { TSource } from 'app/wrespic';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
@@ -7,7 +7,7 @@ import { SampleData } from 'sampleData';
 
 describe('Album', () => {
   const collection = new AlbumCollection();
-  const favoriteWrestlers = new FavoriteWrestlers();
+  const wrestlerCollection = new WrestlerCollection();
 
   let urls: TSource[];
   const nameMio = new WrestlerName('桃野美桜');
@@ -27,7 +27,7 @@ describe('Album', () => {
   });
 
   beforeEach(async () => {
-    await favoriteWrestlers.build();
+    await wrestlerCollection.build();
   });
 
   describe('build', () => {

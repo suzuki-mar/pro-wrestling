@@ -1,13 +1,5 @@
-import { IWrestler, TWrestlerName, IPromoter, WrestlerParam } from 'app/core/wreslter';
+import { TWrestlerName, IPromoter } from 'app/core/wreslter';
 import { TPictureTweet } from 'integrations/twitter/interface';
-
-export interface IFavoriteWrestlers {
-  build(): Promise<void>;
-  wrestlers(): IWrestler[];
-  names(): TWrestlerName[];
-  sortById(): void;
-  rebuild(params: WrestlerParam[]): void;
-}
 
 export interface ISelectedWrestlers {
   filterFromSelected(): TSource[];

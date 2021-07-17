@@ -1,12 +1,12 @@
 import { useReducer, Reducer, Dispatch } from 'react';
-import { TWrestlerName } from 'app/core/wreslter';
-import { ISelectedWrestlers, IAlbumCollection, IFavoriteWrestlers, TSource } from '..';
+import { TWrestlerName, IWrestlerCollection } from 'app/core/wreslter';
+import { ISelectedWrestlers, IAlbumCollection, TSource } from '..';
 
 export type AppState = {
   isLoadingComplete: boolean;
   selectedWrestlers: ISelectedWrestlers;
   albumCollection: IAlbumCollection;
-  favoriteWrestlers: IFavoriteWrestlers;
+  wrestlerCollection: IWrestlerCollection;
 };
 
 export type Action =
@@ -43,13 +43,13 @@ export const appStatusReducer: Reducer<AppState, Action> = (state, action) => {
 export function useAppStatusReducer(
   selectedWrestlers: ISelectedWrestlers,
   albumCollection: IAlbumCollection,
-  favoriteWrestlers: IFavoriteWrestlers
+  wrestlerCollection: IWrestlerCollection
 ): [AppState, Dispatch<Action>] {
   const initialState: AppState = {
     isLoadingComplete: false,
     selectedWrestlers: selectedWrestlers,
     albumCollection: albumCollection,
-    favoriteWrestlers: favoriteWrestlers,
+    wrestlerCollection: wrestlerCollection,
   };
 
   const [state, dispatch] = useReducer(appStatusReducer, initialState);

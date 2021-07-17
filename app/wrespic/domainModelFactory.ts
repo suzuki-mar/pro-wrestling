@@ -1,10 +1,12 @@
-import { IAlbumCollection, IFavoriteWrestlers, ISelectedWrestlers } from '.';
+import { IAlbumCollection, ISelectedWrestlers } from '.';
+
 import { AlbumCollection } from './models/albums/albmuCollection';
-import { FavoriteWrestlers } from './models/favoriteWrestlers';
+import { IWrestlerCollection } from 'app/core/wreslter/';
+import { WrestlerCollection } from 'app/core/wreslter/wrestlerCollection';
 import { SelectedWrestlers } from './models/selectedWrestlers';
 
 export class DomainModelFactory {
-  static createModels(): [IFavoriteWrestlers, ISelectedWrestlers, IAlbumCollection] {
-    return [new FavoriteWrestlers(), new SelectedWrestlers(), new AlbumCollection()];
+  static createModels(): [IWrestlerCollection, ISelectedWrestlers, IAlbumCollection] {
+    return [new WrestlerCollection(), new SelectedWrestlers(), new AlbumCollection()];
   }
 }

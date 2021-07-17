@@ -8,18 +8,18 @@ type Props = {
   dispatch: Dispatch<Action>;
 };
 
-export const FavoriteWrestlersList: React.VFC<Props> = ({ appState, dispatch }) => {
-  if (appState.favoriteWrestlers.wrestlers() === undefined) {
+export const WrestlersList: React.VFC<Props> = ({ appState, dispatch }) => {
+  if (appState.wrestlerCollection.wrestlers() === undefined) {
     return <div data-testid="custom-element"></div>;
   }
 
-  const names = appState.favoriteWrestlers.wrestlers().map((wrestler) => {
+  const names = appState.wrestlerCollection.wrestlers().map((wrestler) => {
     return wrestler.name;
   });
 
   const itemHeight = 30;
 
-  const listHeight = (appState.favoriteWrestlers.wrestlers().length + 1) * itemHeight + 10;
+  const listHeight = (appState.wrestlerCollection.wrestlers().length + 1) * itemHeight + 10;
 
   return (
     <div data-testid="custom-element">

@@ -1,10 +1,10 @@
 import { WrestlerParam } from 'app/core/wreslter';
-import { FavoriteWrestlers } from 'app/wrespic/models/favoriteWrestlers';
+import { WrestlerCollection } from './wrestlerCollection';
 import { SampleData } from 'sampleData';
 
 describe('build ＆ wrestlers', () => {
   it('好きなレスラー一覧を取得すること', async () => {
-    const favorteWrestlers = new FavoriteWrestlers();
+    const favorteWrestlers = new WrestlerCollection();
     await favorteWrestlers.build();
 
     const wrestlers = favorteWrestlers.wrestlers();
@@ -16,7 +16,7 @@ describe('build ＆ wrestlers', () => {
 describe('rebuild', () => {
   it('好きなレスラー一覧を取得すること', () => {
     const wrestler = SampleData.wrestler();
-    const favorteWrestlers = new FavoriteWrestlers();
+    const favorteWrestlers = new WrestlerCollection();
     const param: WrestlerParam = { name: wrestler.name, id: wrestler.id };
     favorteWrestlers.rebuild([param]);
 
