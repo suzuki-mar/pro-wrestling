@@ -1,10 +1,9 @@
-import { IFavoriteWrestlers } from 'app/wrespic';
-import { IWrestler, TWrestlerName, WrestlerParam } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName, WrestlerParam, IWrestlerCollection } from 'app/core/wreslter';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 import * as _ from 'loadsh';
 import { Wrestler } from 'app/core/wreslter/wrestler';
 
-export class FavoriteWrestlers implements IFavoriteWrestlers {
+export class WrestlerCollection implements IWrestlerCollection {
   protected _wrestlers: IWrestler[] = [];
 
   async build(): Promise<void> {

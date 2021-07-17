@@ -33,3 +33,11 @@ export type WrestlerParam = {
   name: TWrestlerName;
   id: number;
 };
+
+export interface IWrestlerCollection {
+  build(): Promise<void>;
+  wrestlers(): IWrestler[];
+  names(): TWrestlerName[];
+  sortById(): void;
+  rebuild(params: WrestlerParam[]): void;
+}
