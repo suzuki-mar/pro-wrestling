@@ -1,6 +1,6 @@
 import { TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { TSource } from '..';
+import { TImageURL, TSource } from '..';
 
 // DomainModelないでは、そのままのJSONを使用させないためにこのクラスを定義している
 export class ValueObjectConvert {
@@ -9,8 +9,10 @@ export class ValueObjectConvert {
   }
 
   static toSource(params: {}): TSource {
+    const imageURL: TImageURL = { original: params['imageURL']['original'] };
+
     return {
-      urlStr: params['urlStr'],
+      imageURL: imageURL,
       name: this.toWreslerName(params['name']),
       date: new Date(params['dateStr']),
     };

@@ -1,13 +1,11 @@
-import { IAlbum, IAlbumCollection, TPicture, TSource } from 'app/wrespic';
+import { IAlbum, IAlbumCollection, TImageURL, TPicture, TSource } from 'app/wrespic';
 import { TWrestlerName, IWrestler } from 'app/core/wreslter';
 import { TPictureTweet, TTweet } from 'integrations/twitter/interface';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { Album } from 'app/wrespic/models/albums/album';
 import { PictureURLStr } from './pictureURLStr';
-import faker from 'faker';
-import { AlbumCollection } from 'app/wrespic/models/albums/albmuCollection';
+import { AlbumData } from './albumData';
 
 export class SampleData {
   static wrestlerNames(): TWrestlerName[] {
@@ -39,63 +37,35 @@ export class SampleData {
   }
 
   static picture(): TPicture {
-    const wrestlerPictureURL = this.wrestlerPictureURL();
-    return {
-      urlStr: wrestlerPictureURL.urlStr,
-      wrestlerNames: [wrestlerPictureURL.name],
-      date: wrestlerPictureURL.date,
-      fileName: undefined,
-    };
+    return AlbumData.picture();
   }
 
   static picturesOfMei(): TPicture[] {
-    const urls = PictureURLStr.mei();
-
-    const name = this.meiName();
-
-    return urls.map((url) => {
-      return {
-        urlStr: url,
-        wrestlerNames: [name],
-        date: this.matchDay(),
-      };
-    });
+    return AlbumData.picturesOfMei();
   }
 
   static sources(): TSource[] {
-    const wreslterNames = this.wrestlerNames();
+    return AlbumData.sources();
+  }
 
-    let sources: TSource[] = [];
-    wreslterNames.forEach((name) => {
-      const urlStrs = PictureURLStr.findByWreslterName(name)!;
-      urlStrs.forEach((urlStr) => {
-        const source: TSource = {
-          urlStr: urlStr,
-          name: name,
-          date: this.matchDay(),
-        };
-
-        sources = [...sources, source];
-      });
-    });
-
-    return sources;
+  static source(name: TWrestlerName): TSource {
+    return AlbumData.source(name);
   }
 
   static album(): IAlbum {
-    const pictures = this.picturesOfMei();
-    const wreslterName = this.meiName();
-    return new Album(pictures, wreslterName);
+    return AlbumData.album();
   }
 
   static albumCollection(): IAlbumCollection {
-    const collection = new AlbumCollection();
-    collection.buildFromSources(this.sources());
-    return collection;
+    return AlbumData.albumCollection();
   }
 
   static imageURLStr(): string {
     return PictureURLStr.profile();
+  }
+
+  static imageURL(urlStr: string): TImageURL {
+    return { original: urlStr };
   }
 
   static url(): URL {
@@ -108,9 +78,5 @@ export class SampleData {
 
   static pictureTweets(): TPictureTweet[] {
     return TweetData.pictures();
-  }
-
-  private static matchDay(): Date {
-    return faker.date.recent(10);
   }
 }

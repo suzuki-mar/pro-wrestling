@@ -1,4 +1,4 @@
-import { TSource, ISourceCollection } from 'app/wrespic';
+import { TSource, ISourceCollection, TImageURL } from 'app/wrespic';
 import { TWrestlerName } from 'app/core/wreslter';
 import { TPictureTweet } from 'integrations/twitter/interface';
 import * as _ from 'loadsh';
@@ -9,7 +9,7 @@ export class SourceCollection implements ISourceCollection {
 
   async load(names: TWrestlerName[]): Promise<void> {
     const pictureTweets = await this.searchPictureTweets(names);
-    this._sources = this.createAllWrestlerSources(names, pictureTweets);
+    this._sources = this.loadWrestlerSources(names, pictureTweets);
   }
 
   rebuild(sources: TSource[]) {
@@ -29,10 +29,7 @@ export class SourceCollection implements ISourceCollection {
     return sources;
   }
 
-  private createAllWrestlerSources(
-    names: TWrestlerName[],
-    pictureTweets: TPictureTweet[]
-  ): TSource[] {
+  private loadWrestlerSources(names: TWrestlerName[], pictureTweets: TPictureTweet[]): TSource[] {
     const groupedWrestlerSources = pictureTweets.map((pictureTweet) => {
       const wrestlerSources = pictureTweet.hashtags.map((hashtag) => {
         return this.createSources(names, pictureTweet, hashtag);
@@ -58,9 +55,13 @@ export class SourceCollection implements ISourceCollection {
   private createSources(names: TWrestlerName[], tweet: TPictureTweet, hashtag: string): TSource[] {
     const sources = names.map((name) => {
       if (name.full === hashtag) {
+        const imageURL: TImageURL = {
+          original: tweet.pictureURL,
+        };
+
         return {
           name: name,
-          urlStr: tweet.pictureURL,
+          imageURL: imageURL,
           dateStr: tweet.tweeted_at,
         };
       } else {

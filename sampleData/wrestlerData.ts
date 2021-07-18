@@ -42,7 +42,7 @@ export class WrestlerData {
   static pictureURL(): TSource {
     const pictureURL: TSource = {
       name: this.wrestlerName(),
-      urlStr: SampleData.url().href,
+      imageURL: SampleData.imageURL(faker.image.imageUrl()),
       date: faker.datatype.datetime(),
     };
     return pictureURL;

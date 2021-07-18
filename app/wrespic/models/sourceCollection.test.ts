@@ -9,9 +9,17 @@ describe('load', () => {
 
     const sources = collection.sources();
 
-    console.log(collection);
-    // FIX テストを充実させたい
     expect(sources.length).toEqual(2);
+  });
+
+  it('取得したデータの型があっていること', async () => {
+    const collection = new SourceCollection();
+
+    await collection.load([SampleData.meiName(), SampleData.mioName()]);
+
+    const source = collection.sources()[0]!;
+
+    expect(source.imageURL).not.toBeUndefined();
   });
 });
 

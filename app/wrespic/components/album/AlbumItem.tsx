@@ -11,7 +11,7 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
   items = album.pictures().map((picture) => {
     return (
       <div key={picture.fileName}>
-        <img className={'text-left'} src={picture.urlStr} alt={picture.fileName} />
+        <img className={'text-left'} src={picture.originalImageURL()} alt={picture.fileName} />
         <p className="legend">{album.pictures()[0]!.fileName}</p>
       </div>
     );
