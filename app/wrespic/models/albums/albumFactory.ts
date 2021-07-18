@@ -18,7 +18,7 @@ export class AlbumBuilder {
     const groupedPictures: { [key: string]: TPicture } = {};
 
     names.forEach((name) => {
-      groupedPictures[name.full] = _.filter(this.pictures, (picture: TPicture, urlStr: string) => {
+      groupedPictures[name.full] = _.filter(this.pictures, (picture: TPicture) => {
         return picture.isRelated(name);
       });
     });
@@ -38,27 +38,30 @@ export class AlbumBuilder {
       this.addPicture(Picture.buildFromSource(source));
     });
 
-    _.each(this.pictures, (picture: Picture, urlStr: string) => {
-      let names = this.sources.map((source) => {
-        if (!picture.isSameURL(source)) {
+    _.each(this.pictures, (picture: Picture) => {
+      let _names = this.sources.map((source) => {
+        if (!picture.isSameURL(source.imageURL)) {
           return undefined;
         }
 
         return source.name;
       });
-      names = _.compact(names);
 
-      this.addPicture(Picture.rebuildWtihWrestlerNames(picture, names as TWrestlerName[]));
+      const names: TWrestlerName[] = _.compact(_names);
+
+      this.addPicture(Picture.rebuildWtihWrestlerNames(picture, names));
     });
   }
 
   private changeUniqueFileName() {
-    _.forEach(this.pictures, (picture: Picture, urlStr: string) => {
+    _.forEach(this.pictures, (picture: Picture) => {
       let alreadySupported = false;
 
-      return _.forEach(this.pictures, (p: Picture, urlStr: string) => {
+      return _.forEach(this.pictures, (p: Picture) => {
         const conditions_for_changing_name =
-          picture.fileName === p.fileName && !picture.isSameURL(p) && !alreadySupported;
+          picture.fileName === p.fileName &&
+          !picture.isSameURL(p.source.imageURL) &&
+          !alreadySupported;
 
         if (!conditions_for_changing_name) {
           return;
@@ -72,7 +75,7 @@ export class AlbumBuilder {
 
   private pluckWrestlerNames(): TWrestlerName[] {
     let names: WrestlerName[] = [];
-    names = _.map(this.pictures, (picture: TPicture, urlStr: string) => {
+    names = _.map(this.pictures, (picture: TPicture) => {
       return _.flatten(picture.wrestlerNames);
     });
     names = _.flatten(names);

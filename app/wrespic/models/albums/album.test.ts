@@ -64,7 +64,7 @@ describe('Album', () => {
     });
   });
 
-  describe('changeCurrentDisplayAlbum', () => {
+  describe.skip('changeCurrentDisplayAlbum', () => {
     beforeEach(() => {
       collection.buildFromSources(SampleData.sources());
     });
