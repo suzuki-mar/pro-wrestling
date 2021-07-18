@@ -42,9 +42,8 @@ export type TImageURL = {
 };
 
 export type TPicture = {
-  readonly imageURL: TImageURL;
+  readonly source: TSource;
   readonly wrestlerNames: TWrestlerName[];
-  readonly date: Date;
   readonly fileName?: string;
   originalImageURL(): string;
   isRelated(name: TWrestlerName): boolean;
