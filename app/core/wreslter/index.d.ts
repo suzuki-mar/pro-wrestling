@@ -35,7 +35,7 @@ export type WrestlerParam = {
 };
 
 export interface IWrestlerCollection {
-  build(): Promise<void>;
+  load(): Promise<void>;
   wrestlers(): IWrestler[];
   names(): TWrestlerName[];
   sortById(): void;

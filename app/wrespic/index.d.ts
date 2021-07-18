@@ -2,14 +2,18 @@ import { TWrestlerName, IPromoter } from 'app/core/wreslter';
 import { TPictureTweet } from 'integrations/twitter/interface';
 
 export interface ISelectedWrestlers {
-  filterFromSelected(): TSource[];
-  searchFromTwitter(): Promise<void>;
-  sources(): TSource[];
   names(): TWrestlerName[];
   isSelected(name: TWrestlerName): boolean;
   select(name: TWrestlerName): TWrestlerName[];
   deselect(name: TWrestlerName): TWrestlerName[];
-  rebuild(names: TWrestlerName[], sources: TSource[]): void;
+  rebuild(names: TWrestlerName[]): void;
+}
+
+export interface ISourceCollection {
+  rebuild(sources: TSource[]): void;
+  filterFromSelected(targetNames: TWrestlerName[]): TSource[];
+  load(names: TWrestlerName[]): Promise<void>;
+  sources(): TSource[];
 }
 
 export interface IAlbumCollection {

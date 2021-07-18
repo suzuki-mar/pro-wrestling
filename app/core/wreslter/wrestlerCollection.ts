@@ -6,7 +6,7 @@ import { Wrestler } from 'app/core/wreslter/wrestler';
 export class WrestlerCollection implements IWrestlerCollection {
   protected _wrestlers: IWrestler[] = [];
 
-  async build(): Promise<void> {
+  async load(): Promise<void> {
     const repository = RepositoryFactory.factoryWrestlerRepository();
     this._wrestlers = await repository.fetchAll();
   }

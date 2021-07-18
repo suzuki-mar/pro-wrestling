@@ -5,7 +5,7 @@ import { SampleData } from 'sampleData';
 describe('build ＆ wrestlers', () => {
   it('好きなレスラー一覧を取得すること', async () => {
     const favorteWrestlers = new WrestlerCollection();
-    await favorteWrestlers.build();
+    await favorteWrestlers.load();
 
     const wrestlers = favorteWrestlers.wrestlers();
 
