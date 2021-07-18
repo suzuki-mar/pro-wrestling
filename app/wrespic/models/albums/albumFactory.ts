@@ -5,7 +5,7 @@ import { Album } from './album';
 import { TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 
-export class AlbumFactory {
+export class AlbumBuilder {
   private pictures: { [key: string]: TPicture } = {};
 
   constructor(private readonly sources: TSource[]) {}
@@ -19,14 +19,12 @@ export class AlbumFactory {
 
     names.forEach((name) => {
       groupedPictures[name.full] = _.filter(this.pictures, (picture: TPicture, urlStr: string) => {
-        return _.some(picture.wrestlerNames, (n: TWrestlerName) => {
-          return name.equal(n);
-        });
+        return picture.isRelated(name);
       });
     });
 
-    const albums: IAlbum[] = _.map(groupedPictures, (ps, ns) => {
-      const name = new WrestlerName(ns);
+    const albums: IAlbum[] = _.map(groupedPictures, (ps, wn) => {
+      const name = new WrestlerName(wn);
       return new Album(ps, name);
     });
 
@@ -67,7 +65,7 @@ export class AlbumFactory {
         }
         alreadySupported = true;
 
-        this.pictures[picture.urlStr] = Picture.rebuildWtihUniqueFileName(picture);
+        this.pictures[picture.originalImageURL()] = Picture.rebuildWtihUniqueFileName(picture);
       });
     });
   }
@@ -82,6 +80,6 @@ export class AlbumFactory {
   }
 
   private addPicture(picture: TPicture) {
-    this.pictures[picture.urlStr] = picture;
+    this.pictures[picture.originalImageURL()] = picture;
   }
 }

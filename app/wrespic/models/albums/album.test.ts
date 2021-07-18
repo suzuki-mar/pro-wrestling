@@ -1,6 +1,6 @@
 import { WrestlerCollection } from 'app/core/wreslter/wrestlerCollection';
 import { AlbumCollection } from 'app/wrespic/models/albums/albmuCollection';
-import { TSource } from 'app/wrespic';
+import { TImageURL, TSource } from 'app/wrespic';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
 import faker from 'faker';
 import { SampleData } from 'sampleData';
@@ -13,21 +13,31 @@ describe('Album', () => {
   const nameMio = new WrestlerName('桃野美桜');
   const nameMei = SampleData.meiName();
 
-  beforeEach(() => {
-    const image = createImageURLStr(1);
+  beforeEach(async () => {
+    await wrestlerCollection.load();
+
+    const image = createImageURL(1);
 
     const date = new Date('2020/01/01 10:11:00');
     urls = [
-      { name: nameMio, urlStr: image, date: date },
-      { name: nameMei, urlStr: image, date: date },
-      { name: nameMio, urlStr: createImageURLStr(2), date: new Date('2020/01/01 10:11:00') },
-      { name: nameMio, urlStr: createImageURLStr(3), date: new Date('2020/01/01 10:11:00') },
-      { name: nameMio, urlStr: createImageURLStr(4), date: new Date('2020/01/01 10:11:00') },
+      { name: SampleData.mioName(), imageURL: image, date: date },
+      { name: SampleData.meiName(), imageURL: image, date: date },
+      {
+        name: SampleData.mioName(),
+        imageURL: createImageURL(2),
+        date: new Date('2020/01/01 10:11:00'),
+      },
+      {
+        name: SampleData.mioName(),
+        imageURL: createImageURL(3),
+        date: new Date('2020/01/01 10:11:00'),
+      },
+      {
+        name: SampleData.mioName(),
+        imageURL: createImageURL(4),
+        date: new Date('2020/01/01 10:11:00'),
+      },
     ];
-  });
-
-  beforeEach(async () => {
-    await wrestlerCollection.load();
   });
 
   describe('build', () => {
@@ -69,7 +79,7 @@ describe('Album', () => {
     });
   });
 
-  describe.skip('prepareDownload APIの実装が必要なため未実装', () => {
+  describe('prepareDownload APIの実装が必要なため未実装', () => {
     it('ダウンロードするファイルを作成していること', async () => {});
   });
 
@@ -88,8 +98,10 @@ describe('Album', () => {
   });
 });
 
-function createImageURLStr(key: number): string {
-  return faker.image.imageUrl(faker.datatype.number(10000)) + `_${key.toString()}`;
+function createImageURL(key: number): TImageURL {
+  return {
+    original: faker.image.imageUrl(faker.datatype.number(10000)) + `_${key.toString()}`,
+  };
 }
 
 export {};

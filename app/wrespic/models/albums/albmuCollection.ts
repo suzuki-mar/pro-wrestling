@@ -1,6 +1,6 @@
 import { IAlbum, IAlbumCollection, TSource } from 'app/wrespic';
 import { TWrestlerName } from 'app/core/wreslter';
-import { AlbumFactory } from './albumFactory';
+import { AlbumBuilder } from './albumFactory';
 
 export class AlbumCollection implements IAlbumCollection {
   private _albums: IAlbum[];
@@ -12,12 +12,13 @@ export class AlbumCollection implements IAlbumCollection {
   }
 
   buildFromSources(sources: TSource[]): void {
-    const factory = new AlbumFactory(sources);
-    this._albums = factory.create();
+    const builder = new AlbumBuilder(sources);
+    this._albums = builder.create();
     this._currentDisplayAlbum = this._albums[0]!;
   }
 
   albumNames(): string[] {
+    // console.log(this._albums)
     return this._albums.map((album) => {
       return album.wrestlerName.full;
     });

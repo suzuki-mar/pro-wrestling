@@ -14,7 +14,7 @@ export const PictureList: React.VFC<Props> = ({ pictures }) => {
       <ImageList rowHeight={160} className={classes.imageList} cols={2}>
         {pictures.map((picture) => (
           <ImageListItem key={picture.fileName} cols={1}>
-            <img src={picture.urlStr} alt={picture.fileName} />
+            <img src={picture.originalImageURL()} alt={picture.fileName} />
           </ImageListItem>
         ))}
       </ImageList>

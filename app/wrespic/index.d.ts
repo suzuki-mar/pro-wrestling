@@ -33,15 +33,21 @@ export interface IAlbum {
 
 export type TSource = {
   readonly name: TWrestlerName;
-  readonly urlStr: string;
+  readonly imageURL: TImageURL;
   readonly date: Date;
 };
 
+export type TImageURL = {
+  readonly original: string;
+};
+
 export type TPicture = {
-  readonly urlStr: string;
+  readonly imageURL: TImageURL;
   readonly wrestlerNames: TWrestlerName[];
   readonly date: Date;
   readonly fileName?: string;
+  originalImageURL(): string;
+  isRelated(name: TWrestlerName): boolean;
 };
 
 export interface ITweetRepository {
