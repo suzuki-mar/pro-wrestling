@@ -1,5 +1,5 @@
 import { TWrestlerName, IPromoter } from 'app/core/wreslter';
-import { TPictureTweet } from 'integrations/twitter/interface';
+import { TPictureTweet } from 'integrations/twitter';
 
 export interface ISelectedWrestlers {
   names(): TWrestlerName[];

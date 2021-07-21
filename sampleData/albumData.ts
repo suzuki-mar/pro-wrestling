@@ -19,7 +19,6 @@ export class AlbumData {
 
     return urls.map((url) => {
       const source = this.source(SampleData.meiName());
-      console.log(source);
       return Picture.buildFromSource(source);
     });
   }

@@ -1,4 +1,4 @@
-import { TweetType, TPictureTweet } from './interface';
+import { TweetType, TPictureTweet } from '.';
 import faker from 'faker';
 import { TweetBuilder } from './tweetBuilder';
 import { SampleData } from 'sampleData';

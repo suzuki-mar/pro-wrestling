@@ -1,8 +1,4 @@
-import {
-  TwitterQueryOperator,
-  TwitterFiliter,
-  ITwitterHashtag,
-} from 'integrations/twitter/interface';
+import { TwitterQueryOperator, TwitterFiliter, ITwitterHashtag } from 'integrations/twitter';
 import { TwitterParams } from 'integrations/twitter/params';
 import { TwitterHashtag } from 'integrations/twitter/twitterHashtag';
 import * as _ from 'lodash';

@@ -1,4 +1,4 @@
-import { TwitterQueryOperator, ITwitterHashtag } from './interface';
+import { TwitterQueryOperator, ITwitterHashtag } from '.';
 
 // FIX Hashtagではなくクエリー
 export class TwitterHashtag implements ITwitterHashtag {

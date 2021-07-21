@@ -1,6 +1,6 @@
 import { IAlbum, IAlbumCollection, TImageURL, TPicture, TSource } from 'app/wrespic';
 import { TWrestlerName, IWrestler } from 'app/core/wreslter';
-import { TPictureTweet, TTweet } from 'integrations/twitter/interface';
+import { TPictureTweet, TTweet } from 'integrations/twitter';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';

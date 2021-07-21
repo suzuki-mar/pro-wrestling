@@ -18,7 +18,6 @@ export class AlbumCollection implements IAlbumCollection {
   }
 
   albumNames(): string[] {
-    // console.log(this._albums)
     return this._albums.map((album) => {
       return album.wrestlerName.full;
     });

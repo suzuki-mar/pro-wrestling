@@ -1,5 +1,5 @@
 import { ClientFactory } from 'integrations/clientFactory';
-import { ITwitter, ITwitterHashtag, ITwitterParams } from './interface';
+import { ITwitter, ITwitterHashtag, ITwitterParams } from '.';
 import { TwitterParams } from './params';
 import { TwitterHashtag } from './twitterHashtag';
 
