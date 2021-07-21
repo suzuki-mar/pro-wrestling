@@ -33,21 +33,19 @@ describe('学習テストのため必要になるまではSkip GooglePhotoのテ
       let data = new FormData();
       data.append('file', file, file.name);
 
-      const response = await axios.post(
-        'https://photoslibrary.googleapis.com/v1/uploads',
-        data._boundary,
-        {
-          headers: {
-            Authorization: `Bearer ` + process.env.GOOLGE_PHTO_ACCESS_TOKEN,
-            'Content-type': 'application/octet-stream',
-            'X-Goog-Upload-File-Name': 'hoge.jpg',
-            'X-Goog-Upload-Content-Type': 'image/png',
-            'X-Goog-Upload-Protocol': 'raw',
-          },
-        }
-      );
-
-      console.log(response);
+      // const response = await axios.post(
+      //   'https://photoslibrary.googleapis.com/v1/uploads',
+      //   data._boundary,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ` + process.env.GOOLGE_PHTO_ACCESS_TOKEN,
+      //       'Content-type': 'application/octet-stream',
+      //       'X-Goog-Upload-File-Name': 'hoge.jpg',
+      //       'X-Goog-Upload-Content-Type': 'image/png',
+      //       'X-Goog-Upload-Protocol': 'raw',
+      //     },
+      //   }
+      // );
     });
 
     it('アップロードした画像の情報を取得できること', async () => {});

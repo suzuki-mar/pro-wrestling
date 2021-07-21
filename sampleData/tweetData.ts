@@ -1,4 +1,4 @@
-import { TPictureTweet, TTextOnlyTweet, TTweet, TweetType } from 'integrations/twitter/interface';
+import { TPictureTweet, TTextOnlyTweet, TTweet, TweetType } from 'integrations/twitter';
 import faker from 'faker';
 import { SampleData } from '../sampleData';
 import { TWrestlerName } from 'app/core/wreslter';

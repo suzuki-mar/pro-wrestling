@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { TwitterQueryOperator, TwitterFiliter, ITwitterHashtag, ITwitterParams } from './interface';
+import { TwitterQueryOperator, TwitterFiliter, ITwitterHashtag, ITwitterParams } from '.';
 
 export class TwitterParams implements ITwitterParams {
   PAGES_PER_COUNT_MAX = 100;

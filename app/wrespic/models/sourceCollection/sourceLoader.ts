@@ -1,48 +1,49 @@
-import { TSource, ISourceCollection, TImageURL } from 'app/wrespic';
+import { TSource, TImageURL } from 'app/wrespic';
 import { TWrestlerName } from 'app/core/wreslter';
-import { TPictureTweet } from 'integrations/twitter/interface';
+import { TPictureTweet } from 'integrations/twitter';
 import * as _ from 'loadsh';
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
 
-export class SourceCollection implements ISourceCollection {
-  private _sources: TSource[] = [];
-
-  async load(names: TWrestlerName[]): Promise<void> {
+export class SourceLoader {
+  async load(names: TWrestlerName[]): Promise<TSource[]> {
     const pictureTweets = await this.searchPictureTweets(names);
-    this._sources = this.loadWrestlerSources(names, pictureTweets);
-  }
-
-  rebuild(sources: TSource[]) {
-    this._sources = sources;
-  }
-
-  filterFromSelected(targetNames: TWrestlerName[]): TSource[] {
-    let sources: TSource[] = [];
-
-    this._sources.forEach((source) => {
-      targetNames.forEach((name) => {
-        if (source.name.equal(name)) {
-          sources = [...sources, source];
-        }
-      });
-    });
-    return sources;
+    let sources = this.loadWrestlerSources(names, pictureTweets);
+    return this.sortedByWrestlerName(names, sources);
   }
 
   private loadWrestlerSources(names: TWrestlerName[], pictureTweets: TPictureTweet[]): TSource[] {
-    const groupedWrestlerSources = pictureTweets.map((pictureTweet) => {
-      const wrestlerSources = pictureTweet.hashtags.map((hashtag) => {
+    const groupedPictureTweetSources = pictureTweets.map((pictureTweet) => {
+      let sourcesList = pictureTweet.hashtags.map((hashtag) => {
         return this.createSources(names, pictureTweet, hashtag);
       });
+      sourcesList = sourcesList.filter((sources) => {
+        return sources.length > 0;
+      });
 
-      return wrestlerSources;
+      return sourcesList;
     });
 
-    return _.flattenDeep(groupedWrestlerSources);
+    return _.flattenDeep(groupedPictureTweetSources);
   }
 
-  sources(): TSource[] {
-    return this._sources;
+  private sortedByWrestlerName(names: TWrestlerName[], sources: TSource[]): TSource[] {
+    let groupedWreslterSources = {};
+
+    names.forEach((name) => {
+      groupedWreslterSources[name.full] = [];
+    });
+
+    sources.forEach((source) => {
+      groupedWreslterSources[source.name.full].push(source);
+    });
+
+    let sortedSource = [];
+
+    names.forEach((name) => {
+      sortedSource = sortedSource.concat(groupedWreslterSources[name.full]);
+    });
+
+    return sortedSource;
   }
 
   private async searchPictureTweets(names: TWrestlerName[]): Promise<TPictureTweet[]> {

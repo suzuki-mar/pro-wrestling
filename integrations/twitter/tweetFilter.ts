@@ -1,9 +1,4 @@
-import {
-  TTweetBase,
-  TweetType,
-  TPictureTweet,
-  TTextOnlyTweet,
-} from 'integrations/twitter/interface';
+import { TTweetBase, TweetType, TPictureTweet, TTextOnlyTweet } from 'integrations/twitter';
 import * as _ from 'lodash';
 
 export class TweetFilter {

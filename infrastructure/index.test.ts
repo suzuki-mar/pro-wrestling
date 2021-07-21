@@ -1,5 +1,5 @@
 import { SampleData } from 'sampleData';
-import { log, createFileFromURL } from 'infrastructure';
+import { log } from 'infrastructure';
 
 describe.skip('log', () => {
   it('文字列に対応したログを返すこと', () => {
@@ -15,14 +15,6 @@ describe.skip('log', () => {
 
   it('Hashに対応したログを返すこと', () => {
     log(SampleData.wrestlers[0]);
-  });
-});
-
-describe('createFileFromURL', () => {
-  it('Fileを返すこと', async () => {
-    const file = await createFileFromURL(SampleData.url().href);
-
-    expect(file).toBeInstanceOf(File);
   });
 });
 

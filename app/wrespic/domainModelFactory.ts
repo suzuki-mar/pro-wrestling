@@ -4,7 +4,7 @@ import { AlbumCollection } from './models/albums/albmuCollection';
 import { IWrestlerCollection } from 'app/core/wreslter/';
 import { WrestlerCollection } from 'app/core/wreslter/wrestlerCollection';
 import { SelectedWrestlers } from './models/selectedWrestlers';
-import { SourceCollection } from './models/sourceCollection';
+import { SourceCollection } from './models/sourceCollection/sourceCollection';
 
 export class DomainModelFactory {
   static createModels(): [

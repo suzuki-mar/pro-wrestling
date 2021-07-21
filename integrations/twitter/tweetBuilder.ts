@@ -1,4 +1,4 @@
-import { TTextOnlyTweet, TPictureTweet, TTweet, TweetType, TTweetBase } from './interface';
+import { TTextOnlyTweet, TPictureTweet, TTweet, TweetType, TTweetBase } from '.';
 import * as _ from 'lodash';
 
 export class TweetBuilder {

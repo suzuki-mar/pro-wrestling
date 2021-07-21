@@ -1,4 +1,4 @@
-import { TPictureTweet } from 'integrations/twitter/interface';
+import { TPictureTweet } from 'integrations/twitter';
 import {
   IWrestlerRepository,
   IWrestler,
@@ -13,7 +13,7 @@ import { PromoterRepository } from './promoterRepository';
 import { TweetRepository } from './tweetRepository';
 
 export class RepositoryFactory {
-  private static _isConnectingToRealDB = false;
+  private static _isConnectingToRealDB = process.env.NODE_ENV === 'test' ? false : true;
 
   static connectingToRealDB(): void {
     this._isConnectingToRealDB = true;
@@ -24,14 +24,12 @@ export class RepositoryFactory {
   }
 
   static factoryWrestlerRepository(): IWrestlerRepository {
-    return this._isConnectingToRealDB
-      ? new WrestlerRepository()
-      : new this.MockWrestlerRepository();
+    // 固定のデータを返すだけでいいので、一旦DBは使用していない
+    return new this.MockWrestlerRepository();
   }
 
   static factoryTweetRepository(): ITweetRepository {
-    // 一時対策として
-    return process.env.NODE_ENV !== 'test' ? new TweetRepository() : new this.MockTweetRepository();
+    return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
   }
 
   static factoryPromoterRepository(): IPromoterRepository {

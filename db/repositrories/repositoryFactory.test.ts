@@ -1,21 +1,19 @@
 import { RepositoryFactory } from 'db/repositrories/repositoryFactory';
-import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
+import { TweetRepository } from './tweetRepository';
 
 describe('RepositoryFactory', () => {
   beforeEach(() => {
     RepositoryFactory.resetStatus();
   });
 
-  describe('factoryWrestlerRepository', () => {
+  describe('connectingToRealDB', () => {
     it('DBに実際につながるリポジトリを作成する', () => {
       RepositoryFactory.connectingToRealDB();
-      expect(RepositoryFactory.factoryWrestlerRepository()).toBeInstanceOf(WrestlerRepository);
+      expect(RepositoryFactory.factoryTweetRepository()).toBeInstanceOf(TweetRepository);
     });
 
     it('ダミーのリポジトリを作成する', async () => {
-      expect(RepositoryFactory.factoryWrestlerRepository()).toBeInstanceOf(
-        RepositoryFactory.MockWrestlerRepository
-      );
+      expect(RepositoryFactory.factoryWrestlerRepository()).not.toBeInstanceOf(TweetRepository);
     });
   });
 });

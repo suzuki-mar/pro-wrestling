@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterFiliter } from './interface';
+import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterFiliter } from '.';
 import { TweetBuilder } from './tweetBuilder';
 
 // 'esModuleInterop'を設定しているがコンパイル時に正しく読み込まれていない
@@ -9,13 +9,21 @@ import Twitter, { RequestParams } from 'twitter';
 export class Client implements ITwitter {
   private params: ITwitterParams;
 
+  async multisearch(paramsList: ITwitterParams[]): Promise<TTweet[]> {
+    let promises = paramsList.map((params) => {
+      return this.search(params);
+    });
+
+    return Promise.all(promises).then((values) => {
+      return values.flat();
+    });
+  }
+
   async search(params: ITwitterParams): Promise<TTweet[]> {
     this.params = params;
-    this.params.addCount(20);
 
     const client = this.buildClient();
     const requestParams: RequestParams = {
-      screen_name: 'nodejs',
       q: this.params.toQuery(),
       filter: this.params.filter(),
       count: this.params.count(),
@@ -27,7 +35,9 @@ export class Client implements ITwitter {
         throw error;
       });
 
-    return this.buildTweet(searchResult);
+    const result = this.buildTweet(searchResult);
+
+    return result;
   }
 
   private buildTweet(response: any): TTweet[] {

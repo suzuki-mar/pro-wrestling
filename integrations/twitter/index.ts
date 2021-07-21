@@ -33,6 +33,7 @@ export enum TwitterFiliter {
 
 export interface ITwitter {
   search(params: ITwitterParams): Promise<TTweet[]>;
+  multisearch(paramsList: ITwitterParams[]): Promise<TTweet[]>;
 }
 
 export interface ITwitterParams {

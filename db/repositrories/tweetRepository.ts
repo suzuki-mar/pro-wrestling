@@ -5,20 +5,25 @@ import {
   TweetType,
   TwitterFiliter,
   TwitterQueryOperator,
-} from 'integrations/twitter/interface';
+} from 'integrations/twitter';
 import { Factory } from 'integrations/twitter/factory';
 import { IPromoter, TWrestlerName } from 'app/core/wreslter';
-import * as _ from 'lodash';
+import * as _ from 'loadsh';
 
 export class TweetRepository implements ITweetRepository {
   async fetchPictureTweetByWrestlerNames(
     names: TWrestlerName[],
     promoters: IPromoter[]
   ): Promise<TPictureTweet[]> {
-    const params = TweetRepository.SearchParamsCreator.createParams(names, promoters);
+    const namesList = _.chunk(names, 2);
+
+    const paramsList = namesList.map((names) => {
+      const params = TweetRepository.SearchParamsCreator.createParams(names, promoters);
+      return params.setCountMax();
+    });
 
     const client = Factory.createClient();
-    const tweets = await client.search(params);
+    const tweets = await client.multisearch(paramsList);
 
     const result = _.filter(tweets, (tweet: TPictureTweet | TTextOnlyTweet) => {
       return tweet.type === TweetType.Picture;
