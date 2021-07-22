@@ -14,6 +14,7 @@ export class TweetBuilder {
       text: data['text'] as string,
       hashtags: hashtags,
       type: TweetType.Unknown,
+      contributor: data['user']['screen_name'],
       tweeted_at: new Date(data['created_at']),
     };
 

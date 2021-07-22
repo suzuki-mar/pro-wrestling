@@ -4,26 +4,45 @@ import { format } from 'date-fns';
 import * as _ from 'loadsh';
 
 export class Picture implements TPicture {
-  static buildFromSource(source: TSource) {
+  static buildFromSource(source: TSource): TPicture {
     return new this(source, []);
   }
 
-  static rebuildWtihWrestlerNames(picture: Picture, wrestlerNames: TWrestlerName[]) {
-    let fileNames: string[] = [];
+  static rebuildWtihWrestlerNames(picture: TPicture, wrestlerNames: TWrestlerName[]): TPicture {
+    let uniquedWrestlerNames: TWrestlerName[] = [];
+
     wrestlerNames.forEach((name) => {
+      const alreadyExists = uniquedWrestlerNames.some((n) => name.equal(n));
+      if (!alreadyExists) {
+        uniquedWrestlerNames = [...uniquedWrestlerNames, name];
+      }
+    });
+
+    let fileNames: string[] = [];
+    uniquedWrestlerNames.forEach((name) => {
       fileNames = [...fileNames, name.full];
     });
-    fileNames = [...fileNames, format(picture.source.date, 'yyyy_MM_dd_HH_mm')];
+    fileNames = [...fileNames, format(picture.source.date, 'yyyyMMdd_HH')];
+    console.log(fileNames);
 
     const fileName = fileNames.join('_');
-    return new this(picture.source, wrestlerNames, fileName);
+    return new this(picture.source, uniquedWrestlerNames, fileName);
   }
 
-  static rebuildWtihUniqueFileName(picture: Picture) {
+  static rebuildWtihUniqueFileName(picture: TPicture): TPicture {
     const uniqueNumber = Math.floor(Math.random() * 1000);
     const fileName = `${picture.fileName}_${uniqueNumber}`;
 
     return new this(picture.source, picture.wrestlerNames, fileName);
+  }
+
+  displayName(): string {
+    const wrestlerNameStrs = this.wrestlerNames.map((name) => name.full);
+    const wrestlerStr = wrestlerNameStrs.join(':');
+    const year = format(this.source.date, 'yyyy');
+    const day = format(this.source.date, 'M.d');
+
+    return `${wrestlerStr} ${year} ${day}`;
   }
 
   originalImageURL(): string {

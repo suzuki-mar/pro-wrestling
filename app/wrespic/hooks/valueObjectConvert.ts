@@ -14,7 +14,8 @@ export class ValueObjectConvert {
     return {
       imageURL: imageURL,
       name: this.toWreslerName(params['name']),
-      date: new Date(params['dateStr']),
+      date: new Date(params['date']),
+      contributor: params['contributor'],
     };
   }
 }

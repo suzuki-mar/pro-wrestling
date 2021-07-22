@@ -32,10 +32,6 @@ export class SampleData {
     return new WrestlerName('桃野美桜');
   }
 
-  static wrestlerPictureURL(): TSource {
-    return WrestlerData.pictureURL();
-  }
-
   static picture(): TPicture {
     return AlbumData.picture();
   }

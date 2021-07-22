@@ -23,6 +23,7 @@ export class TweetData {
       type: TweetType.TextOnly,
       hashtags: [faker.lorem.slug(), name.full],
       tweeted_at: faker.datatype.datetime(),
+      contributor: faker.name.firstName(),
     };
   }
 
