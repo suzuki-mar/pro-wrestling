@@ -1,6 +1,5 @@
 import { Client as TwitterClient } from 'integrations/twitter/client';
 import { ITwitterParams, TTweet, ITwitter } from 'integrations/twitter';
-import faker from 'faker';
 import { SampleData } from 'sampleData';
 
 export class ClientFactory {
