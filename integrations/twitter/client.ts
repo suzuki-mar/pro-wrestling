@@ -22,6 +22,10 @@ export class Client implements ITwitter {
   async search(params: ITwitterParams): Promise<TTweet[]> {
     this.params = params;
 
+    if (this.params.hashtags().length === 0) {
+      throw new Error('Twitter検索にはハッシュタグの設定が必要');
+    }
+
     const client = this.buildClient();
     const requestParams: RequestParams = {
       q: this.params.toQuery(),

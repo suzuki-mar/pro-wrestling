@@ -19,7 +19,7 @@ describe('toSource', () => {
 
     const converted = ValueObjectConvert.toSource(params);
     expect(converted.imageURL).toEqual(source!.imageURL);
-    expect(converted.date).not.toEqual(0);
+    expect(converted.date.toISOString()).not.toEqual(0);
   });
 });
 
