@@ -60,11 +60,13 @@ export class SourceLoader {
           original: tweet.pictureURL,
         };
 
-        return {
+        const source: TSource = {
           name: name,
           imageURL: imageURL,
-          dateStr: tweet.tweeted_at,
+          date: tweet.tweeted_at,
+          contributor: tweet.contributor,
         };
+        return source;
       } else {
         return undefined;
       }

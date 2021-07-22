@@ -7,7 +7,6 @@ import {
 } from 'app/core/wreslter';
 
 import { ITweetRepository } from 'app/wrespic';
-import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
 import { SampleData } from 'sampleData';
 import { PromoterRepository } from './promoterRepository';
 import { TweetRepository } from './tweetRepository';

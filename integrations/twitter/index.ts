@@ -4,6 +4,7 @@ export type TTweetBase = {
   type: TweetType;
   hashtags: string[];
   tweeted_at: Date;
+  contributor: string;
 };
 
 export type TTextOnlyTweet = TTweetBase;
@@ -37,6 +38,7 @@ export interface ITwitter {
 }
 
 export interface ITwitterParams {
+  hashtags(): ITwitterHashtag[];
   toQuery(): string;
   filter(): TwitterFiliter;
   count(): Number;
