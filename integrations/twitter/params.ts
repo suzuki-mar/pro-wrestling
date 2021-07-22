@@ -5,10 +5,10 @@ export class TwitterParams implements ITwitterParams {
   PAGES_PER_COUNT_MAX = 100;
   PAGES_PER_COUNT_DEFAULT = 10;
 
-  private hashtags: ITwitterHashtag[] = [];
+  private _hashtags: ITwitterHashtag[] = [];
   private _filter: TwitterFiliter = TwitterFiliter.UNFILTERED;
   private _count: Number;
-  private isIncludeRT: boolean = false;
+  private _isIncludeRT: boolean = false;
 
   constructor() {
     this._count = this.PAGES_PER_COUNT_DEFAULT;
@@ -17,7 +17,9 @@ export class TwitterParams implements ITwitterParams {
   // FIX fileterはいらない
   toQuery(): string {
     const unconfiguredCondition =
-      this.hashtags.length === 0 && this._filter === TwitterFiliter.UNFILTERED && this.isIncludeRT;
+      this._hashtags.length === 0 &&
+      this._filter === TwitterFiliter.UNFILTERED &&
+      this._isIncludeRT;
 
     if (unconfiguredCondition) {
       return '';
@@ -32,7 +34,7 @@ export class TwitterParams implements ITwitterParams {
       strs = [...strs, `filter:${this._filter}`];
     }
 
-    if (!this.isIncludeRT) {
+    if (!this._isIncludeRT) {
       strs = [...strs, '-filter:retweets'];
     }
 
@@ -48,12 +50,12 @@ export class TwitterParams implements ITwitterParams {
   }
 
   setIncldueRT(): ITwitterParams {
-    this.isIncludeRT = true;
+    this._isIncludeRT = true;
     return this;
   }
 
   addHashTag(hashtag: ITwitterHashtag): ITwitterParams {
-    this.hashtags = [...this.hashtags, hashtag];
+    this._hashtags = [...this._hashtags, hashtag];
     return this;
   }
 
@@ -72,14 +74,18 @@ export class TwitterParams implements ITwitterParams {
     return this;
   }
 
+  hashtags(): ITwitterHashtag[] {
+    return this._hashtags;
+  }
+
   private toHashtagString(): string {
-    if (this.hashtags.length === 0) {
+    if (this._hashtags.length === 0) {
       return '';
     }
 
-    let string = `(${this.hashtags[0]!.toString()})`;
+    let string = `(${this._hashtags[0]!.toString()})`;
 
-    _.each(this.hashtags.slice(1), (hashtag: ITwitterHashtag) => {
+    _.each(this._hashtags.slice(1), (hashtag: ITwitterHashtag) => {
       string += ` ${TwitterQueryOperator.OR} (${hashtag.toString()})`;
     });
 

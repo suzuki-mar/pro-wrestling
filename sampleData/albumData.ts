@@ -9,8 +9,7 @@ import { Album } from 'app/wrespic/models/albums/album';
 
 export class AlbumData {
   static picture(): TPicture {
-    const wrestlerPictureURL = SampleData.wrestlerPictureURL();
-    const source = this.source(wrestlerPictureURL.name);
+    const source = this.source(SampleData.wrestlerName());
     return Picture.buildFromSource(source);
   }
 
@@ -19,7 +18,8 @@ export class AlbumData {
 
     return urls.map((url) => {
       const source = this.source(SampleData.meiName());
-      return Picture.buildFromSource(source);
+      let picture = Picture.buildFromSource(source);
+      return Picture.rebuildWtihWrestlerNames(picture, [SampleData.meiName()]);
     });
   }
 
@@ -42,6 +42,7 @@ export class AlbumData {
       imageURL: imageURL,
       name: name,
       date: faker.date.recent(10),
+      contributor: faker.name.firstName(),
     };
 
     return source;

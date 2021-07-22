@@ -35,6 +35,7 @@ export type TSource = {
   readonly name: TWrestlerName;
   readonly imageURL: TImageURL;
   readonly date: Date;
+  readonly contributor: string;
 };
 
 export type TImageURL = {
@@ -47,6 +48,7 @@ export type TPicture = {
   readonly fileName?: string;
   originalImageURL(): string;
   isRelated(name: TWrestlerName): boolean;
+  displayName(): strng;
 };
 
 export interface ITweetRepository {

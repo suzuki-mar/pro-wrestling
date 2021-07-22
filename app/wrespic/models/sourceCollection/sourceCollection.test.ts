@@ -10,15 +10,16 @@ describe('load', () => {
     collection = new SourceCollection();
   });
 
-  it.skip('Sourceを取得すること', async () => {
+  it('Sourceを取得すること', async () => {
     await collection.load([SampleData.meiName(), SampleData.mioName()]);
 
     const sources = collection.sources();
 
     expect(sources.length).toEqual(2);
+    expect(sources[0]!.date).toBeInstanceOf(Date);
   });
 
-  it.skip('取得したデータの型があっていること', async () => {
+  it('取得したデータの型があっていること', async () => {
     await collection.load([SampleData.meiName(), SampleData.mioName()]);
 
     const source = collection.sources()[0]!;
@@ -51,7 +52,7 @@ describe('load', () => {
   });
 });
 
-describe.skip('filterFromSelected', () => {
+describe('filterFromSelected', () => {
   const collection = new SourceCollection();
 
   beforeEach(async () => {

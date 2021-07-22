@@ -1,6 +1,7 @@
 import { Carousel } from 'react-responsive-carousel';
 import { IAlbum } from 'app/wrespic';
 import { PictureList } from './PictureList';
+import { ImageElement } from './ImageElement';
 
 type Props = {
   album: IAlbum;
@@ -11,8 +12,11 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
   items = album.pictures().map((picture) => {
     return (
       <div key={picture.fileName}>
-        <img className={'text-left'} src={picture.originalImageURL()} alt={picture.fileName} />
-        <p className="legend">{album.pictures()[0]!.fileName}</p>
+        <ImageElement className="text-left ..." picture={picture} />
+        <p className="legend">
+          {picture.displayName()} <br />
+          by {picture.source.contributor} <br />
+        </p>
       </div>
     );
   });
@@ -23,10 +27,11 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
         className="mx-auto mb-4 border-2 w-auto"
         dynamicHeight={true}
         autoPlay={true}
-        interval={3000}
+        interval={5000}
         thumbWidth={50}
         infiniteLoop={true}
         showThumbs={false}
+        showIndicators={false}
       >
         {items}
       </Carousel>

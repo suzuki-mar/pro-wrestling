@@ -4,6 +4,7 @@ import { Picture } from './picture';
 import { Album } from './album';
 import { TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { SampleData } from 'sampleData';
 
 export class AlbumBuilder {
   private pictures: { [key: string]: TPicture } = {};
@@ -67,6 +68,10 @@ export class AlbumBuilder {
           return;
         }
         alreadySupported = true;
+
+        if (picture.isRelated(SampleData.meiName())) {
+          console.log(picture);
+        }
 
         this.pictures[picture.originalImageURL()] = Picture.rebuildWtihUniqueFileName(picture);
       });
