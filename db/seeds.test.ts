@@ -1,5 +1,5 @@
 import { createWrestlers } from './seeds';
-import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
+import { WrestlerRepository } from 'app/core/wreslter/models/repositories/wrestlerRepository';
 import { SampleData } from 'sampleData';
 import prisma from 'db/index';
 import { dbClose } from 'test/lib';

@@ -3,16 +3,14 @@ import { Header } from 'app/wrespic/components/Header';
 import { AlbumCollectionSection } from 'app/wrespic/components/album/AlbumCollectionSection';
 import { WrestlersList } from 'app/wrespic/components/wrestler/WrestlersList';
 import { SearchButton } from 'app/wrespic/components/SearchButton';
-import { useAppStatusReducer } from '../hooks/useAppStatusReducer';
+import { useAppReducer } from '../hooks/useAppReducer';
 
 export const Contents: React.VFC = () => {
-  const [wrestlerCollection, selectedWrestlers, albumCollection, sourceCollection] =
-    useFactoryDomainModels();
-  const [appState, dispatch] = useAppStatusReducer(
+  const [wrestlerCollection, selectedWrestlers, albumCollection] = useFactoryDomainModels();
+  const [appState, dispatch] = useAppReducer(
     selectedWrestlers,
     albumCollection,
-    wrestlerCollection,
-    sourceCollection
+    wrestlerCollection
   );
 
   return (

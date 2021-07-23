@@ -1,6 +1,6 @@
 import { SampleData } from 'sampleData';
-import { WrestlerName } from 'app/core/wreslter/wrestlerName';
-import { WrestlerCollection } from 'app/core/wreslter/wrestlerCollection';
+import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
+import { WrestlerCollection } from 'app/core/wreslter/models/wrestlerCollection';
 import { WreslerNames, isExistsWreslerNames } from 'app/wrespic/validation';
 import faker from 'faker';
 

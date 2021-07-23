@@ -11,11 +11,11 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
   let items: JSX.Element[] = [];
   items = album.pictures().map((picture) => {
     return (
-      <div key={picture.fileName}>
+      <div key={picture.fileName.name}>
         <ImageElement className="text-left ..." picture={picture} />
         <p className="legend">
-          {picture.displayName()} <br />
-          by {picture.source.contributor} <br />
+          {picture.displayInfo.formattedDisplayString()} <br />
+          by {picture.displayInfo.contributor} <br />
         </p>
       </div>
     );

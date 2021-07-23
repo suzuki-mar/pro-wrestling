@@ -1,11 +1,12 @@
-import { IAlbum, IAlbumCollection, TImageURL, TPicture, TSource } from 'app/wrespic';
-import { TWrestlerName, IWrestler } from 'app/core/wreslter';
+import { IAlbum, IAlbumCollection, TPicture } from 'app/wrespic';
+import { TWrestlerName, IWrestler, IWrestlerCollection } from 'app/core/wreslter';
 import { TPictureTweet, TTweet } from 'integrations/twitter';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
-import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 import { PictureURLStr } from './pictureURLStr';
 import { AlbumData } from './albumData';
+import { WrestlerCollection } from 'app/core/wreslter/models/wrestlerCollection';
 
 export class SampleData {
   static wrestlerNames(): TWrestlerName[] {
@@ -24,6 +25,10 @@ export class SampleData {
     return WrestlerData.wrestlers()[0]!;
   }
 
+  static wrestlerCollection(): IWrestlerCollection {
+    return WrestlerCollection.rebuild(WrestlerData.wrestlers());
+  }
+
   static meiName(): TWrestlerName {
     return new WrestlerName('星月芽依');
   }
@@ -36,32 +41,20 @@ export class SampleData {
     return AlbumData.picture();
   }
 
-  static picturesOfMei(): TPicture[] {
-    return AlbumData.picturesOfMei();
+  static pictures(wreslerName: TWrestlerName): TPicture[] {
+    return AlbumData.pictures(wreslerName);
   }
 
-  static sources(): TSource[] {
-    return AlbumData.sources();
+  static album(wreslerName: TWrestlerName): IAlbum {
+    return AlbumData.album(wreslerName);
   }
 
-  static source(name: TWrestlerName): TSource {
-    return AlbumData.source(name);
-  }
-
-  static album(): IAlbum {
-    return AlbumData.album();
-  }
-
-  static albumCollection(): IAlbumCollection {
-    return AlbumData.albumCollection();
+  static albumCollection(wreslerNames: TWrestlerName[]): IAlbumCollection {
+    return AlbumData.albumCollection(wreslerNames);
   }
 
   static imageURLStr(): string {
     return PictureURLStr.profile();
-  }
-
-  static imageURL(urlStr: string): TImageURL {
-    return { original: urlStr };
   }
 
   static url(): URL {

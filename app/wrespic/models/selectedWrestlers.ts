@@ -1,6 +1,6 @@
 import { ISelectedWrestlers } from 'app/wrespic';
 import { TWrestlerName } from 'app/core/wreslter';
-import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 import * as _ from 'loadsh';
 
 export class SelectedWrestlers implements ISelectedWrestlers {

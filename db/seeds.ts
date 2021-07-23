@@ -2,7 +2,7 @@
 
 import { SampleData } from 'sampleData';
 import prisma from 'db/index';
-import { WrestlerRepository } from 'db/repositrories/wrestlerRepository';
+import { WrestlerRepository } from 'app/core/wreslter/models/repositories/wrestlerRepository';
 
 /*
  * This seed function is executed when you run `blitz db seed`.

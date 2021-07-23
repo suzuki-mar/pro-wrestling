@@ -1,11 +1,12 @@
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { WrestlerNameItem } from './WrestlerNameItem';
-import { AppState, Action } from '../../hooks/useAppStatusReducer';
+import { AppState } from '../../hooks/useAppReducer';
 import { Dispatch } from 'react';
+import { UIAction } from 'app/wrespic';
 
 type Props = {
   appState: AppState;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<UIAction>;
 };
 
 export const WrestlersList: React.VFC<Props> = ({ appState, dispatch }) => {
@@ -48,7 +49,7 @@ function renderRow(props: ListChildComponentProps) {
       name={data['names'][index]}
       style={style}
       appState={data['appState'] as AppState}
-      dispatch={data['dispatch'] as Dispatch<Action>}
+      dispatch={data['dispatch'] as Dispatch<UIAction>}
     />
   );
 }

@@ -9,7 +9,7 @@ export type TTweetBase = {
 
 export type TTextOnlyTweet = TTweetBase;
 
-export type TPictureTweet = TTweetBase & { pictureURL: string };
+export type TPictureTweet = TTweetBase & { pictureURL: string; pictureNumber: Number };
 export type TTweet = TPictureTweet | TTextOnlyTweet;
 
 export enum TweetType {

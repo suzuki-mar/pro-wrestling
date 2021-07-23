@@ -5,7 +5,7 @@
 // import { IWrestlerRepository as IWrespicContextRepository } from '../../app/wrespic/interface';
 // import { IAirTable, AirTableURL } from '../../integrations/interface';
 // import { Record, AirTable } from '../../integrations/air_table';
-// import { Wrestler } from '../../app/core/wreslter/wrestler';
+// import { Wrestler } from '../../app/core/wreslter/models/wrestler';
 // import * as Lib from '../../app/core/lib';
 
 // export class WrestlerRepository implements IWrespicContextRepository, IBaseContextRepository {
@@ -55,7 +55,7 @@
 // }
 
 // // テストコード
-// import { Wrestler } from '../../app/core/wreslter/wrestler';
+// import { Wrestler } from '../../app/core/wreslter/models/wrestler';
 // import { WrestlerRepository } from './wrestler_repository';
 // import { AirTable, Record } from '../../integrations/air_table';
 

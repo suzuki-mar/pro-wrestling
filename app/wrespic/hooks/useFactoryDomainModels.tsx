@@ -1,36 +1,26 @@
-import fetchWrestlerParams from './queries/fetchWrestlerParams';
-import fetchSources from './queries/fetchSources';
+import fetchAlbumCollection from './queries/fetchAlbumCollection';
 import { useQuery } from 'blitz';
-import { ISelectedWrestlers, IAlbumCollection, ISourceCollection } from '..';
-import { ValueObjectConvert } from 'app/wrespic/hooks/valueObjectConvert';
-import { DomainModelFactory } from '../domainModelFactory';
+import { ISelectedWrestlers, IAlbumCollection } from '..';
 import { IWrestlerCollection } from 'app/core/wreslter/';
+import fetchWrestlerCollection from './queries/fetchWrestlerCollection';
+import { AlbumSerializer } from '../albumSerializer';
+import { WrestlerSerializer } from 'app/core/wreslter/wrestlerSerializer';
+import { SelectedWrestlers } from '../models/selectedWrestlers';
 
 export function useFactoryDomainModels(): [
   IWrestlerCollection,
   ISelectedWrestlers,
-  IAlbumCollection,
-  ISourceCollection
+  IAlbumCollection
 ] {
-  const [wrestlerCollection, selectedWrestlers, albumCollection, sourceCollection] =
-    DomainModelFactory.createModels();
+  const [wrelserCollectionParam] = useQuery(fetchWrestlerCollection, undefined);
 
-  const [_wrelsersParamsList] = useQuery(fetchWrestlerParams, null);
+  const wrestlerCollection = WrestlerSerializer.toWrestlerCollection(wrelserCollectionParam);
+  const wrestlerNames = wrestlerCollection.wrestlers().map((wrestler) => wrestler.name);
 
-  const wrelsersParamsList = _wrelsersParamsList.map((params) => {
-    return { name: ValueObjectConvert.toWreslerName(params.name), id: params.id };
-  });
+  const [albumCollectionParam] = useQuery(fetchAlbumCollection, wrestlerNames as []);
 
-  wrestlerCollection.rebuild(wrelsersParamsList);
-  wrestlerCollection.sortById();
-  selectedWrestlers.rebuild([]);
+  const albumCollection = AlbumSerializer.toAlbumCollection(albumCollectionParam, wrestlerNames);
+  const selectedWrestlers = new SelectedWrestlers();
 
-  const [sourcesParamList] = useQuery(fetchSources, wrelsersParamsList);
-  const sources = sourcesParamList.map((params) => ValueObjectConvert.toSource(params));
-
-  sourceCollection.rebuild(sources);
-
-  albumCollection.buildFromSources(sourceCollection.sources());
-
-  return [wrestlerCollection, selectedWrestlers, albumCollection, sourceCollection];
+  return [wrestlerCollection, selectedWrestlers, albumCollection];
 }

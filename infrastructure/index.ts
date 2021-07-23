@@ -1,13 +1,11 @@
-export function log(value: string | Array<any> | Object) {
-  if ('string' == typeof value) {
-    console.log(value);
-    return;
+import { format } from 'pretty-format';
+
+export class Infra {
+  static log(value: any) {
+    console.log(format(value));
   }
 
-  if (Array.isArray(value)) {
-    console.table(value);
-    return;
+  static isTestEnv() {
+    return process?.env?.NODE_ENV === 'test';
   }
-
-  console.dir(value);
 }
