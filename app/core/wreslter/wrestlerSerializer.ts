@@ -14,6 +14,7 @@ export class WrestlerSerializer {
   }
 
   static toWreslerName(params: {}): TWrestlerName {
-    return new WrestlerName(params['full']);
+    const unique = params['unique'] === 'true';
+    return new WrestlerName(params['full'], unique);
   }
 }

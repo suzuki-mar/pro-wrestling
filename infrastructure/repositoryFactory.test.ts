@@ -1,5 +1,5 @@
 import { RepositoryFactory } from 'infrastructure/repositoryFactory';
-import { TweetRepository } from 'app/wrespic/models/repositories/tweetRepository';
+import { TweetRepository } from 'app/wrespic/repositories/tweetRepository';
 
 describe('RepositoryFactory', () => {
   beforeEach(() => {

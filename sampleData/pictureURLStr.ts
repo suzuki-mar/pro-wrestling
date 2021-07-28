@@ -1,6 +1,7 @@
 import { TWrestlerName } from 'app/core/wreslter';
 import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 import * as _ from 'loadsh';
+import { SampleData } from 'sampleData';
 
 export class PictureURLStr {
   static profile(): string {
@@ -19,13 +20,13 @@ export class PictureURLStr {
 
   static findByWreslterName(name: TWrestlerName): string[] | undefined {
     const list = [
-      { name: new WrestlerName('Maria'), urls: this.maria() },
-      { name: new WrestlerName('星月芽依'), urls: this.mei() },
-      { name: new WrestlerName('桃野美桜'), urls: this.mio() },
-      { name: new WrestlerName('門倉凛'), urls: this.rin() },
-      { name: new WrestlerName('宝山愛'), urls: this.ai() },
-      { name: new WrestlerName('彩羽匠'), urls: this.takumi() },
-      { name: new WrestlerName('神童ミコト'), urls: this.mikoto() },
+      { name: SampleData.mariaName(), urls: this.maria() },
+      { name: SampleData.meiName(), urls: this.mei() },
+      { name: SampleData.mioName(), urls: this.mio() },
+      { name: new WrestlerName('門倉凛', true), urls: this.rin() },
+      { name: new WrestlerName('宝山愛', true), urls: this.ai() },
+      { name: new WrestlerName('彩羽匠', true), urls: this.takumi() },
+      { name: new WrestlerName('神童ミコト', true), urls: this.mikoto() },
     ];
 
     const searched = list.find((params) => {
