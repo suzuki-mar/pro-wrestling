@@ -1,0 +1,41 @@
+import { TWrestlerName } from 'app/core/wreslter';
+import { TPictureDisplayInfo } from 'app/wrespic';
+import { TPictureNumber, TPictureValueObject } from 'app/wrespic/models/albums/pictures/type';
+import { format } from 'date-fns';
+
+export class DisplayInfo implements TPictureDisplayInfo, TPictureValueObject {
+  constructor(
+    readonly number: TPictureNumber,
+    readonly contributor: string,
+    readonly date: Date,
+    readonly wrestlerNames: TWrestlerName[]
+  ) {}
+
+  formattedDisplayString(): string {
+    const wrestlerNameStrs = this.wrestlerNames.map((name) => name.full);
+    const wrestlerStr = wrestlerNameStrs.join(':');
+    const year = format(this.date, 'yyyy');
+    const day = format(this.date, 'M.d');
+
+    return `${wrestlerStr} ${year} ${day}`;
+  }
+
+  static mergeFromWreslerNames(
+    target: TWrestlerName[],
+    base: TPictureDisplayInfo
+  ): TPictureDisplayInfo {
+    let mergedWreslerNames: TWrestlerName[] = [...base.wrestlerNames];
+
+    target.forEach((name) => {
+      let alreadyExsits = mergedWreslerNames.some((n) => {
+        return name.equal(n);
+      });
+
+      if (!alreadyExsits) {
+        mergedWreslerNames = [...mergedWreslerNames, name];
+      }
+    });
+
+    return new DisplayInfo(base.number, base.contributor, base.date, mergedWreslerNames);
+  }
+}

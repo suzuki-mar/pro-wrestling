@@ -20,24 +20,9 @@ export interface IPromoter {
   isBelongTo(wreslerName: TWrestlerName): boolean;
 }
 
-export interface IWrestlerRepository {
-  fetchAll(): Promise<IWrestler[]>;
-  addList(names: TWrestlerName[]): Promise<IWrestler[]>;
-}
-
-export interface IPromoterRepository {
-  featchAll(): Promise<IPromoter[]>;
-}
-
-export type WrestlerParam = {
-  name: TWrestlerName;
-  id: number;
-};
-
 export interface IWrestlerCollection {
   load(): Promise<void>;
   wrestlers(): IWrestler[];
   names(): TWrestlerName[];
   sortById(): void;
-  rebuild(params: WrestlerParam[]): void;
 }

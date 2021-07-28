@@ -8,6 +8,8 @@ import dotenv from 'dotenv';
 import { SampleData } from 'sampleData';
 dotenv.config();
 
+// searchメソッドのテストは別途 client_search.test記述してある
+
 // 外部APIとの接続になるため必要最小限の実行にしている
 const client = new Client();
 

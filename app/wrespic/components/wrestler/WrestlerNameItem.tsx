@@ -1,13 +1,14 @@
 import { TWrestlerName } from 'app/core/wreslter';
 import { useState, Dispatch } from 'react';
 import { ListItemText, ListItem, Checkbox } from '@material-ui/core';
-import { AppState, Action } from '../../hooks/useAppStatusReducer';
+import { AppState } from '../../hooks/useAppReducer';
+import { UIAction } from '../..';
 
 type Props = {
   name: TWrestlerName;
   style: any;
   appState: AppState;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<UIAction>;
 };
 
 export const WrestlerNameItem: React.VFC<Props> = (props) => {

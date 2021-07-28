@@ -1,6 +1,6 @@
 import { IWrestler, TWrestlerName, IWrestlerCollection } from 'app/core/wreslter';
-import { Wrestler } from 'app/core/wreslter/wrestler';
-import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { Wrestler } from 'app/core/wreslter/models/wrestler';
+import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 import { z } from 'zod';
 import _ from 'lodash';
 

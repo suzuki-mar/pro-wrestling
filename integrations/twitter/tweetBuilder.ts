@@ -18,21 +18,25 @@ export class TweetBuilder {
       tweeted_at: new Date(data['created_at']),
     };
 
-    const photoURL = this.buildPhotoURL(media);
-    if (photoURL === undefined) {
+    const photoInfo = this.buildPhotoInfo(media);
+    if (photoInfo === undefined) {
       const tweet: TTextOnlyTweet = Object.assign(base, { type: TweetType.TextOnly });
       return tweet;
     }
 
     const tweet: TPictureTweet = Object.assign(base, {
       type: TweetType.Picture,
-      pictureURL: photoURL,
+      pictureURL: photoInfo.pictureURL,
+      pictureNumber: photoInfo.pictureNumber,
     });
     return tweet;
   }
 
   // FIXME 一旦画像は１つだけの前提
-  private static buildPhotoURL(media: any): string | undefined {
+
+  private static buildPhotoInfo(
+    media: any
+  ): { pictureURL: string; pictureNumber: Number } | undefined {
     if (media === undefined) {
       return undefined;
     }
@@ -40,7 +44,7 @@ export class TweetBuilder {
     const medium = media[0];
 
     if (medium['type'] === 'photo') {
-      return medium['media_url'];
+      return { pictureURL: medium['media_url'], pictureNumber: medium['id'] };
     }
 
     return undefined;

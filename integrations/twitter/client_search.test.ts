@@ -26,12 +26,15 @@ describe.skip('接続確認', () => {
   });
 });
 
-describe.skip('Pictureの画像を取得する場合', () => {
+describe('Pictureの画像を取得する場合', () => {
   beforeEach(() => {
     params.addFilter(TwitterFiliter.IMAGES);
+    params.addHashTag(new TwitterHashtag().initialize(SampleData.mioName().full));
   });
 
   it('TypeがPictureのものみ返すこと', async () => {
+    params.addCount(1);
+
     const tweets = await client.search(params);
     const textOnlys = TweetFilter.filterTextOnlys(tweets);
     expect(textOnlys.length).toEqual(0);
@@ -41,7 +44,7 @@ describe.skip('Pictureの画像を取得する場合', () => {
   });
 });
 
-describe('すべてのタイプを取得する場合', () => {
+describe.skip('すべてのタイプを取得する場合', () => {
   it('TypeがPictureのものみ返すこと', async () => {
     params.addHashTag(new TwitterHashtag().initialize(SampleData.meiName().full));
 

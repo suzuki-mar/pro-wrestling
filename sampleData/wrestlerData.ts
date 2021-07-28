@@ -1,5 +1,5 @@
-import { Wrestler } from 'app/core/wreslter/wrestler';
-import { WrestlerName } from 'app/core/wreslter/wrestlerName';
+import { Wrestler } from 'app/core/wreslter/models/wrestler';
+import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 import { TWrestlerName, IWrestler } from 'app/core/wreslter';
 import { SampleData } from '../sampleData';
 
@@ -31,7 +31,7 @@ export class WrestlerData {
 
   static wrestlers(): IWrestler[] {
     let wrestlers = this.names().map((name: WrestlerName, index: number) => {
-      return new Wrestler(name, index);
+      return new Wrestler(index, name);
     });
 
     return wrestlers;

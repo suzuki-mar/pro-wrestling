@@ -24,6 +24,7 @@ describe('Twitter', () => {
       const tweet = TweetBuilder.build(data) as TPictureTweet;
       expect(tweet.type).toEqual(TweetType.Picture);
       expect(tweet.pictureURL).not.toBeUndefined();
+      expect(tweet.pictureNumber).not.toBeUndefined();
     });
   });
 });

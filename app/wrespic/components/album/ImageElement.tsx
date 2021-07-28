@@ -10,5 +10,11 @@ export const ImageElement: React.VFC<Props> = ({ className, picture }) => {
     className = '';
   }
 
-  return <img className={className} src={picture.originalImageURL()} alt={picture.displayName()} />;
+  return (
+    <img
+      className={className}
+      src={picture.pictureURL.originalURL}
+      alt={picture.displayInfo.formattedDisplayString()}
+    />
+  );
 };

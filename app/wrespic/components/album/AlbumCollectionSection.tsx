@@ -1,6 +1,6 @@
 import { IAlbum } from 'app/wrespic';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { AppState } from '../../hooks/useAppStatusReducer';
+import { AppState } from '../../hooks/useAppReducer';
 import { AlbumItem } from './AlbumItem';
 
 type Props = {
@@ -14,8 +14,8 @@ export const AlbumCollectionSection: React.VFC<Props> = ({ appState }) => {
 
   return (
     <Tabs>
-      {renderTabList(appState.albumCollection.albums())}
-      {renderTabPanels(appState.albumCollection.albums())}
+      {renderTabList(appState.albumCollection.currentSelectedAlbums())}
+      {renderTabPanels(appState.albumCollection.currentSelectedAlbums())}
     </Tabs>
   );
 };

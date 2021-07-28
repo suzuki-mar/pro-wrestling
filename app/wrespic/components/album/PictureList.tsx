@@ -10,17 +10,15 @@ type Props = {
 export const PictureList: React.VFC<Props> = ({ pictures }) => {
   const classes = useStyles();
 
-  console.log(pictures[0]?.source.contributor);
-
   return (
     <div className={classes.root}>
       <ImageList rowHeight={160} className={classes.imageList} cols={2}>
         {pictures.map((picture) => (
-          <ImageListItem key={picture.fileName} cols={1}>
+          <ImageListItem key={picture.fileName.name} cols={1}>
             <ImageElement picture={picture} />
             <ImageListItemBar
-              title={picture.displayName()}
-              subtitle={<span>by: {picture.source.contributor}</span>}
+              title={picture.displayInfo.formattedDisplayString()}
+              subtitle={<span>by: {picture.displayInfo.contributor}</span>}
               position="bottom"
             />
           </ImageListItem>

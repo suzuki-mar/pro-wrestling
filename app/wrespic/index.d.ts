@@ -1,5 +1,4 @@
-import { TWrestlerName, IPromoter } from 'app/core/wreslter';
-import { TPictureTweet } from 'integrations/twitter';
+import { TWrestlerName } from 'app/core/wreslter';
 
 export interface ISelectedWrestlers {
   names(): TWrestlerName[];
@@ -9,51 +8,49 @@ export interface ISelectedWrestlers {
   rebuild(names: TWrestlerName[]): void;
 }
 
-export interface ISourceCollection {
-  rebuild(sources: TSource[]): void;
-  filterFromSelected(targetNames: TWrestlerName[]): TSource[];
-  load(names: TWrestlerName[]): Promise<void>;
-  sources(): TSource[];
-}
-
 export interface IAlbumCollection {
-  buildFromSources(pictureURLs: TSource[]): void;
+  load(names: TWrestlerName[]): Promise<void>;
   albums(): IAlbum[];
-  currentDisplayAlbum(): IAlbum;
-  prepareDownload(): Promise<void>;
-  changeCurrentDisplayAlbum(name: TWrestlerName): void;
-  albumNames(): string[];
+  filterAlbumsByWrestlerNames(names: TWrestlerName[]): void;
+  currentSelectedAlbums(): IAlbum[];
 }
 
 export interface IAlbum {
   readonly wrestlerName: TWrestlerName;
   pictures(): TPicture[];
   count(): number;
+  isDisplayable(): boolean;
 }
 
-export type TSource = {
-  readonly name: TWrestlerName;
-  readonly imageURL: TImageURL;
-  readonly date: Date;
-  readonly contributor: string;
+export type TPictureURL = TPictureValueObject & {
+  readonly originalURL: string;
 };
 
-export type TImageURL = {
-  readonly original: string;
+export type TPictureDisplayInfo = TPictureValueObject & {
+  readonly contributor: string;
+  readonly date: Date;
+  readonly wrestlerNames: TWrestlerName[];
+  formattedDisplayString(): string;
+};
+
+export type TPictureFileName = TPictureValueObject & {
+  readonly name: string;
+  readonly number: TPictureNumber;
+  equal(compare: TPictureFileName): boolean;
 };
 
 export type TPicture = {
-  readonly source: TSource;
-  readonly wrestlerNames: TWrestlerName[];
-  readonly fileName?: string;
-  originalImageURL(): string;
+  readonly pictureURL: TPictureURL;
+  readonly displayInfo: TPictureDisplayInfo;
+  readonly fileName: TPictureFileName;
   isRelated(name: TWrestlerName): boolean;
-  displayName(): strng;
 };
 
-export interface ITweetRepository {
-  fetchPictureTweetByWrestlerNames(
-    names: TWrestlerName[],
-    poromoters: IPromoter[]
-  ): Promise<TPictureTweet[]>;
-}
+export type UIAction =
+  | {
+      type: 'selecteWrestler';
+      payload: { name: TWrestlerName };
+    }
+  | {
+      type: 'displayChoice';
+    };
