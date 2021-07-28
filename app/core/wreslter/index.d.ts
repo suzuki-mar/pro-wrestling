@@ -1,5 +1,6 @@
 export interface TWrestlerName {
   readonly full: string;
+  readonly unique: boolean;
   equal(IWrestlerName): boolean;
 }
 

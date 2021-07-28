@@ -6,7 +6,7 @@ import { IWrestlerRepository, IPromoterRepository } from 'app/core/wreslter/mode
 import { ITweetRepository } from 'app/wrespic/models/type';
 import { SampleData } from 'sampleData';
 import { PromoterRepository } from 'app/core/wreslter/models/repositories/promoterRepository';
-import { TweetRepository } from 'app/wrespic/models/repositories/tweetRepository';
+import { TweetRepository } from 'app/wrespic/repositories/tweetRepository';
 
 export class RepositoryFactory {
   private static _isConnectingToRealDB = process.env.NODE_ENV === 'test' ? false : true;

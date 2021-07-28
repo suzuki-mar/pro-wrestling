@@ -1,8 +1,6 @@
 import { SampleData } from 'sampleData';
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 import { WrestlerCollection } from 'app/core/wreslter/models/wrestlerCollection';
 import { WreslerNames, isExistsWreslerNames } from 'app/wrespic/validation';
-import faker from 'faker';
 
 describe('WreslerNames', () => {
   it('fullがある場合はパースされる', () => {
@@ -25,7 +23,7 @@ describe('isExistsWreslerNames', () => {
 
   it('存在するNameだけではない場合はfalseが返る', async () => {
     let names = SampleData.wrestlerNames();
-    names = [...names, new WrestlerName(faker.name.firstName())];
+    names = [...names, SampleData.unknownName()];
     const collection = new WrestlerCollection();
     await collection.load();
     expect(isExistsWreslerNames(names, collection)).toEqual(false);

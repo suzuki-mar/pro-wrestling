@@ -1,6 +1,5 @@
 import { Promoter } from 'app/core/wreslter/models/promoter';
 import { SampleData } from 'sampleData';
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
 
 describe('Promoter', () => {
   describe('isBelongTo', () => {
@@ -11,7 +10,7 @@ describe('Promoter', () => {
 
     it('所属していない場合はfalseを返す', () => {
       const promoter = Promoter.buildMarvelous();
-      const name = new WrestlerName('not exists');
+      const name = SampleData.unknownName();
 
       expect(promoter.isBelongTo(name)).toBeFalsy();
     });

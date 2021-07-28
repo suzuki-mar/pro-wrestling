@@ -1,18 +1,14 @@
 import { SampleData } from 'sampleData';
+import { convertJSON } from 'test/lib';
 
 export class ResponseData {
   static fetchWrestlerCollection(): any {
     const wrestlerCollection = SampleData.wrestlerCollection();
-    return this.convertJSON(wrestlerCollection);
+    return convertJSON(wrestlerCollection);
   }
 
   static fetchAlbumCollection(): any {
     const albumCollection = SampleData.albumCollection(SampleData.wrestlerNames());
-    return this.convertJSON(albumCollection);
-  }
-
-  private static convertJSON(target: any) {
-    const str = JSON.stringify(target);
-    return JSON.parse(str);
+    return convertJSON(albumCollection);
   }
 }

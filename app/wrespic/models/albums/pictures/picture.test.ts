@@ -1,5 +1,3 @@
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
-import faker from 'faker';
 import { SampleData } from 'sampleData';
 
 describe('isRelated', () => {
@@ -9,7 +7,7 @@ describe('isRelated', () => {
     expect(picture.isRelated(SampleData.meiName())).toBeTruthy();
   });
   it('選手が関係していない場合はfalseを返すこと', () => {
-    const notRelatedName = new WrestlerName(faker.name.firstName());
+    const notRelatedName = SampleData.unknownName();
     expect(picture.isRelated(notRelatedName)).toBeFalsy();
   });
 });

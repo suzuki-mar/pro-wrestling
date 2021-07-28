@@ -15,6 +15,7 @@ model Wrestler {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String   @unique
+  unique    Boolean  @default(true)
 }
 
 model User {

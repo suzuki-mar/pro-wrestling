@@ -17,7 +17,7 @@ export class WrestlerRepository implements IWrestlerRepository {
 
   async addList(names: TWrestlerName[]): Promise<IWrestler[]> {
     const records = names.map((name: TWrestlerName) => {
-      return prisma.wrestler.create({ data: { name: name.full } });
+      return prisma.wrestler.create({ data: { name: name.full, unique: name.unique } });
     });
 
     return Promise.all(records).then((records: Wrestler[]) => {
@@ -28,7 +28,7 @@ export class WrestlerRepository implements IWrestlerRepository {
   }
 
   private buildEWrestler(record: Wrestler): EWrestler {
-    const name: WrestlerName = new WrestlerName(record.name);
+    const name: WrestlerName = new WrestlerName(record.name, record.unique);
     return new EWrestler(record.id, name);
   }
 }
