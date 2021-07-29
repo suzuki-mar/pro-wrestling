@@ -20,10 +20,14 @@ describe('Twitter', () => {
 
   describe('写真付きのTweet', () => {
     it('Pictureを作成すること', async () => {
-      const data = buildPhotoData();
+      const data = buildPictureData();
       const tweet = TweetBuilder.build(data) as TPictureTweet;
       expect(tweet.type).toEqual(TweetType.Picture);
       expect(tweet.items).not.toBeUndefined();
+
+      const item = tweet.items[0]!;
+      expect(item.pictureResizedURLs[0]!.src).not.toBeUndefined();
+      expect(item.pictureOriginalURL).not.toBeUndefined();
     });
   });
 });
@@ -45,8 +49,9 @@ function buildTextOnlyData() {
   };
 }
 
-function buildPhotoData() {
+function buildPictureData() {
   const base = buildTextOnlyData();
+
   const medium = {
     id: faker.datatype.number(),
     id_str: faker.datatype.number().toString(),
@@ -54,9 +59,35 @@ function buildPhotoData() {
     type: 'photo',
     source_user_id: faker.datatype.number(),
     source_user_id_str: faker.datatype.number().toString(),
+    sizes: buildPictureSize(),
   };
 
   base['entities']['media'] = [medium, medium];
 
   return base;
+}
+
+function buildPictureSize(): {} {
+  return {
+    thumb: {
+      h: 150,
+      resize: 'crop',
+      w: 150,
+    },
+    large: {
+      h: 238,
+      resize: 'fit',
+      w: 226,
+    },
+    medium: {
+      h: 238,
+      resize: 'fit',
+      w: 226,
+    },
+    small: {
+      h: 238,
+      resize: 'fit',
+      w: 226,
+    },
+  };
 }

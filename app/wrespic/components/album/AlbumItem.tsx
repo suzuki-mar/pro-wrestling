@@ -12,7 +12,7 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
   items = album.pictures().map((picture) => {
     return (
       <div key={picture.fileName.name}>
-        <ImageElement className="text-left ..." picture={picture} />
+        <ImageElement className="text-left ..." isThumbnailURL={false} picture={picture} />
         <p className="legend">
           {picture.displayInfo.formattedDisplayString()} <br />
           by {picture.displayInfo.contributor} <br />
@@ -28,7 +28,6 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
         dynamicHeight={true}
         autoPlay={true}
         interval={5000}
-        thumbWidth={50}
         infiniteLoop={true}
         showThumbs={false}
         showIndicators={false}

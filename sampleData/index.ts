@@ -63,7 +63,7 @@ export class SampleData {
   }
 
   static imageURLStr(): string {
-    return PictureURLStr.profile();
+    return PictureURLStr.all()[0]!;
   }
 
   static url(): URL {
