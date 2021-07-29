@@ -13,7 +13,7 @@ describe('Twitter', () => {
       expect(tweet.text).not.toBeUndefined();
       expect(tweet.id).not.toBeUndefined();
       expect(tweet.hashtags).not.toBeUndefined();
-      expect(tweet.contributor).not.toBeUndefined();
+      expect(tweet.contributor.identificationName).not.toBeUndefined();
       expect(tweet.tweeted_at.toDateString()).toEqual('Sun Jun 20 2021');
     });
   });
@@ -44,7 +44,8 @@ function buildTextOnlyData() {
     },
     user: {
       id: faker.datatype.number(),
-      screen_name: faker.name.firstName(),
+      screen_name: faker.name.firstName() + '_screen',
+      name: faker.name.firstName() + '_name',
     },
   };
 }

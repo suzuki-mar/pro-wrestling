@@ -1,10 +1,16 @@
+export type TTweetContributor = {
+  number: number;
+  identificationName: string;
+  displayName: string;
+};
+
 export type TTweetBase = {
   id: Number;
   text: string;
   type: TweetType;
   hashtags: string[];
   tweeted_at: Date;
-  contributor: string;
+  contributor: TTweetContributor;
 };
 
 export type TTextOnlyTweet = TTweetBase;

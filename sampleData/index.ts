@@ -1,4 +1,4 @@
-import { IAlbum, IAlbumCollection, TPicture } from 'app/wrespic';
+import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/wrespic';
 import { TWrestlerName, IWrestler, IWrestlerCollection } from 'app/core/wreslter';
 import { TPictureTweet, TTweet } from 'integrations/twitter';
 import { WrestlerData } from './wrestlerData';
@@ -60,6 +60,10 @@ export class SampleData {
 
   static albumCollection(wreslerNames: TWrestlerName[]): IAlbumCollection {
     return AlbumData.albumCollection(wreslerNames);
+  }
+
+  static pictureDisplayInfo(name: TWrestlerName): TPictureDisplayInfo {
+    return AlbumData.displayInfo(name);
   }
 
   static imageURLStr(): string {

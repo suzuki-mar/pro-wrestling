@@ -49,7 +49,14 @@ export class AlbumData {
 
   static displayInfo(name: TWrestlerName): DisplayInfo {
     const number = PictureNumber.build(_.random(1000));
-    return new DisplayInfo(number, faker.name.firstName(), new Date(), [name]);
+
+    let contributor = {
+      number: faker.datatype.number(10000),
+      identificationName: faker.name.firstName() + '_identification',
+      displayName: faker.name.firstName() + '_displayName',
+    };
+
+    return new DisplayInfo(number, contributor, new Date(), [name]);
   }
 
   static album(wreslterName: TWrestlerName): IAlbum {

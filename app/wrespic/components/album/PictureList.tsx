@@ -19,7 +19,7 @@ export const PictureList: React.VFC<Props> = ({ pictures }) => {
             <ImageElement picture={picture} isThumbnailURL={false} />
             <ImageListItemBar
               title={picture.displayInfo.formattedDisplayString()}
-              subtitle={<span>by: {picture.displayInfo.contributor}</span>}
+              subtitle={<span>by: {picture.displayInfo.contributor.displayName}</span>}
               position="bottom"
             />
           </ImageListItem>

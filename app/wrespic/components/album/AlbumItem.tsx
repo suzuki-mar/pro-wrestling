@@ -15,7 +15,8 @@ export const AlbumItem: React.VFC<Props> = ({ album }) => {
         <ImageElement className="text-left ..." isThumbnailURL={false} picture={picture} />
         <p className="legend">
           {picture.displayInfo.formattedDisplayString()} <br />
-          by {picture.displayInfo.contributor} <br />
+          by {picture.displayInfo.contributor.displayName}(
+          {picture.displayInfo.contributor.identificationName}) <br />
         </p>
       </div>
     );
