@@ -21,10 +21,6 @@ export class NotImplementedError extends Error {
     this.name = 'NotImplementedError';
   }
 }
-export function convertJSON(target: any) {
-  const str = JSON.stringify(target);
-  return JSON.parse(str);
-}
 
 export function exit() {
   throw new Error('Something bad happened');
