@@ -36,7 +36,14 @@ export class AlbumSerializer {
       new Date(displayInfoParam['date']),
       wreslerNames
     );
-    const pictureURL = PictureURL.build(params['pictureURL']['originalURL'], displayInfo.number);
+
+    const urlParams = params['pictureURL'];
+    const pictureURL = PictureURL.build(
+      urlParams['originalURL'],
+      urlParams['thumbnailURL'],
+      urlParams['defaultSizeURL'],
+      displayInfo.number
+    );
     const fileName = FileName.rebuildFromFileNameStr(params['fileName']['name'], number);
 
     return [displayInfo, fileName, pictureURL];

@@ -24,6 +24,8 @@ export interface IAlbum {
 
 export type TPictureURL = TPictureValueObject & {
   readonly originalURL: string;
+  readonly thumbnailURL: string;
+  readonly defaultSizeURL: string;
 };
 
 export type TPictureDisplayInfo = TPictureValueObject & {

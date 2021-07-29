@@ -15,7 +15,8 @@ export const PictureList: React.VFC<Props> = ({ pictures }) => {
       <ImageList rowHeight={160} className={classes.imageList} cols={2}>
         {pictures.map((picture) => (
           <ImageListItem key={picture.fileName.name} cols={1}>
-            <ImageElement picture={picture} />
+            {/* サムネのサイズを使うと説明部分の幅と合わなくなってしまう */}
+            <ImageElement picture={picture} isThumbnailURL={false} />
             <ImageListItemBar
               title={picture.displayInfo.formattedDisplayString()}
               subtitle={<span>by: {picture.displayInfo.contributor}</span>}

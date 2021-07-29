@@ -13,10 +13,18 @@ import * as _ from 'loadsh';
 import { PictureURL } from 'app/wrespic/models/albums/pictures/pictureURL';
 
 export class AlbumData {
-  static picture(): TPicture {
-    const displayInfo = this.displayInfo(SampleData.wrestlerName());
+  static picture(wreslterName?: TWrestlerName, url?: string): TPicture {
+    if (wreslterName === undefined) {
+      wreslterName = SampleData.wrestlerName();
+    }
+    if (url === undefined) {
+      url = faker.image.imageUrl() + faker.random.alphaNumeric(1000);
+    }
+
+    const displayInfo = this.displayInfo(wreslterName);
     const fileName = FileName.buildFromDisplayInfo(displayInfo);
-    const pictureURL = PictureURL.build(faker.image.imageUrl(_.random(1000)), displayInfo.number);
+
+    const pictureURL = PictureURL.build(url, `${url}:thumb`, `${url}:small`, displayInfo.number);
     return Picture.build(displayInfo, fileName, pictureURL);
   }
 
@@ -24,10 +32,7 @@ export class AlbumData {
     const urls = PictureURLStr.mei();
 
     return urls.map((url) => {
-      const displayInfo = this.displayInfo(wreslterName);
-      const fileName = FileName.buildFromDisplayInfo(displayInfo);
-      const pictureURL = PictureURL.build(url, displayInfo.number);
-      return Picture.build(displayInfo, fileName, pictureURL);
+      return this.picture(wreslterName, url);
     });
   }
 
@@ -42,7 +47,7 @@ export class AlbumData {
     return displayInfoList;
   }
 
-  static displayInfo(name: TWrestlerName): TPictureDisplayInfo {
+  static displayInfo(name: TWrestlerName): DisplayInfo {
     const number = PictureNumber.build(_.random(1000));
     return new DisplayInfo(number, faker.name.firstName(), new Date(), [name]);
   }

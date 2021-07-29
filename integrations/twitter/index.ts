@@ -9,8 +9,27 @@ export type TTweetBase = {
 
 export type TTextOnlyTweet = TTweetBase;
 
+export type TPictureTweetResizedURL = {
+  type: TPictureSizeType;
+  size: {
+    height: number;
+    width: number;
+  };
+  src: string;
+};
+
+export const TPictureSizeTypes = {
+  Thumb: 'thumb',
+  Large: 'large',
+  Medium: 'medium',
+  Small: 'small',
+} as const;
+
+export type TPictureSizeType = typeof TPictureSizeTypes[keyof typeof TPictureSizeTypes];
+
 export type TPictureTweetItem = {
-  pictureURL: string;
+  pictureResizedURLs: TPictureTweetResizedURL[];
+  pictureOriginalURL: string;
   pictureNumber: Number;
 };
 export type TPictureTweet = TTweetBase & { items: TPictureTweetItem[] };

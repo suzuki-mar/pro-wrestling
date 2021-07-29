@@ -4,18 +4,19 @@ import * as _ from 'loadsh';
 import { SampleData } from 'sampleData';
 
 export class PictureURLStr {
-  static profile(): string {
-    const urlStrs = [
-      'https://pbs.twimg.com/profile_images/1379722405220782080/GPA5Q9M-_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1306992114270527489/j2rjqGMg_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1370429023579348992/xijhpU9c_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1065855408378601472/5QteaT_0_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1356870860192186370/DqxmMKKZ_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1368942294036967430/xg-Rbmv2_400x400.jpg',
-      'https://pbs.twimg.com/profile_images/1163873490052632576/gNdvtfeP_400x400.jpg',
-    ];
+  static all(): string[] {
+    let result: string[] = [];
+    SampleData.wrestlerNames().forEach((name) => {
+      const urls = this.findByWreslterName(name);
 
-    return _.shuffle(urlStrs)[0]!;
+      if (urls !== undefined) {
+        result = result.concat(urls);
+      }
+    });
+
+    result = _.shuffle(result);
+
+    return result;
   }
 
   static findByWreslterName(name: TWrestlerName): string[] | undefined {

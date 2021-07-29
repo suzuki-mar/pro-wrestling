@@ -61,10 +61,9 @@ describe('指定の選手の写真URLを取得するスクリプト代わり', (
 
       pictures.forEach((picture: TPictureTweet) => {
         picture.items.forEach((item) => {
-          urls = [...urls, item.pictureURL];
+          urls = [...urls, item.pictureOriginalURL];
         });
       });
-      console.log(urls);
     });
   });
 });

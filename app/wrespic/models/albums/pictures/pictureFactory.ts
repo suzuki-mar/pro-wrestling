@@ -4,9 +4,8 @@ import { TPictureTweet } from 'integrations/twitter';
 import _ from 'lodash';
 import { DisplayInfoCreator } from './factoires/displayInfoCreator';
 import { FileNameCreator } from './factoires/fileNameCreator';
+import { URLCreator } from './factoires/urlCreator';
 import { Picture } from './picture';
-import { PictureNumber } from './pictureNumber';
-import { PictureURL } from './pictureURL';
 
 export class PictureFactory {
   creates(tweets: TPictureTweet[], names: TWrestlerName[]): TPicture[] {
@@ -16,22 +15,10 @@ export class PictureFactory {
     const fileNameCreator = new FileNameCreator();
     const fileNames = fileNameCreator.creates(displayInfoList);
 
-    const pictureURLs = this.createPictureURLs(tweets);
+    const urlCreeator = new URLCreator();
+    const pictureURLs = urlCreeator.creates(tweets);
 
     return this.mergeValueObjects(displayInfoList, fileNames, pictureURLs);
-  }
-
-  private createPictureURLs(tweets: TPictureTweet[]): TPictureURL[] {
-    let urls: TPictureURL = [];
-
-    tweets.forEach((tweet) => {
-      tweet.items.forEach((item) => {
-        const number = PictureNumber.build(item.pictureNumber);
-        urls = [...urls, PictureURL.build(item.pictureURL, number)];
-      });
-    });
-
-    return urls;
   }
 
   private mergeValueObjects(
