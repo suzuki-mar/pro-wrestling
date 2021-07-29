@@ -1,4 +1,10 @@
-import { TPictureTweet, TTextOnlyTweet, TTweet, TweetType } from 'integrations/twitter';
+import {
+  TPictureTweet,
+  TPictureTweetItem,
+  TTextOnlyTweet,
+  TTweet,
+  TweetType,
+} from 'integrations/twitter';
 import faker from 'faker';
 import { SampleData } from '../sampleData';
 import { TWrestlerName } from 'app/core/wreslter';
@@ -41,12 +47,20 @@ export class TweetData {
   }
 
   private static buildPicture(names: TWrestlerName[]): TPictureTweet {
-    const pictureURL = faker.image.imageUrl() + _.random(0, 100000);
+    let items: TPictureTweetItem[] = [];
+    _.times(3, () => {
+      const item = {
+        pictureURL: faker.image.imageUrl() + _.random(0, 100000),
+        pictureNumber: _.random(1000),
+      };
+
+      items = [...items, item];
+    });
+
     return {
       ...this.buildTextOnly(names),
-      pictureURL: pictureURL,
+      items: items,
       type: TweetType.Picture,
-      pictureNumber: _.random(1000),
     };
   }
 }

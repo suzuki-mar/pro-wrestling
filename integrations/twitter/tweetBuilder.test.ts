@@ -23,8 +23,7 @@ describe('Twitter', () => {
       const data = buildPhotoData();
       const tweet = TweetBuilder.build(data) as TPictureTweet;
       expect(tweet.type).toEqual(TweetType.Picture);
-      expect(tweet.pictureURL).not.toBeUndefined();
-      expect(tweet.pictureNumber).not.toBeUndefined();
+      expect(tweet.items).not.toBeUndefined();
     });
   });
 });
@@ -57,7 +56,7 @@ function buildPhotoData() {
     source_user_id_str: faker.datatype.number().toString(),
   };
 
-  base['entities']['media'] = [medium];
+  base['entities']['media'] = [medium, medium];
 
   return base;
 }

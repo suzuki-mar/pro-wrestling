@@ -22,10 +22,16 @@ export class PictureFactory {
   }
 
   private createPictureURLs(tweets: TPictureTweet[]): TPictureURL[] {
-    return tweets.map((tweet) => {
-      const number = PictureNumber.build(tweet.pictureNumber);
-      return PictureURL.build(tweet.pictureURL, number);
+    let urls: TPictureURL = [];
+
+    tweets.forEach((tweet) => {
+      tweet.items.forEach((item) => {
+        const number = PictureNumber.build(item.pictureNumber);
+        urls = [...urls, PictureURL.build(item.pictureURL, number)];
+      });
     });
+
+    return urls;
   }
 
   private mergeValueObjects(

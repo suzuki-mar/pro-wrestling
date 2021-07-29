@@ -1,5 +1,6 @@
 import faker from 'faker';
 import prisma from 'db/index';
+import { Logger } from 'infrastructure/logger';
 
 export const sleep = (someFunction) => {
   return new Promise((resolve) => {
@@ -23,4 +24,14 @@ export class NotImplementedError extends Error {
 export function convertJSON(target: any) {
   const str = JSON.stringify(target);
   return JSON.parse(str);
+}
+
+export function exit() {
+  throw new Error('Something bad happened');
+}
+
+export function exitAndLog(value) {
+  Logger.log(value);
+
+  exit();
 }

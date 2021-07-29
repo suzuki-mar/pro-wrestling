@@ -7,7 +7,14 @@ const pictureTweets = SampleData.pictureTweets();
 
 it('DisplayInfoを作成すること', () => {
   const displayInfoList = creator.creats(names, pictureTweets);
-  expect(displayInfoList.length).toEqual(SampleData.pictureTweets().length);
+
+  let expected = 0;
+
+  SampleData.pictureTweets().forEach((tweet) => {
+    expected = expected + tweet.items.length;
+  });
+
+  expect(displayInfoList.length).toEqual(expected);
 });
 
 it('取得したデータの型があっていること', () => {
