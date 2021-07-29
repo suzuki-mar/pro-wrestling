@@ -33,7 +33,8 @@ describe('Pictureの画像を取得する場合', () => {
   });
 
   it('TypeがPictureのものみ返すこと', async () => {
-    params.addCount(1);
+    // params.addCount(1);
+    params.setCountMax();
 
     const tweets = await client.search(params);
     const textOnlys = TweetFilter.filterTextOnlys(tweets);

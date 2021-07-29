@@ -1,11 +1,7 @@
 import { format } from 'pretty-format';
 
-export class Infra {
+export class Logger {
   static log(value: any) {
     console.log(format(value));
-  }
-
-  static isTestEnv() {
-    return process?.env?.NODE_ENV === 'test';
   }
 }

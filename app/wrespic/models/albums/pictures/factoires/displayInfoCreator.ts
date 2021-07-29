@@ -1,34 +1,32 @@
 import { TPictureDisplayInfo } from 'app/wrespic';
 import { TWrestlerName } from 'app/core/wreslter';
-import { TPictureTweet } from 'integrations/twitter';
+import { TPictureTweet, TPictureTweetItem } from 'integrations/twitter';
 import * as _ from 'loadsh';
 import { DisplayInfo } from '../displayInfo';
 import { PictureNumber } from '../pictureNumber';
 
 export class DisplayInfoCreator {
   creats(names: TWrestlerName[], pictureTweets: TPictureTweet[]): TPictureDisplayInfo[] {
-    let displayInfoList = this.buildPicturesFromTweets(names, pictureTweets);
+    let displayInfoList = this.builds(names, pictureTweets);
     displayInfoList = this.sortedByWrestlerName(names, displayInfoList);
     displayInfoList = this.mergePicturesbySamePictureURL(displayInfoList);
     return displayInfoList;
   }
 
-  private buildPicturesFromTweets(
-    names: TWrestlerName[],
-    pictureTweets: TPictureTweet[]
-  ): TPictureDisplayInfo[] {
-    const groupedPictureTweetList = pictureTweets.map((pictureTweet) => {
-      let picturesList = pictureTweet.hashtags.map((hashtag) => {
-        return this.createDisplayInfoList(names, pictureTweet, hashtag);
-      });
-      picturesList = picturesList.filter((picture) => {
-        return picture.length > 0;
-      });
+  private builds(names: TWrestlerName[], pictureTweets: TPictureTweet[]): TPictureDisplayInfo[] {
+    let displayInfoList: TPictureDisplayInfo[] = [];
 
-      return picturesList;
+    pictureTweets.forEach((pictureTweet) => {
+      pictureTweet.hashtags.forEach((hashtag) => {
+        pictureTweet.items.forEach((item) => {
+          displayInfoList = displayInfoList.concat(
+            this.createDisplayInfoList(names, pictureTweet, hashtag, item)
+          );
+        });
+      });
     });
 
-    return _.flattenDeep(groupedPictureTweetList);
+    return displayInfoList;
   }
 
   private sortedByWrestlerName(
@@ -57,14 +55,15 @@ export class DisplayInfoCreator {
   private createDisplayInfoList(
     names: TWrestlerName[],
     tweet: TPictureTweet,
-    hashtag: string
+    hashtag: string,
+    item: TPictureTweetItem
   ): TPictureDisplayInfo[] {
     const displayInfoList = names.map((name) => {
       if (name.full !== hashtag) {
         return undefined;
       }
 
-      const number = PictureNumber.build(tweet.pictureNumber);
+      const number = PictureNumber.build(item.pictureNumber);
 
       return new DisplayInfo(number, tweet.contributor, tweet.tweeted_at, [name]);
     });

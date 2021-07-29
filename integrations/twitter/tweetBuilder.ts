@@ -1,15 +1,29 @@
-import { TTextOnlyTweet, TPictureTweet, TTweet, TweetType, TTweetBase } from '.';
+import { TTextOnlyTweet, TPictureTweet, TTweet, TweetType, TTweetBase, TPictureTweetItem } from '.';
 import * as _ from 'lodash';
 
 export class TweetBuilder {
   static build(data: any): TTweet {
-    const media = data['entities']['media'];
+    const base = this.buildBase(data);
 
+    const pictureItems = this.buildPhotoItems(data['entities']['media']);
+    if (pictureItems === undefined) {
+      const tweet: TTextOnlyTweet = Object.assign(base, { type: TweetType.TextOnly });
+      return tweet;
+    }
+
+    const tweet: TPictureTweet = Object.assign(base, {
+      type: TweetType.Picture,
+      items: pictureItems,
+    });
+    return tweet;
+  }
+
+  private static buildBase(data): TTweetBase {
     const hashtags = _.map(data['entities']['hashtags'], (hashtag) => {
       return hashtag['text'];
     });
 
-    const base: TTweetBase = {
+    return {
       id: data['id_str'] as Number,
       text: data['text'] as string,
       hashtags: hashtags,
@@ -17,34 +31,25 @@ export class TweetBuilder {
       contributor: data['user']['screen_name'],
       tweeted_at: new Date(data['created_at']),
     };
-
-    const photoInfo = this.buildPhotoInfo(media);
-    if (photoInfo === undefined) {
-      const tweet: TTextOnlyTweet = Object.assign(base, { type: TweetType.TextOnly });
-      return tweet;
-    }
-
-    const tweet: TPictureTweet = Object.assign(base, {
-      type: TweetType.Picture,
-      pictureURL: photoInfo.pictureURL,
-      pictureNumber: photoInfo.pictureNumber,
-    });
-    return tweet;
   }
 
-  // FIXME 一旦画像は１つだけの前提
-
-  private static buildPhotoInfo(
-    media: any
-  ): { pictureURL: string; pictureNumber: Number } | undefined {
+  private static buildPhotoItems(media: any): TPictureTweetItem[] | undefined {
     if (media === undefined) {
       return undefined;
     }
 
-    const medium = media[0];
+    let mediaItems: TPictureTweetItem[] = [];
+    media.forEach((medium) => {
+      if (medium['type'] === 'photo') {
+        mediaItems = [
+          ...mediaItems,
+          { pictureURL: medium['media_url'], pictureNumber: medium['id'] },
+        ];
+      }
+    });
 
-    if (medium['type'] === 'photo') {
-      return { pictureURL: medium['media_url'], pictureNumber: medium['id'] };
+    if (mediaItems.length > 0) {
+      return mediaItems;
     }
 
     return undefined;

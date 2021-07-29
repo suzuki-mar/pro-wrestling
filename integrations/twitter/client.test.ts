@@ -57,8 +57,12 @@ describe('指定の選手の写真URLを取得するスクリプト代わり', (
     it('TypeがPictureのものみ返すこと', async () => {
       const tweets = await client.search(params);
       const pictures: TPictureTweet[] = TweetFilter.filterPictures(tweets);
-      const urls = pictures.map((picture: TPictureTweet) => {
-        return picture.pictureURL;
+      let urls: string[] = [];
+
+      pictures.forEach((picture: TPictureTweet) => {
+        picture.items.forEach((item) => {
+          urls = [...urls, item.pictureURL];
+        });
       });
       console.log(urls);
     });
