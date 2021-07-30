@@ -6,6 +6,7 @@ import {
   TTweet,
   TweetType,
   TPictureTweetResizedURL,
+  TTweetContributor,
 } from 'integrations/twitter';
 import faker from 'faker';
 import { SampleData } from '../sampleData';
@@ -38,13 +39,19 @@ export class TweetData {
     let hashtags = names.map((name) => name.full);
     hashtags = [...hashtags, faker.lorem.slug()];
 
+    const contributor: TTweetContributor = {
+      number: faker.datatype.number(1000),
+      identificationName: faker.name.firstName + '_identification',
+      displayName: faker.name.firstName + '_display',
+    };
+
     return {
       id: faker.datatype.number(),
       text: faker.lorem.text(),
       type: TweetType.TextOnly,
       hashtags: hashtags,
       tweeted_at: faker.datatype.datetime(),
-      contributor: faker.name.firstName(),
+      contributor: contributor,
     };
   }
 

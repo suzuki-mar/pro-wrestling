@@ -1,4 +1,4 @@
-import { TPictureDisplayInfo } from 'app/wrespic';
+import { TPictureContributor, TPictureDisplayInfo } from 'app/wrespic';
 import { TWrestlerName } from 'app/core/wreslter';
 import { TPictureTweet, TPictureTweetItem } from 'integrations/twitter';
 import * as _ from 'loadsh';
@@ -10,7 +10,7 @@ export class DisplayInfoCreator {
     let displayInfoList = this.builds(names, pictureTweets);
     displayInfoList = this.sortedByWrestlerName(names, displayInfoList);
     displayInfoList = this.mergePicturesbySamePictureURL(displayInfoList);
-    return displayInfoList;
+    return displayInfoList as TPictureDisplayInfo[];
   }
 
   private builds(names: TWrestlerName[], pictureTweets: TPictureTweet[]): TPictureDisplayInfo[] {
@@ -65,7 +65,13 @@ export class DisplayInfoCreator {
 
       const number = PictureNumber.build(item.pictureNumber);
 
-      return new DisplayInfo(number, tweet.contributor, tweet.tweeted_at, [name]);
+      const contributor: TPictureContributor = {
+        number: tweet.contributor.number,
+        displayName: tweet.contributor.displayName,
+        identificationName: tweet.contributor.identificationName,
+      };
+
+      return new DisplayInfo(number, contributor, tweet.tweeted_at, [name]);
     });
 
     return displayInfoList.filter((info) => info !== undefined) as TPictureDisplayInfo[];

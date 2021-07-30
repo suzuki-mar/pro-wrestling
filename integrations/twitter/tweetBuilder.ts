@@ -7,6 +7,7 @@ import {
   TPictureTweetItem,
   TPictureTweetResizedURL,
   TPictureSizeType,
+  TTweetContributor,
 } from '.';
 import * as _ from 'lodash';
 
@@ -32,12 +33,19 @@ export class TweetBuilder {
       return hashtag['text'];
     });
 
+    const userData = data['user'];
+    const contributor: TTweetContributor = {
+      number: userData['number'],
+      identificationName: userData['screen_name'],
+      displayName: userData['name'],
+    };
+
     return {
       id: data['id_str'] as Number,
       text: data['text'] as string,
       hashtags: hashtags,
       type: TweetType.Unknown,
-      contributor: data['user']['screen_name'],
+      contributor: contributor,
       tweeted_at: new Date(data['created_at']),
     };
   }

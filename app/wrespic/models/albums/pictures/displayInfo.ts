@@ -1,12 +1,12 @@
 import { TWrestlerName } from 'app/core/wreslter';
-import { TPictureDisplayInfo } from 'app/wrespic';
+import { TPictureContributor, TPictureDisplayInfo } from 'app/wrespic';
 import { TPictureNumber, TPictureValueObject } from 'app/wrespic/models/albums/pictures/type';
 import { format } from 'date-fns';
 
 export class DisplayInfo implements TPictureDisplayInfo, TPictureValueObject {
   constructor(
     readonly number: TPictureNumber,
-    readonly contributor: string,
+    readonly contributor: TPictureContributor,
     readonly date: Date,
     readonly wrestlerNames: TWrestlerName[]
   ) {}

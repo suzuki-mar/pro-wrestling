@@ -1,4 +1,4 @@
-import { TPictureDisplayInfo } from 'app/wrespic';
+import { TPictureContributor, TPictureDisplayInfo } from 'app/wrespic';
 import faker from 'faker';
 import { SampleData } from 'sampleData';
 import { TWrestlerName } from 'app/core/wreslter';
@@ -46,7 +46,12 @@ describe('create', () => {
   function createDisplayInfo(num: number, wrestlerNames: TWrestlerName[]): TPictureDisplayInfo {
     const date = new Date('2020/01/01 10:11:00');
     const number = PictureNumber.build(num);
-    return new DisplayInfo(number, faker.name.firstName(), date, wrestlerNames);
+    const contributor: TPictureContributor = {
+      number: faker.datatype.number(),
+      identificationName: faker.name.firstName(),
+      displayName: faker.name.findName(),
+    };
+    return new DisplayInfo(number, contributor, date, wrestlerNames);
   }
 });
 

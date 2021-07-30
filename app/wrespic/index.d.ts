@@ -28,8 +28,14 @@ export type TPictureURL = TPictureValueObject & {
   readonly defaultSizeURL: string;
 };
 
+export type TPictureContributor = {
+  number: number;
+  identificationName: string;
+  displayName: string;
+};
+
 export type TPictureDisplayInfo = TPictureValueObject & {
-  readonly contributor: string;
+  readonly contributor: TPictureContributor;
   readonly date: Date;
   readonly wrestlerNames: TWrestlerName[];
   formattedDisplayString(): string;
