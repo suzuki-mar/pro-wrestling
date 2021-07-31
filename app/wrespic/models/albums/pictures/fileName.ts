@@ -1,9 +1,8 @@
 import { TWrestlerName } from 'app/core/wreslter';
-import { TPictureDisplayInfo, TPictureFileName } from 'app/wrespic';
+import { TPictureDisplayInfo, TPictureFileName, TPictureNumber } from 'app/wrespic';
 import { format } from 'date-fns';
-import { TPictureNumber, TPictureValueObject } from './type';
 
-export class FileName implements TPictureFileName, TPictureValueObject {
+export class FileName implements TPictureFileName {
   static buildFromDisplayInfo(info: TPictureDisplayInfo): TPictureFileName {
     let uniquedWrestlerNames: TWrestlerName[] = [];
 

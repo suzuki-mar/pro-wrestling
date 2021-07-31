@@ -8,9 +8,7 @@ type Props = {
 };
 
 export const AlbumCollectionSection: React.VFC<Props> = ({ appState }) => {
-  if (!appState.isLoadingComplete) {
-    return <div></div>;
-  }
+  console.log(appState.albumCollection.currentSelectedAlbums());
 
   return (
     <Tabs>
@@ -22,8 +20,7 @@ export const AlbumCollectionSection: React.VFC<Props> = ({ appState }) => {
 
 function renderTabList(albums: IAlbum[]) {
   const tabNames = albums.map((album) => {
-    const str = album.wrestlerName.full;
-    return <Tab key={album.wrestlerName}>{str}</Tab>;
+    return <Tab key={album.title()}>{album.title()}</Tab>;
   });
 
   return <TabList>{tabNames}</TabList>;
@@ -32,7 +29,7 @@ function renderTabList(albums: IAlbum[]) {
 function renderTabPanels(albums: IAlbum[]) {
   const tabPanels = albums.map((album) => {
     return (
-      <TabPanel key={album.wrestlerName}>
+      <TabPanel key={album.title()}>
         <AlbumItem album={album}></AlbumItem>
       </TabPanel>
     );

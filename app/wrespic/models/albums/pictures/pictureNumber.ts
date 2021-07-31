@@ -1,4 +1,4 @@
-import { TPictureNumber } from './type';
+import { TPictureNumber } from 'app/wrespic/';
 
 export class PictureNumber implements TPictureNumber {
   static build(number: Number) {

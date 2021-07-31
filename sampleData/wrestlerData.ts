@@ -1,7 +1,8 @@
 import { Wrestler } from 'app/core/wreslter/models/wrestler';
 import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
-import { TWrestlerName, IWrestler } from 'app/core/wreslter';
+import { TWrestlerName, IWrestler, IPromoter } from 'app/core/wreslter';
 import { SampleData } from '../sampleData';
+import { Promoter } from 'app/core/wreslter/models/promoter';
 
 export class WrestlerData {
   static names(): TWrestlerName[] {
@@ -35,5 +36,9 @@ export class WrestlerData {
     });
 
     return wrestlers;
+  }
+
+  static promoter(): IPromoter {
+    return Promoter.buildMarvelous();
   }
 }

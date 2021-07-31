@@ -5,12 +5,13 @@ import { SampleData } from 'sampleData';
 import { PictureURLStr } from './pictureURLStr';
 import faker from 'faker';
 import { AlbumCollection } from 'app/wrespic/models/albums/albumCollection';
-import { Album } from 'app/wrespic/models/albums/album';
 import { DisplayInfo } from 'app/wrespic/models/albums/pictures/displayInfo';
 import { FileName } from 'app/wrespic/models/albums/pictures/fileName';
 import { PictureNumber } from 'app/wrespic/models/albums/pictures/pictureNumber';
 import * as _ from 'loadsh';
 import { PictureURL } from 'app/wrespic/models/albums/pictures/pictureURL';
+import { WrestlerType } from 'app/wrespic/models/albums/types/wrestlerType';
+import { Album } from 'app/wrespic/models/albums/album';
 
 export class AlbumData {
   static picture(wreslterName?: TWrestlerName, url?: string): TPicture {
@@ -61,7 +62,8 @@ export class AlbumData {
 
   static album(wreslterName: TWrestlerName): IAlbum {
     const pictures = this.pictures(wreslterName);
-    return Album.buildForWrestler(wreslterName, pictures);
+    const type = new WrestlerType(wreslterName);
+    return new Album(type, pictures);
   }
 
   static albumCollection(wreslterNames: TWrestlerName[]): IAlbumCollection {

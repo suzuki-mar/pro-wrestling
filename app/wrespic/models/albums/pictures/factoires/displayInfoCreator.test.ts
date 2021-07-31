@@ -18,7 +18,7 @@ it('DisplayInfoを作成すること', () => {
 });
 
 it('取得したデータの型があっていること', () => {
-  const [info] = creator.creats(names, pictureTweets);
+  const info = creator.creats(names, pictureTweets)[0]!;
   expect(info.date).toBeInstanceOf(Date);
   expect(info.wrestlerNames[0]!.full).not.toBeUndefined();
   expect(info.contributor.number).not.toBeUndefined();
