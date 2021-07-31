@@ -12,6 +12,7 @@ import faker from 'faker';
 import { SampleData } from '../sampleData';
 import { TWrestlerName } from 'app/core/wreslter';
 import * as _ from 'loadsh';
+import { TwitterID } from 'integrations/twitter/twitterID';
 
 export class TweetData {
   static tweets(): TTweet[] {
@@ -41,12 +42,12 @@ export class TweetData {
 
     const contributor: TTweetContributor = {
       number: faker.datatype.number(1000),
-      identificationName: faker.name.firstName + '_identification',
-      displayName: faker.name.firstName + '_display',
+      identificationName: faker.name.firstName() + '_identification',
+      displayName: faker.name.firstName() + '_display',
     };
 
     return {
-      id: faker.datatype.number(),
+      id: TwitterID.build(faker.datatype.number().toString()),
       text: faker.lorem.text(),
       type: TweetType.TextOnly,
       hashtags: hashtags,
@@ -79,22 +80,18 @@ export class TweetData {
     let resizedURLs: TPictureTweetResizedURL[] = [
       {
         type: TPictureSizeTypes.Large,
-        size: { width: 1000, height: 1000 },
         src: `${pictureOriginalURL}:${TPictureSizeTypes.Large}`,
       },
       {
         type: TPictureSizeTypes.Medium,
-        size: { width: 500, height: 500 },
         src: `${pictureOriginalURL}:${TPictureSizeTypes.Medium}`,
       },
       {
         type: TPictureSizeTypes.Small,
-        size: { width: 250, height: 250 },
         src: `${pictureOriginalURL}:${TPictureSizeTypes.Small}`,
       },
       {
         type: TPictureSizeTypes.Thumb,
-        size: { width: 50, height: 50 },
         src: `${pictureOriginalURL}:${TPictureSizeTypes.Thumb}`,
       },
     ];

@@ -17,7 +17,7 @@ export class DisplayInfoCreator {
     let displayInfoList: TPictureDisplayInfo[] = [];
 
     pictureTweets.forEach((pictureTweet) => {
-      pictureTweet.hashtags.forEach((hashtag) => {
+      pictureTweet.hashtags!.forEach((hashtag) => {
         pictureTweet.items.forEach((item) => {
           displayInfoList = displayInfoList.concat(
             this.createDisplayInfoList(names, pictureTweet, hashtag, item)

@@ -1,3 +1,5 @@
+import { TwitterID } from './twitterID';
+
 export type TTweetContributor = {
   number: number;
   identificationName: string;
@@ -5,10 +7,10 @@ export type TTweetContributor = {
 };
 
 export type TTweetBase = {
-  id: Number;
+  id: TTwitterID;
   text: string;
   type: TweetType;
-  hashtags: string[];
+  hashtags?: string[];
   tweeted_at: Date;
   contributor: TTweetContributor;
 };
@@ -17,10 +19,6 @@ export type TTextOnlyTweet = TTweetBase;
 
 export type TPictureTweetResizedURL = {
   type: TPictureSizeType;
-  size: {
-    height: number;
-    width: number;
-  };
   src: string;
 };
 
@@ -32,6 +30,13 @@ export const TPictureSizeTypes = {
 } as const;
 
 export type TPictureSizeType = typeof TPictureSizeTypes[keyof typeof TPictureSizeTypes];
+
+export const TSearchTypes = {
+  Hashtag: 'hashtag',
+  IdList: 'idList',
+} as const;
+
+export type TSearchType = typeof TSearchTypes[keyof typeof TSearchTypes];
 
 export type TPictureTweetItem = {
   pictureResizedURLs: TPictureTweetResizedURL[];
@@ -47,39 +52,35 @@ export enum TweetType {
   Unknown = 'Unknown',
 }
 
-export enum TwitterQueryOperator {
-  AND = 'AND',
-  OR = 'OR',
-}
-
-export enum TwitterFiliter {
+export enum TwitterMediaType {
   IMAGES = 'images',
-  // ツイッターの画像が含まれるツイート
-  TWIMG = 'twimg',
   VIDEOS = 'videos',
-  MEDIA = 'media',
-  UNFILTERED = '',
+  UNSPECIFED_TYPE = '',
 }
 
 export interface ITwitter {
-  search(params: ITwitterParams): Promise<TTweet[]>;
-  multisearch(paramsList: ITwitterParams[]): Promise<TTweet[]>;
+  search(query: ITwitterQuery, params: ITwitterParams): Promise<TTweet[]>;
+  search(idList: TTwitterID[], params: ITwitterParams): Promise<TTweet[]>;
+  multisearch(args: (ITwitterQuery | TwitterID[])[], params: ITwitterParams): Promise<TTweet[]>;
+}
+
+export interface ITwitterQuery {
+  hashtags(): string[];
+  addHashtag(tag: string): ITwitterQuery;
+  setMediaType(type: TwitterMediaType): ITwitterQuery;
+  setIncldueRT(): ITwitterQuery;
 }
 
 export interface ITwitterParams {
-  hashtags(): ITwitterHashtag[];
-  toQuery(): string;
-  filter(): TwitterFiliter;
   count(): Number;
-  addHashTag(hashTag: ITwitterHashtag): ITwitterParams;
-  addFilter(filter: TwitterFiliter): ITwitterParams;
+  setMediaType(type: TwitterMediaType): ITwitterParams;
   setCountMax(): ITwitterParams;
-  addCount(count: Number): ITwitterParams;
-  setIncldueRT(): ITwitterParams;
+  setCount(count: Number): ITwitterParams;
+  mediaType(): TwitterMediaType;
 }
 
-export interface ITwitterHashtag {
-  toString(): string;
-  addString(tag: string, operator: TwitterQueryOperator): ITwitterHashtag;
-  initialize(tag: string): ITwitterHashtag;
-}
+export type TTwitterID = {
+  numeric: BigInt;
+  value: string;
+  equal(compare: TTwitterID): boolean;
+};

@@ -10518,6 +10518,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
+twitter-api-v2@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/twitter-api-v2/-/twitter-api-v2-1.2.0.tgz#cadd7f8d7792b18ac3ebb7a818135ab64883564c"
+  integrity sha512-XqZ3mj2ynIYVLzVs4bj/xxMicpLbS51cGl+TmWe0iDPbJsqW5XA8CyoVrbE78Bd6ZB/uhmjOK0moDL8OrnKJKA==
+
 twitter@1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/twitter/-/twitter-1.7.1.tgz#0762378f1dc1c050e48f666aca904e24b1a962f4"

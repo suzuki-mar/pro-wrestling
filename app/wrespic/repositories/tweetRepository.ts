@@ -1,27 +1,32 @@
 import { ITweetRepository } from 'app/wrespic/models/type';
 import {
-  ITwitterParams,
+  ITwitterQuery,
   TPictureTweet,
   TTextOnlyTweet,
   TweetType,
-  TwitterFiliter,
-  TwitterQueryOperator,
+  TwitterMediaType,
 } from 'integrations/twitter';
-import { Factory } from 'integrations/twitter/factory';
 import { IPromoter, TWrestlerName } from 'app/core/wreslter';
+import { ClientFactory } from 'infrastructure/clientFactory';
+import { TwitterParameterFactory } from 'integrations/twitter/twitterParameterFactory';
+import { TwitterID } from 'integrations/twitter/twitterID';
 
 export class TweetRepository implements ITweetRepository {
   async fetchPictureTweetByWrestlerNames(
     names: TWrestlerName[],
     promoters: IPromoter[]
   ): Promise<TPictureTweet[]> {
-    const paramsList = names.map((name) => {
-      const params = this.createSearchParams(name, promoters);
-      return params.setCountMax();
+    let params = TwitterParameterFactory.createParams();
+    params.setCountMax();
+    params.setMediaType(TwitterMediaType.IMAGES);
+
+    const queries = names.map((name) => {
+      return this.createQuery(name, promoters);
     });
 
-    const client = Factory.createClient();
-    const tweets = await client.multisearch(paramsList);
+    const client = ClientFactory.factoryTwitterClient();
+
+    const tweets = await client.multisearch(queries, params);
 
     const result = tweets.filter((tweet: TPictureTweet | TTextOnlyTweet) => {
       return tweet.type === TweetType.Picture;
@@ -30,23 +35,35 @@ export class TweetRepository implements ITweetRepository {
     return result;
   }
 
-  createSearchParams(name: TWrestlerName, promoters: IPromoter[]): ITwitterParams {
-    const params = Factory.createParams();
-    params.setCountMax();
-    params.addFilter(TwitterFiliter.IMAGES);
+  async fetchPictureTweetsByIds(ids: TwitterID[]): Promise<TPictureTweet[]> {
+    let params = TwitterParameterFactory.createParams();
+    params.setMediaType(TwitterMediaType.IMAGES);
 
+    const client = ClientFactory.factoryTwitterClient();
+
+    const tweets = await client.search(ids, params);
+    const result = tweets.filter((tweet: TPictureTweet | TTextOnlyTweet) => {
+      return tweet.type === TweetType.Picture;
+    }) as TPictureTweet[];
+
+    return result;
+  }
+
+  fetchDefaultLoadingIDs(): TwitterID[] {
+    const idValues = ['1368182865599459328', '1420592812462985218'];
+    return idValues.map((value) => TwitterID.build(value));
+  }
+
+  createQuery(name: TWrestlerName, promoters: IPromoter[]): ITwitterQuery {
     const promoter = promoters.find((promoter: IPromoter) => {
       return promoter.isBelongTo(name);
     });
 
-    const hashtag = Factory.createHashTag();
-    hashtag.initialize(name.full);
+    const query = TwitterParameterFactory.createQuery(name.full);
     if (!name.unique) {
-      hashtag.addString(promoter!.hashtag, TwitterQueryOperator.AND);
+      query.addHashtag(promoter!.hashtag);
     }
 
-    params.addHashTag(hashtag);
-
-    return params;
+    return query;
   }
 }

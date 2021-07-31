@@ -8,8 +8,6 @@ type Props = {
 };
 
 export const AlbumCollectionSection: React.VFC<Props> = ({ appState }) => {
-  console.log(appState.albumCollection.currentSelectedAlbums());
-
   return (
     <Tabs>
       {renderTabList(appState.albumCollection.currentSelectedAlbums())}

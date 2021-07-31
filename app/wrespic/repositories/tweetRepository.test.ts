@@ -3,6 +3,7 @@ import { IPromoter } from 'app/core/wreslter';
 import { SampleData } from 'sampleData';
 import { RepositoryFactory } from '../../../infrastructure/repositoryFactory';
 import { TweetRepository } from './tweetRepository';
+import { TwitterQuery } from 'integrations/twitter/twitterQuery';
 
 const repository = new TweetRepository();
 describe('TweetRepository', () => {
@@ -25,20 +26,21 @@ describe('TweetRepository', () => {
     });
   });
 
-  describe('createParams', () => {
+  describe('createQuery', () => {
     it('名前のユニーク度が高いプロレスラーは団体名はついていないこと', () => {
       const name = SampleData.mioName();
-      const params = repository.createSearchParams(name, promoters);
-      // const expected = `(#${name.full} AND #Marvelouspro) filter:images -filter:retweets`;
-      const expected = `(#${name.full}) filter:images -filter:retweets`;
-      expect(params.toQuery()).toEqual(expected);
+      const query = repository.createQuery(name, promoters) as TwitterQuery;
+      const expected = `#${name.full} has:hashtags -is:retweet`;
+      expect(query.toQuery()).toMatch(expected);
     });
 
-    it('名前のユニーク度が低いプロレスラーは団体名はついていること', () => {
+    // "(#Maria #Marvelouspro has:hashtags -is:retweet)
+
+    it('名前のユニーク度が低いプロレスラーは団体名はついていこと', () => {
       const name = SampleData.mariaName();
-      const params = repository.createSearchParams(name, promoters);
-      const expected = `(#${name.full} AND #Marvelouspro) filter:images -filter:retweets`;
-      expect(params.toQuery()).toEqual(expected);
+      const query = repository.createQuery(name, promoters) as TwitterQuery;
+      const expected = `#${name.full} #Marvelouspro has:hashtags -is:retweet`;
+      expect(query.toQuery()).toMatch(expected);
     });
   });
 });
