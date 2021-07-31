@@ -11,13 +11,24 @@ import { PictureURL } from './models/albums/pictures/pictureURL';
 export class AlbumSerializer {
   static toAlbumCollection(params: {}, wrestlerNames: TWrestlerName[]): IAlbumCollection {
     let pictures: TPicture[] = [];
-    params['_albums'].forEach((params) => {
-      const ps = params['_pictures'].map((param) => {
-        const [displayInfo, fileName, url] = this.toPictureItems(param);
-        return Picture.build(displayInfo, fileName, url);
-      });
 
-      pictures = pictures.concat(ps);
+    const albmuKeys = ['_wreslerAlbums', '_promoteAlbums'];
+
+    albmuKeys.forEach((key) => {
+      params[key].forEach((params) => {
+        params['_pictures'].forEach((param) => {
+          const [displayInfo, fileName, url] = this.toPictureItems(param);
+
+          const picture = Picture.build(displayInfo, fileName, url);
+          const alreadyExits = pictures.some((p) => {
+            return picture.equal(p);
+          });
+
+          if (!alreadyExits) {
+            pictures = [...pictures, picture];
+          }
+        });
+      });
     });
 
     return AlbumCollection.rebuild(wrestlerNames, pictures);

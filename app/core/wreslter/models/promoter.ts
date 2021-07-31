@@ -16,7 +16,7 @@ export class Promoter implements IPromoter {
     return memberName !== undefined;
   }
 
-  // MVP開発用
+  // マーベラスしか対応しない予定なので
   static buildMarvelous() {
     const name: TPromoterName = { shortName: 'Marvelous' };
 

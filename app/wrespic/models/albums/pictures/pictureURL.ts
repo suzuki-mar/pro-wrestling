@@ -1,7 +1,6 @@
-import { TPictureURL } from 'app/wrespic';
-import { TPictureNumber, TPictureValueObject } from './type';
+import { TPictureURL, TPictureNumber } from 'app/wrespic';
 
-export class PictureURL implements TPictureURL, TPictureValueObject {
+export class PictureURL implements TPictureURL {
   static build(
     originalURL: string,
     thumbnailURL: string,

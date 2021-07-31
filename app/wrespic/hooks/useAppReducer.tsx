@@ -3,7 +3,6 @@ import { IWrestlerCollection } from 'app/core/wreslter';
 import { ISelectedWrestlers, IAlbumCollection, UIAction } from '..';
 
 export type AppState = {
-  isLoadingComplete: boolean;
   selectedWrestlers: ISelectedWrestlers;
   albumCollection: IAlbumCollection;
   wrestlerCollection: IWrestlerCollection;
@@ -13,7 +12,7 @@ const appReducer: Reducer<AppState, UIAction> = (state, action) => {
   switch (action.type) {
     case 'displayChoice':
       state.albumCollection.filterAlbumsByWrestlerNames(state.selectedWrestlers.names());
-      return { ...state, isLoadingComplete: true, albumCollection: state.albumCollection };
+      return { ...state, albumCollection: state.albumCollection };
     case 'selecteWrestler':
       const name = action.payload.name;
 
@@ -35,7 +34,6 @@ export function useAppReducer(
   wrestlerCollection: IWrestlerCollection
 ): [AppState, Dispatch<UIAction>] {
   const initialState: AppState = {
-    isLoadingComplete: false,
     selectedWrestlers: selectedWrestlers,
     albumCollection: albumCollection,
     wrestlerCollection: wrestlerCollection,

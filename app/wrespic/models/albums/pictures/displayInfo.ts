@@ -1,9 +1,8 @@
 import { TWrestlerName } from 'app/core/wreslter';
-import { TPictureContributor, TPictureDisplayInfo } from 'app/wrespic';
-import { TPictureNumber, TPictureValueObject } from 'app/wrespic/models/albums/pictures/type';
+import { TPictureContributor, TPictureDisplayInfo, TPictureNumber } from 'app/wrespic';
 import { format } from 'date-fns';
 
-export class DisplayInfo implements TPictureDisplayInfo, TPictureValueObject {
+export class DisplayInfo implements TPictureDisplayInfo {
   constructor(
     readonly number: TPictureNumber,
     readonly contributor: TPictureContributor,
