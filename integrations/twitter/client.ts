@@ -1,17 +1,20 @@
-import * as _ from 'lodash';
-import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterFiliter } from '.';
+import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterMediaType, ITwitterQuery } from '.';
 import { TweetBuilder } from './tweetBuilder';
-
-// 'esModuleInterop'を設定しているがコンパイル時に正しく読み込まれていない
-// @ts-ignore
-import Twitter, { RequestParams } from 'twitter';
+import { TwitterID } from './twitterID';
+import { SearchExecutor, SearchResponseItem } from './searchExecutor';
+import * as _ from 'loadsh';
+import { TwitterQuery } from './twitterQuery';
+import { TwitterParams } from './twitterParams';
 
 export class Client implements ITwitter {
   private params: ITwitterParams;
 
-  async multisearch(paramsList: ITwitterParams[]): Promise<TTweet[]> {
-    let promises = paramsList.map((params) => {
-      return this.search(params);
+  async multisearch(
+    args: (ITwitterQuery | TwitterID[])[],
+    params: ITwitterParams
+  ): Promise<TTweet[]> {
+    let promises = args.map((arg) => {
+      return this.search(arg, params);
     });
 
     return Promise.all(promises).then((values) => {
@@ -19,51 +22,40 @@ export class Client implements ITwitter {
     });
   }
 
-  async search(params: ITwitterParams): Promise<TTweet[]> {
+  async search(arg: ITwitterQuery | TwitterID[], params: ITwitterParams): Promise<TTweet[]> {
     this.params = params;
 
-    if (this.params.hashtags().length === 0) {
-      throw new Error('Twitter検索にはハッシュタグの設定が必要');
+    const executor = new SearchExecutor(params as TwitterParams);
+
+    let responses: SearchResponseItem[] | undefined;
+
+    if (Array.isArray(arg)) {
+      const targetIds: TwitterID[] = arg as TwitterID[];
+      responses = await executor.executeFromIds(targetIds);
+    } else {
+      const query: TwitterQuery = arg as TwitterQuery;
+      responses = await executor.executeFromQeuery(query);
     }
 
-    const client = this.buildClient();
-    const requestParams: RequestParams = {
-      q: this.params.toQuery(),
-      filter: this.params.filter(),
-      count: this.params.count(),
-    };
+    if (responses === undefined) {
+      return [];
+    }
 
-    const searchResult = await client
-      .get('search/tweets', requestParams)
-      .catch(function (error: unknown) {
-        throw error;
-      });
-
-    const result = this.buildTweet(searchResult);
-
+    const result = this.buildTweets(responses);
     return result;
   }
 
-  private buildTweet(response: any): TTweet[] {
-    const tweets = _.map(response['statuses'].slice(0), function (tweetData: any) {
-      return TweetBuilder.build(tweetData);
+  private buildTweets(responses: SearchResponseItem[]): TTweet[] {
+    const tweets = responses.map((item) => {
+      return TweetBuilder.build(item);
     });
 
-    if (this.params.filter() !== TwitterFiliter.IMAGES) {
+    if (this.params.mediaType() !== TwitterMediaType.IMAGES) {
       return tweets;
     }
 
     return _.filter(tweets, (tweet) => {
       return tweet.type === TweetType.Picture;
-    });
-  }
-
-  private buildClient(): Twitter {
-    return new Twitter({
-      consumer_key: process.env.TWITTER_CONSUMER_KEY!,
-      consumer_secret: process.env.TWITTER_CONSUMER_SECRET!,
-      access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY!,
-      access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET!,
     });
   }
 }

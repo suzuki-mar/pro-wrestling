@@ -17,6 +17,7 @@ export class AlbumCollection implements IAlbumCollection {
     const pictureTweets = await this.searchPictureTweets(names);
 
     const pictureFactory = new PictureFactory();
+
     const pictures = pictureFactory.creates(pictureTweets, names);
 
     this._wreslerAlbums = names.map((name) => {
@@ -81,7 +82,17 @@ export class AlbumCollection implements IAlbumCollection {
     const tweetRepository = RepositoryFactory.factoryTweetRepository();
     const promotRepository = RepositoryFactory.factoryPromoterRepository();
     const promots = await promotRepository.featchAll();
-    return tweetRepository.fetchPictureTweetByWrestlerNames(names, promots);
+
+    const twitterIds = tweetRepository.fetchDefaultLoadingIDs();
+
+    const promises = [
+      tweetRepository.fetchPictureTweetByWrestlerNames(names, promots),
+      tweetRepository.fetchPictureTweetsByIds(twitterIds),
+    ];
+
+    return await Promise.all(promises).then((values) => {
+      return values.flat();
+    });
   }
 
   private static createsWrestlerAlbums(names: TWrestlerName[], pictures: TPicture[]) {

@@ -1,41 +1,51 @@
 import { Client } from 'integrations/twitter/client';
-import { TwitterFiliter, TPictureTweet } from 'integrations/twitter';
-import { TwitterParams } from 'integrations/twitter/params';
-import { TwitterHashtag } from 'integrations/twitter/twitterHashtag';
+import {
+  TwitterMediaType,
+  TPictureTweet,
+  ITwitterParams,
+  ITwitterQuery,
+} from 'integrations/twitter';
+import { TwitterQuery } from 'integrations/twitter/twitterQuery';
+import { TwitterParams } from 'integrations/twitter/twitterParams';
 import { TweetFilter } from 'integrations/twitter/tweetFilter';
 
 import dotenv from 'dotenv';
 import { SampleData } from 'sampleData';
+import { TwitterID } from './twitterID';
 dotenv.config();
 
 // 外部APIとの接続になるため必要最小限の実行にしている
 const client = new Client();
-let params: TwitterParams = new TwitterParams();
+let params: ITwitterParams;
+let query: ITwitterQuery;
 
-describe.skip('接続確認', () => {
-  beforeEach(() => {
-    params.addHashTag(new TwitterHashtag().initialize('Test'));
+beforeEach(async (done) => {
+  params = new TwitterParams();
+  done();
+});
+
+describe('接続確認', () => {
+  beforeEach(async (done) => {
+    query = new TwitterQuery('Test');
+    done();
   });
-
   it('接続ができること', async () => {
     try {
-      await client.search(params);
+      await client.search(query, params);
     } catch (error) {
       expect(false).toBeTruthy();
     }
   });
 });
 
-describe('Pictureの画像を取得する場合', () => {
+describe('Query検索でPictureの画像を取得する場合', () => {
   beforeEach(() => {
-    params.addFilter(TwitterFiliter.IMAGES);
-    params.addHashTag(new TwitterHashtag().initialize(SampleData.mioName().full));
+    params.setMediaType(TwitterMediaType.IMAGES);
+    query = new TwitterQuery(SampleData.mioName().full);
   });
 
   it('TypeがPictureのものみ返すこと', async () => {
-    params.addCount(1);
-
-    const tweets = await client.search(params);
+    const tweets = await client.search(query, params);
     const textOnlys = TweetFilter.filterTextOnlys(tweets);
     expect(textOnlys.length).toEqual(0);
 
@@ -44,56 +54,39 @@ describe('Pictureの画像を取得する場合', () => {
   });
 });
 
-describe.skip('すべてのタイプを取得する場合', () => {
-  it('TypeがPictureのものみ返すこと', async () => {
-    params.addHashTag(new TwitterHashtag().initialize(SampleData.meiName().full));
-
-    const tweets = await client.search(params);
-
-    const textOnly = TweetFilter.filterTextOnlys(tweets);
-    expect(textOnly.length).not.toEqual(0);
-
-    const picture = TweetFilter.filterPictures(tweets);
-    expect(picture.length).not.toEqual(0);
+describe('ID検索ですべてのタイプを取得する場合', () => {
+  it('テキストとして取得する', async () => {
+    const targetId = TwitterID.build('1419646898781097989');
+    const ids = [targetId];
+    const tweets = await client.search(ids, params);
+    expect(tweets[0]!.id.equal(targetId)).toBeTruthy();
   });
 });
 
-describe.skip('RTを含める場合', () => {
+describe('RTを含める場合', () => {
   beforeEach(() => {
-    params.setIncldueRT();
+    query = new TwitterQuery(SampleData.mioName().full);
+    query = query.setIncldueRT();
+    params = params.setCountMax();
   });
 
-  it('RTの画像も返されていること', async () => {
-    const tweets = await client.search(params);
+  it('RTのTweetも返されていること', async () => {
+    const tweets = await client.search(query, params);
 
     const rtweets = TweetFilter.filterRtweets(tweets);
     expect(rtweets.length).not.toEqual(0);
   });
-});
 
-describe.skip('RTを含める場合', () => {
-  beforeEach(() => {
-    params.setIncldueRT();
-  });
+  describe('データを取得できなかった場合', () => {
+    beforeEach(() => {
+      params.setMediaType(TwitterMediaType.IMAGES);
+      query = new TwitterQuery(SampleData.unknownName().full);
+    });
 
-  it('RTの画像も返されていること', async () => {
-    const tweets = await client.search(params);
-
-    const rtweets = TweetFilter.filterRtweets(tweets);
-    expect(rtweets.length).not.toEqual(0);
-  });
-});
-
-describe('エラー処理', () => {
-  it('paramsにハッシュタグがない場合はエラーを返すこと', async () => {
-    try {
-      let params: TwitterParams = new TwitterParams();
-      await client.search(params);
-      expect(false).toBeTruthy();
-    } catch (error) {
-      expect(true).toBeTruthy();
-    }
+    it('エラーが発生しないこと', async () => {
+      const tweets = await client.search(query, params);
+      expect(tweets.length).toEqual(0);
+    });
   });
 });
-
 export {};

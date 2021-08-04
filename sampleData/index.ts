@@ -43,7 +43,7 @@ export class SampleData {
   }
 
   static unknownName(): TWrestlerName {
-    return new WrestlerName(faker.name.firstName(), true);
+    return new WrestlerName(faker.name.firstName() + faker.random.alpha(), true);
   }
 
   static picture(): TPicture {

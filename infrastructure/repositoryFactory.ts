@@ -7,6 +7,7 @@ import { ITweetRepository } from 'app/wrespic/models/type';
 import { SampleData } from 'sampleData';
 import { PromoterRepository } from 'app/core/wreslter/models/repositories/promoterRepository';
 import { TweetRepository } from 'app/wrespic/repositories/tweetRepository';
+import { TwitterID } from 'integrations/twitter/twitterID';
 
 export class RepositoryFactory {
   private static _isConnectingToRealDB = process.env.NODE_ENV === 'test' ? false : true;
@@ -45,6 +46,14 @@ export class RepositoryFactory {
   public static MockTweetRepository = class implements ITweetRepository {
     async fetchPictureTweetByWrestlerNames(): Promise<TPictureTweet[]> {
       return SampleData.pictureTweets();
+    }
+
+    async fetchPictureTweetsByIds(): Promise<TPictureTweet[]> {
+      return SampleData.pictureTweets();
+    }
+
+    fetchDefaultLoadingIDs(): TwitterID[] {
+      return [TwitterID.build('123')];
     }
   };
 }

@@ -24,24 +24,26 @@ describe('AlbumCollection', () => {
       collection = new AlbumCollection();
     });
 
-    it('指定したレスラーのアルバムを取得すること', async () => {
+    it('指定したレスラーのアルバムを取得すること', async (done) => {
       await collection.load([SampleData.mioName(), SampleData.meiName()]);
       const album = collection.allAlbums()[0]!;
 
       const type = album.type() as WrestlerType;
       expect(type.wrestlerName().equal(SampleData.mioName())).toBeTruthy();
+      done();
     });
 
-    it('レスラーごとにアルバムに写真をセットしていること', async () => {
+    it('レスラーごとにアルバムに写真をセットしていること', async (done) => {
       await collection.load([SampleData.mioName(), SampleData.meiName()]);
       const existsEmptyAlbum = collection
         .allAlbums()
         .some((album) => album.pictures().length === 0);
       expect(existsEmptyAlbum).toBeFalsy();
+      done();
     });
   });
 
-  describe('実際のAPIにつなげる処理 必要になるとき以外Skipするs', () => {
+  describe.skip('実際のAPIにつなげる処理 必要になるとき以外Skipするs', () => {
     beforeEach(() => {
       RepositoryFactory.connectingToRealDB();
       ClientFactory.connectingToExternalAPI();
@@ -52,7 +54,7 @@ describe('AlbumCollection', () => {
       RepositoryFactory.resetStatus();
     });
 
-    it('コレクションをレスラー名順にロードできていること', async () => {
+    it('コレクションをレスラー名順にロードできていること', async (done) => {
       collection = new AlbumCollection();
       const names = SampleData.wrestlerNames();
       await collection.load(names);
@@ -63,6 +65,16 @@ describe('AlbumCollection', () => {
 
       const lastType = _.last(albums).type() as WrestlerType;
       expect(lastType.wrestlerName().equal(names[names.length - 1])).toBeTruthy();
+      done();
+    });
+
+    describe('Twitterからデータを取得できなかった場合', () => {
+      it('エラーにならないこと', async (done) => {
+        collection = new AlbumCollection();
+
+        expect(async () => await collection.load([SampleData.unknownName()])).not.toThrow();
+        done();
+      });
     });
   });
 });

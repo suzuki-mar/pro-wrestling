@@ -6,16 +6,17 @@ import {
   TTweetBase,
   TPictureTweetItem,
   TPictureTweetResizedURL,
-  TPictureSizeType,
   TTweetContributor,
+  TPictureSizeTypes,
 } from '.';
 import * as _ from 'lodash';
+import { SearchResponseItem } from './searchExecutor';
 
 export class TweetBuilder {
-  static build(data: any): TTweet {
-    const base = this.buildBase(data);
+  static build(item: SearchResponseItem): TTweet {
+    const base = this.buildBase(item);
 
-    const pictureItems = this.buildPictureItems(data['entities']['media']);
+    const pictureItems = this.buildPictureItems(item);
     if (pictureItems === undefined) {
       const tweet: TTextOnlyTweet = Object.assign(base, { type: TweetType.TextOnly });
       return tweet;
@@ -28,45 +29,40 @@ export class TweetBuilder {
     return tweet;
   }
 
-  private static buildBase(data): TTweetBase {
-    const hashtags = _.map(data['entities']['hashtags'], (hashtag) => {
-      return hashtag['text'];
-    });
+  private static buildBase(item: SearchResponseItem): TTweetBase {
+    const contributorData = item.contributor;
 
-    const userData = data['user'];
     const contributor: TTweetContributor = {
-      number: userData['number'],
-      identificationName: userData['screen_name'],
-      displayName: userData['name'],
+      number: contributorData.id,
+      identificationName: contributorData.username,
+      displayName: contributorData.name,
     };
 
     return {
-      id: data['id_str'] as Number,
-      text: data['text'] as string,
-      hashtags: hashtags,
+      id: item.id,
+      text: item.text,
+      hashtags: item.hashtags,
       type: TweetType.Unknown,
       contributor: contributor,
-      tweeted_at: new Date(data['created_at']),
+      tweeted_at: item.tweeted_at,
     };
   }
 
-  private static buildPictureItems(media: any): TPictureTweetItem[] | undefined {
-    if (media === undefined) {
+  private static buildPictureItems(item: SearchResponseItem): TPictureTweetItem[] | undefined {
+    if (_.isEmpty(item.photoURLs)) {
       return undefined;
     }
 
     let mediaItems: TPictureTweetItem[] = [];
-    media.forEach((medium) => {
-      if (medium['type'] === 'photo') {
-        mediaItems = [
-          ...mediaItems,
-          {
-            pictureResizedURLs: this.buildResizedURL(medium),
-            pictureOriginalURL: medium['media_url'],
-            pictureNumber: medium['id'],
-          },
-        ];
-      }
+    item.photoURLs!.forEach((photoURL) => {
+      mediaItems = [
+        ...mediaItems,
+        {
+          pictureResizedURLs: this.buildResizedURL(photoURL.url),
+          pictureOriginalURL: photoURL.url,
+          pictureNumber: photoURL.id,
+        },
+      ];
     });
 
     if (mediaItems.length > 0) {
@@ -76,13 +72,15 @@ export class TweetBuilder {
     return undefined;
   }
 
-  private static buildResizedURL(mediumData): TPictureTweetResizedURL[] {
-    const urls = _.map(mediumData['sizes'], (info, type) => {
-      const size = { height: info['h'], width: info['w'] };
-      const src = mediumData['media_url'] + ':' + type;
-      return { size: size, type: type as TPictureSizeType, src: src };
+  private static buildResizedURL(url: string): TPictureTweetResizedURL[] {
+    const types = [
+      TPictureSizeTypes.Large,
+      TPictureSizeTypes.Medium,
+      TPictureSizeTypes.Small,
+      TPictureSizeTypes.Thumb,
+    ];
+    return types.map((type) => {
+      return { type: type, src: url + ':' + type };
     });
-
-    return urls;
   }
 }

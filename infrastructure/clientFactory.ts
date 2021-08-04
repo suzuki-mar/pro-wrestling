@@ -1,6 +1,7 @@
 import { Client as TwitterClient } from 'integrations/twitter/client';
-import { ITwitterParams, TTweet, ITwitter } from 'integrations/twitter';
+import { ITwitterParams, TTweet, ITwitter, ITwitterQuery } from 'integrations/twitter';
 import { SampleData } from 'sampleData';
+import { TwitterID } from 'integrations/twitter/twitterID';
 
 export class ClientFactory {
   private static _isConnectingToExternalAPI = process.env.NODE_ENV === 'test' ? false : true;
@@ -29,12 +30,15 @@ export class ClientFactory {
   }
 
   public static MockTwitterClient = class implements ITwitter {
-    async search(params: ITwitterParams): Promise<TTweet[]> {
+    async search(arg: ITwitterQuery | TwitterID[], params: ITwitterParams): Promise<TTweet[]> {
       return SampleData.tweets();
     }
 
-    async multisearch(paramsList: ITwitterParams[]): Promise<TTweet[]> {
-      return this.search(paramsList[0]!);
+    async multisearch(
+      args: (ITwitterQuery | TwitterID[])[],
+      params: ITwitterParams
+    ): Promise<TTweet[]> {
+      return await this.search(args[0]!, params);
     }
   };
 }
