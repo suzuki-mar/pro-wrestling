@@ -4,8 +4,14 @@ import { PromoterType } from './types/promoterType';
 import { WrestlerType } from './types/wrestlerType';
 
 export class Album implements IAlbum {
+  static readonly MAX_COUNT: number = 100;
+
   constructor(readonly _type: IAlbumType, private _pictures: TPicture[]) {
     this._pictures = _type.filterToPictures(_pictures);
+
+    if (this._pictures.length > Album.MAX_COUNT) {
+      this._pictures = this._pictures.splice(0, Album.MAX_COUNT);
+    }
   }
 
   pictures(): TPicture[] {

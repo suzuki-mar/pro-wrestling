@@ -1,6 +1,7 @@
 import { ITweetRepository } from 'app/wrespic/models/type';
 import {
   ITwitterQuery,
+  REQUEST_MAX_COUNT,
   TPictureTweet,
   TTextOnlyTweet,
   TweetType,
@@ -10,6 +11,8 @@ import { IPromoter, TWrestlerName } from 'app/core/wreslter';
 import { ClientFactory } from 'infrastructure/clientFactory';
 import { TwitterParameterFactory } from 'integrations/twitter/twitterParameterFactory';
 import { TwitterID } from 'integrations/twitter/twitterID';
+import { TweetIDList } from './tweetRepositories/tweetIDList';
+import _ from 'lodash';
 
 export class TweetRepository implements ITweetRepository {
   async fetchPictureTweetByWrestlerNames(
@@ -40,8 +43,9 @@ export class TweetRepository implements ITweetRepository {
     params.setMediaType(TwitterMediaType.IMAGES);
 
     const client = ClientFactory.factoryTwitterClient();
+    const idsList = _.chunk(ids, REQUEST_MAX_COUNT);
 
-    const tweets = await client.search(ids, params);
+    const tweets = await client.multisearch(idsList, params);
     const result = tweets.filter((tweet: TPictureTweet | TTextOnlyTweet) => {
       return tweet.type === TweetType.Picture;
     }) as TPictureTweet[];
@@ -50,8 +54,7 @@ export class TweetRepository implements ITweetRepository {
   }
 
   fetchDefaultLoadingIDs(): TwitterID[] {
-    const idValues = ['1368182865599459328', '1420592812462985218'];
-    return idValues.map((value) => TwitterID.build(value));
+    return TweetIDList.list();
   }
 
   createQuery(name: TWrestlerName, promoters: IPromoter[]): ITwitterQuery {

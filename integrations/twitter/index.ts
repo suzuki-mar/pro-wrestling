@@ -1,5 +1,7 @@
 import { TwitterID } from './twitterID';
 
+export const REQUEST_MAX_COUNT = 100;
+
 export type TTweetContributor = {
   number: number;
   identificationName: string;

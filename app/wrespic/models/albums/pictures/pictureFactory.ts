@@ -27,7 +27,6 @@ export class PictureFactory {
     pictureURLs: TPictureURL[]
   ): TPicture[] {
     let paramsList = {};
-
     displayInfoList.forEach((info) => {
       paramsList[info.number.str] = {};
       paramsList[info.number.str]['info'] = info;

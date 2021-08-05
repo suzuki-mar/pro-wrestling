@@ -5,4 +5,5 @@ export interface IWrestlerRepository {
 
 export interface IPromoterRepository {
   featchAll(): Promise<IPromoter[]>;
+  featchByWrestlerName(name: TWrestlerName): Promise<IPromoter>;
 }

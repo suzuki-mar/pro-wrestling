@@ -79,6 +79,7 @@ export class TweetBuilder {
       TPictureSizeTypes.Small,
       TPictureSizeTypes.Thumb,
     ];
+
     return types.map((type) => {
       return { type: type, src: url + ':' + type };
     });

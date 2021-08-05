@@ -71,6 +71,7 @@
     "request": "2.88.2",
     "request-promise": "4.2.6",
     "tailwindcss": "2.1.2",
+    "ts-node": "10.1.0",
     "twitter": "1.7.1",
     "twitter-api-v2": "1.2.0",
     "types": "0.1.1",

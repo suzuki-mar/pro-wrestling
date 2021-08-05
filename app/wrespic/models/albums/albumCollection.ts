@@ -14,10 +14,20 @@ export class AlbumCollection implements IAlbumCollection {
   protected _promoteAlbums: IAlbum[] = [];
 
   async load(names: TWrestlerName[]): Promise<void> {
+    const promoter = Promoter.buildMarvelous();
+    const allInvalidNames = names.every((name) => {
+      return !promoter.isBelongTo(name);
+    });
+
+    if (allInvalidNames) {
+      this._wreslerAlbums = [];
+      this._promoteAlbums = [];
+      this._currentSelectedAlbums = [];
+      return;
+    }
+
     const pictureTweets = await this.searchPictureTweets(names);
-
     const pictureFactory = new PictureFactory();
-
     const pictures = pictureFactory.creates(pictureTweets, names);
 
     this._wreslerAlbums = names.map((name) => {
@@ -25,7 +35,6 @@ export class AlbumCollection implements IAlbumCollection {
       return new Album(type, pictures);
     });
 
-    const promoter = Promoter.buildMarvelous();
     const type = new PromoterType(promoter);
     this._promoteAlbums = [new Album(type, pictures)];
 
@@ -90,9 +99,11 @@ export class AlbumCollection implements IAlbumCollection {
       tweetRepository.fetchPictureTweetsByIds(twitterIds),
     ];
 
-    return await Promise.all(promises).then((values) => {
+    const result = await Promise.all(promises).then((values) => {
       return values.flat();
     });
+
+    return result;
   }
 
   private static createsWrestlerAlbums(names: TWrestlerName[], pictures: TPicture[]) {

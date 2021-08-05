@@ -24,4 +24,13 @@ export class Promoter implements IPromoter {
 
     return new this(name, 'Marvelouspro', memberNames);
   }
+
+  // 複数団体に対応するときに削除する
+  static buildOtherPromoter() {
+    const name: TPromoterName = { shortName: 'Other Promotr' };
+
+    const memberNames = [];
+
+    return new this(name, 'Other Promotr', memberNames);
+  }
 }

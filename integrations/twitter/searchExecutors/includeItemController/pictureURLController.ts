@@ -1,5 +1,4 @@
 import { ApiV2Includes, TweetV2 } from 'twitter-api-v2';
-
 import { IncludeItemController } from './interface';
 import * as _ from 'loadsh';
 
@@ -27,7 +26,20 @@ export class PictureURLController implements IncludeItemController {
   }
 
   valid(tweet: TweetV2): boolean {
-    return tweet.attachments !== undefined;
+    if (tweet.attachments === undefined) {
+      return false;
+    }
+
+    // メディアがphotoではない場合
+    const mediaKeys = tweet.attachments.media_keys!;
+
+    const isAllPictures = mediaKeys.every((key) => {
+      return _.some(this._values, (u, k) => {
+        return key === k;
+      });
+    });
+
+    return isAllPictures;
   }
 
   createIncludesDatas(tweet: TweetV2): {} {
