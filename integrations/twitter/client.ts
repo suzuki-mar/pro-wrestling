@@ -42,6 +42,7 @@ export class Client implements ITwitter {
     }
 
     const result = this.buildTweets(responses);
+
     return result;
   }
 
