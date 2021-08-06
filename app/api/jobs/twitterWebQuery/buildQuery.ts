@@ -5,8 +5,6 @@ import { WreslerQuery } from 'app/core/wreslter/models/wreslterQuery';
 import moment from 'moment';
 import * as _ from 'loadsh';
 import { ContestData } from 'sampleData/contestData';
-import { Logger } from 'infrastructure/logger';
-import { exit } from 'test/lib';
 
 export async function execute(): Promise<{}> {
   let promises: Promise<string[]>[] = [];
@@ -19,11 +17,6 @@ export async function execute(): Promise<{}> {
   promises = promises.concat(buildQueries(names, date));
 
   ContestData.creates().forEach((contest) => {
-    if (contest === undefined) {
-      Logger.log(contest);
-      exit();
-    }
-
     const since = moment(contest.date());
     const until = moment(contest.date()).add(3, 'days');
 

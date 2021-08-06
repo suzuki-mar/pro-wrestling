@@ -5,7 +5,6 @@ import { IContest } from 'app/contests';
 import { Contest } from 'app/contests/domain/models/contest';
 import * as _ from 'loadsh';
 import { IPromoter, TWrestlerName } from 'app/core/wreslter';
-import { Logger } from 'infrastructure/logger';
 
 const WrestlerFirstNames = {
   TAKUMI: 'takumi',
