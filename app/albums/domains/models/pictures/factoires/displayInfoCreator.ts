@@ -1,9 +1,8 @@
-import { TPictureContributor, TPictureDisplayInfo } from 'app/albums';
+import { TPictureDisplayInfo } from 'app/albums';
 import { TWrestlerName } from 'app/wreslters';
-import { TPictureTweet, TPictureTweetItem } from 'integrations/twitter';
+import { TPictureTweet } from 'integrations/twitter';
 import * as _ from 'loadsh';
 import { DisplayInfo } from '../displayInfo';
-import { PictureNumber } from '../pictureNumber';
 
 export class DisplayInfoCreator {
   creats(names: TWrestlerName[], pictureTweets: TPictureTweet[]): TPictureDisplayInfo[] {
@@ -20,7 +19,7 @@ export class DisplayInfoCreator {
       pictureTweet.hashtags!.forEach((hashtag) => {
         pictureTweet.items.forEach((item) => {
           displayInfoList = displayInfoList.concat(
-            this.createDisplayInfoList(names, pictureTweet, hashtag, item)
+            DisplayInfo.creates(names, pictureTweet, hashtag, item)
           );
         });
       });
@@ -50,31 +49,6 @@ export class DisplayInfoCreator {
     });
 
     return sortedInfoList;
-  }
-
-  private createDisplayInfoList(
-    names: TWrestlerName[],
-    tweet: TPictureTweet,
-    hashtag: string,
-    item: TPictureTweetItem
-  ): TPictureDisplayInfo[] {
-    const displayInfoList = names.map((name) => {
-      if (name.full !== hashtag) {
-        return undefined;
-      }
-
-      const number = PictureNumber.build(item.pictureNumber);
-
-      const contributor: TPictureContributor = {
-        number: tweet.contributor.number,
-        displayName: tweet.contributor.displayName,
-        identificationName: tweet.contributor.identificationName,
-      };
-
-      return new DisplayInfo(number, contributor, tweet.tweeted_at, [name]);
-    });
-
-    return displayInfoList.filter((info) => info !== undefined) as TPictureDisplayInfo[];
   }
 
   private mergePicturesbySamePictureURL(

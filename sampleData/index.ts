@@ -8,6 +8,8 @@ import { PictureURLStr } from './pictureURLStr';
 import { AlbumData } from './albumData';
 import { WrestlerCollection } from 'app/wreslters/domains/models/wrestlerCollection';
 import faker from 'faker';
+import { ContestData } from './contestData';
+import { IContest } from 'app/contests';
 
 export class SampleData {
   static wrestlerNames(): TWrestlerName[] {
@@ -84,5 +86,9 @@ export class SampleData {
 
   static promoter(): IPromoter {
     return WrestlerData.promoter();
+  }
+
+  static contents(): IContest[] {
+    return ContestData.creates();
   }
 }

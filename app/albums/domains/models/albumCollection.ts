@@ -1,22 +1,26 @@
-import { TWrestlerName } from 'app/wreslters';
+import { IPromoter, TWrestlerName } from 'app/wreslters';
 import { Promoter } from 'app/wreslters/domains/models/promoter';
 import { AlbumKind, IAlbum, IAlbumCollection, TPicture } from 'app/albums';
-import { RepositoryFactory } from 'infrastructure/repositoryFactory';
-import { TPictureTweet } from 'integrations/twitter';
 import { Album } from './album';
 import { PictureFactory } from './pictures/pictureFactory';
 import { PromoterType } from './types/promoterType';
 import { WrestlerType } from './types/wrestlerType';
+import { TweetSearcher } from '../services/tweetsSearcher';
 
 export class AlbumCollection implements IAlbumCollection {
   protected _currentSelectedAlbums: IAlbum[] = [];
   protected _wreslerAlbums: IAlbum[] = [];
   protected _promoteAlbums: IAlbum[] = [];
+  private _promoter: IPromoter;
+  private _pictures: TPicture[];
+  private _names: TWrestlerName[];
 
   async load(names: TWrestlerName[]): Promise<void> {
-    const promoter = Promoter.buildMarvelous();
+    this._names = names;
+    this._promoter = Promoter.buildMarvelous();
+
     const allInvalidNames = names.every((name) => {
-      return !promoter.isBelongTo(name);
+      return !this._promoter.isBelongTo(name);
     });
 
     if (allInvalidNames) {
@@ -26,17 +30,22 @@ export class AlbumCollection implements IAlbumCollection {
       return;
     }
 
-    const pictureTweets = await this.searchPictureTweets(names);
+    const searcher = new TweetSearcher();
+    const pictureTweets = await searcher.search(this._names);
     const pictureFactory = new PictureFactory();
-    const pictures = pictureFactory.creates(pictureTweets, names);
+    this._pictures = pictureFactory.creates(pictureTweets, names);
 
-    this._wreslerAlbums = names.map((name) => {
+    this.createEachAlbums();
+  }
+
+  private createEachAlbums() {
+    this._wreslerAlbums = this._names.map((name) => {
       const type = new WrestlerType(name);
-      return new Album(type, pictures);
+      return new Album(type, this._pictures);
     });
 
-    const type = new PromoterType(promoter);
-    this._promoteAlbums = [new Album(type, pictures)];
+    const type = new PromoterType(this._promoter);
+    this._promoteAlbums = [new Album(type, this._pictures)];
 
     this._currentSelectedAlbums = this._promoteAlbums;
   }
@@ -73,7 +82,7 @@ export class AlbumCollection implements IAlbumCollection {
   static rebuild(names: TWrestlerName[], pictures: TPicture[]): IAlbumCollection {
     const collection = new AlbumCollection();
 
-    collection._wreslerAlbums = AlbumCollection.createsWrestlerAlbums(names, pictures);
+    collection._wreslerAlbums = Album.createsWrestlerAlbums(names, pictures);
 
     const promoter = Promoter.buildMarvelous();
     const promoterType = new PromoterType(promoter);
@@ -85,31 +94,5 @@ export class AlbumCollection implements IAlbumCollection {
 
   allAlbums(): IAlbum[] {
     return this._wreslerAlbums!.concat(this._promoteAlbums!);
-  }
-
-  private async searchPictureTweets(names: TWrestlerName[]): Promise<TPictureTweet[]> {
-    const tweetRepository = RepositoryFactory.factoryTweetRepository();
-    const promotRepository = RepositoryFactory.factoryPromoterRepository();
-    const promots = await promotRepository.featchAll();
-
-    const twitterIds = tweetRepository.fetchDefaultLoadingIDs();
-
-    const promises = [
-      tweetRepository.fetchPictureTweetByWrestlerNames(names, promots),
-      tweetRepository.fetchPictureTweetsByIds(twitterIds),
-    ];
-
-    const result = await Promise.all(promises).then((values) => {
-      return values.flat();
-    });
-
-    return result;
-  }
-
-  private static createsWrestlerAlbums(names: TWrestlerName[], pictures: TPicture[]) {
-    return names.map((name) => {
-      const type = new WrestlerType(name);
-      return new Album(type, pictures);
-    });
   }
 }

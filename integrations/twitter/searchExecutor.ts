@@ -1,34 +1,25 @@
 import TwitterApi, { TweetV2, ApiV2Includes } from 'twitter-api-v2';
 import { TwitterQuery } from './twitterQuery';
 import { TTwitterID, TwitterMediaType } from '.';
-import { PictureURLController } from './searchExecutors/includeItemController/pictureURLController';
-import { ContributorController } from './searchExecutors/includeItemController/contributorController';
-import { IncludeItemController } from './searchExecutors/includeItemController/interface';
-import { TwitterID } from './twitterID';
+import { PictureURL } from './searchExecutors/includeItemController/pictureURL';
+import { Contributor } from './searchExecutors/includeItemController/contributor';
+import { SearchResponseItem } from './searchExecutors/type';
+import { IncludeItem } from './searchExecutors/includeItemController/type';
 import { TwitterParams } from './twitterParams';
 import _ from 'lodash';
-
-export type SearchResponseItem = {
-  // 桁大きすぎるためIntで扱うと値がおかしくなってしまうため
-  id: TTwitterID;
-  text: string;
-  tweeted_at: Date;
-  hashtags?: string[];
-  contributor: { id: number; name: string; username: string };
-  photoURLs?: { id: number; url: string }[];
-};
+import { ItemCreator } from './searchExecutors/itemCreator';
 
 export class SearchExecutor {
-  private _includeItemControlelrs: IncludeItemController[];
+  private _includeItems: IncludeItem[];
 
   constructor(private _params: TwitterParams) {
     this._params = _params;
-    this._includeItemControlelrs = [];
+    this._includeItems = [];
 
-    this._includeItemControlelrs = [...this._includeItemControlelrs, new ContributorController()];
+    this._includeItems = [...this._includeItems, new Contributor()];
 
     if (this._params.mediaType() !== TwitterMediaType.UNSPECIFED_TYPE) {
-      this._includeItemControlelrs = [...this._includeItemControlelrs, new PictureURLController()];
+      this._includeItems = [...this._includeItems, new PictureURL()];
     }
   }
 
@@ -68,15 +59,15 @@ export class SearchExecutor {
       return undefined;
     }
 
-    this._includeItemControlelrs = this._includeItemControlelrs.filter((controller) => {
+    this._includeItems = this._includeItems.filter((controller) => {
       return controller.canUse(includes);
     });
 
-    this._includeItemControlelrs.forEach((itemController) => {
+    this._includeItems.forEach((itemController) => {
       itemController.setUpValues(includes);
     });
 
-    const items = tweets.map((tweet: TweetV2) => this.createItem(tweet));
+    const items = tweets.map((tweet: TweetV2) => ItemCreator.create(tweet, this._includeItems));
     return this.filterdItems(items);
   }
 
@@ -90,40 +81,5 @@ export class SearchExecutor {
     });
 
     return filterdItems;
-  }
-
-  private createItem(tweet: TweetV2): SearchResponseItem | undefined {
-    const valid = this._includeItemControlelrs.every((itemController) => {
-      return itemController.valid(tweet);
-    });
-
-    if (!valid) {
-      return undefined;
-    }
-
-    let hashtags: string[] = [];
-    const isRT = tweet.text.startsWith('RT');
-
-    if (!isRT) {
-      hashtags = tweet.entities!.hashtags.map((hashtag) => {
-        return hashtag.tag;
-      });
-    }
-
-    const tweetId: TTwitterID = TwitterID.build(tweet.id);
-
-    let item = {
-      id: tweetId,
-      text: tweet.text,
-      tweeted_at: new Date(tweet.created_at!),
-      hashtags: hashtags,
-    };
-
-    this._includeItemControlelrs.forEach((itemController) => {
-      const includeData = itemController.createIncludesDatas(tweet);
-      item = Object.assign(item, includeData);
-    });
-
-    return item as SearchResponseItem;
   }
 }

@@ -2,7 +2,7 @@ import { TweetType, TPictureTweet } from '.';
 import faker from 'faker';
 import { TweetBuilder } from './tweetBuilder';
 import { SampleData } from 'sampleData';
-import { SearchResponseItem } from './searchExecutor';
+import { SearchResponseItem } from './searchExecutors/type.d';
 import { TwitterID } from './twitterID';
 
 describe('TweetBuilder', () => {

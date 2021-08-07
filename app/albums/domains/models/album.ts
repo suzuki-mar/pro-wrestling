@@ -1,4 +1,5 @@
 import { TPicture, IAlbum } from 'app/albums';
+import { TWrestlerName } from 'app/wreslters';
 import { IAlbumType } from './types/interface';
 import { PromoterType } from './types/promoterType';
 import { WrestlerType } from './types/wrestlerType';
@@ -44,5 +45,12 @@ export class Album implements IAlbum {
     }
 
     return undefined;
+  }
+
+  static createsWrestlerAlbums(names: TWrestlerName[], pictures: TPicture[]): IAlbum[] {
+    return names.map((name) => {
+      const type = new WrestlerType(name);
+      return new Album(type, pictures);
+    });
   }
 }

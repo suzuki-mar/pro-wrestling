@@ -1,6 +1,6 @@
 import { ApiV2Includes, TweetV2 } from 'twitter-api-v2';
 
-export interface IncludeItemController {
+export interface IncludeItem {
   setUpValues(includes: ApiV2Includes);
   valid(tweet: TweetV2): boolean;
   createIncludesDatas(tweet: TweetV2): {};

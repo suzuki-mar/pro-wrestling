@@ -1,7 +1,8 @@
 import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterMediaType, ITwitterQuery } from '.';
 import { TweetBuilder } from './tweetBuilder';
 import { TwitterID } from './twitterID';
-import { SearchExecutor, SearchResponseItem } from './searchExecutor';
+import { SearchExecutor } from './searchExecutor';
+import { SearchResponseItem } from './searchExecutors/type.d';
 import * as _ from 'loadsh';
 import { TwitterQuery } from './twitterQuery';
 import { TwitterParams } from './twitterParams';
