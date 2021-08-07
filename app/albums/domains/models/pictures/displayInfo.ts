@@ -1,6 +1,8 @@
 import { TWrestlerName } from 'app/wreslters';
 import { TPictureContributor, TPictureDisplayInfo, TPictureNumber } from 'app/albums';
 import { format } from 'date-fns';
+import { TPictureTweet, TPictureTweetItem } from 'integrations/twitter';
+import { PictureNumber } from './pictureNumber';
 
 export class DisplayInfo implements TPictureDisplayInfo {
   constructor(
@@ -36,5 +38,30 @@ export class DisplayInfo implements TPictureDisplayInfo {
     });
 
     return new DisplayInfo(base.number, base.contributor, base.date, mergedWreslerNames);
+  }
+
+  static creates(
+    names: TWrestlerName[],
+    tweet: TPictureTweet,
+    hashtag: string,
+    item: TPictureTweetItem
+  ): TPictureDisplayInfo[] {
+    const displayInfoList = names.map((name) => {
+      if (name.full !== hashtag) {
+        return undefined;
+      }
+
+      const number = PictureNumber.build(item.pictureNumber);
+
+      const contributor: TPictureContributor = {
+        number: tweet.contributor.number,
+        displayName: tweet.contributor.displayName,
+        identificationName: tweet.contributor.identificationName,
+      };
+
+      return new DisplayInfo(number, contributor, tweet.tweeted_at, [name]);
+    });
+
+    return displayInfoList.filter((info) => info !== undefined) as TPictureDisplayInfo[];
   }
 }

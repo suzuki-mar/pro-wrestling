@@ -1,9 +1,9 @@
 import { ApiV2Includes, TweetV2 } from 'twitter-api-v2';
 
-import { IncludeItemController } from './interface';
+import { IncludeItem } from './type';
 import * as _ from 'loadsh';
 
-export class ContributorController implements IncludeItemController {
+export class Contributor implements IncludeItem {
   private _values = {};
 
   canUse(includes: ApiV2Includes): boolean {

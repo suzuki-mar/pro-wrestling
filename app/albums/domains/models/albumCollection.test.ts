@@ -9,7 +9,7 @@ import * as _ from 'loadsh';
 describe('AlbumCollection', () => {
   let collection: AlbumCollection;
 
-  describe.skip('filterAlbumsByWrestlerNames', () => {
+  describe('filterAlbumsByWrestlerNames', () => {
     it('指定したレスラーと団体のアルバムだけ表示する', () => {
       const wreslerNames = SampleData.wrestlerNames();
       let collection = SampleData.albumCollection(wreslerNames);
@@ -19,7 +19,7 @@ describe('AlbumCollection', () => {
     });
   });
 
-  describe.skip('load', () => {
+  describe('load', () => {
     beforeEach(() => {
       collection = new AlbumCollection();
     });

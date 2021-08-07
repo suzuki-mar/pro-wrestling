@@ -1,8 +1,8 @@
 import { ApiV2Includes, TweetV2 } from 'twitter-api-v2';
-import { IncludeItemController } from './interface';
+import { IncludeItem } from './type';
 import * as _ from 'loadsh';
 
-export class PictureURLController implements IncludeItemController {
+export class PictureURL implements IncludeItem {
   private _values = {};
   private _disable = false;
 

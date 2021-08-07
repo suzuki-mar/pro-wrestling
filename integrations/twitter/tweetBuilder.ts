@@ -10,7 +10,7 @@ import {
   TPictureSizeTypes,
 } from '.';
 import * as _ from 'lodash';
-import { SearchResponseItem } from './searchExecutor';
+import { SearchResponseItem } from './searchExecutors/type.d';
 
 export class TweetBuilder {
   static build(item: SearchResponseItem): TTweet {
