@@ -1,17 +1,17 @@
-import { TWrestlerName } from 'app/core/wreslter';
-import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/wrespic';
-import { Picture } from 'app/wrespic/models/albums/pictures/picture';
+import { TWrestlerName } from 'app/wreslters';
+import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/albums';
+import { Picture } from 'app/albums/domains/models/pictures/picture';
 import { SampleData } from 'sampleData';
 import { PictureURLStr } from './pictureURLStr';
 import faker from 'faker';
-import { AlbumCollection } from 'app/wrespic/models/albums/albumCollection';
-import { DisplayInfo } from 'app/wrespic/models/albums/pictures/displayInfo';
-import { FileName } from 'app/wrespic/models/albums/pictures/fileName';
-import { PictureNumber } from 'app/wrespic/models/albums/pictures/pictureNumber';
+import { AlbumCollection } from 'app/albums/domains/models/albumCollection';
+import { DisplayInfo } from 'app/albums/domains/models/pictures/displayInfo';
+import { FileName } from 'app/albums/domains/models/pictures/fileName';
+import { PictureNumber } from 'app/albums/domains/models/pictures/pictureNumber';
 import * as _ from 'loadsh';
-import { PictureURL } from 'app/wrespic/models/albums/pictures/pictureURL';
-import { WrestlerType } from 'app/wrespic/models/albums/types/wrestlerType';
-import { Album } from 'app/wrespic/models/albums/album';
+import { PictureURL } from 'app/albums/domains/models/pictures/pictureURL';
+import { WrestlerType } from 'app/albums/domains/models/types/wrestlerType';
+import { Album } from 'app/albums/domains/models/album';
 
 export class AlbumData {
   static picture(wreslterName?: TWrestlerName, url?: string): TPicture {

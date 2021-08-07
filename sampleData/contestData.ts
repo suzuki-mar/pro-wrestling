@@ -1,10 +1,10 @@
-import { Promoter } from 'app/core/wreslter/models/promoter';
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
+import { Promoter } from 'app/wreslters/domains/models/promoter';
+import { WrestlerName } from 'app/wreslters/domains/models/wrestlerName';
 import { SampleData } from 'sampleData';
 import { IContest } from 'app/contests';
 import { Contest } from 'app/contests/domain/models/contest';
 import * as _ from 'loadsh';
-import { IPromoter, TWrestlerName } from 'app/core/wreslter';
+import { IPromoter, TWrestlerName } from 'app/wreslters';
 
 const WrestlerFirstNames = {
   TAKUMI: 'takumi',

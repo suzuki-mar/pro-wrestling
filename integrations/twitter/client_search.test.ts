@@ -11,6 +11,7 @@ import { TweetFilter } from 'integrations/twitter/tweetFilter';
 
 import dotenv from 'dotenv';
 import { SampleData } from 'sampleData';
+import faker from 'faker';
 import { TwitterID } from './twitterID';
 dotenv.config();
 
@@ -80,7 +81,7 @@ describe('RTを含める場合', () => {
   describe('データを取得できなかった場合', () => {
     beforeEach(() => {
       params.setMediaType(TwitterMediaType.IMAGES);
-      query = new TwitterQuery(SampleData.unknownName().full);
+      query = new TwitterQuery(SampleData.unknownName().full + faker.random.alpha());
     });
 
     it('エラーが発生しないこと', async () => {

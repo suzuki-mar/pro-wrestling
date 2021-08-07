@@ -1,4 +1,4 @@
-import { IPromoter, TWrestlerName } from 'app/core/wreslter';
+import { IPromoter, TWrestlerName } from 'app/wreslters';
 
 export interface IContest {
   date(): Date;

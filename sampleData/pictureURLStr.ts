@@ -1,5 +1,5 @@
-import { TWrestlerName } from 'app/core/wreslter';
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
+import { TWrestlerName } from 'app/wreslters';
+import { WrestlerName } from 'app/wreslters/domains/models/wrestlerName';
 import * as _ from 'loadsh';
 import { SampleData } from 'sampleData';
 

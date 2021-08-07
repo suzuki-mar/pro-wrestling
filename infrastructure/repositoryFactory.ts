@@ -1,12 +1,12 @@
 import { TPictureTweet } from 'integrations/twitter';
-import { IWrestler, TWrestlerName } from 'app/core/wreslter';
+import { IWrestler, TWrestlerName } from 'app/wreslters';
 
-import { IWrestlerRepository, IPromoterRepository } from 'app/core/wreslter/models/type';
+import { IWrestlerRepository, IPromoterRepository } from 'app/wreslters/domains/type';
 
-import { ITweetRepository } from 'app/wrespic/models/type';
+import { ITweetRepository } from 'app/albums/domains/models/type';
 import { SampleData } from 'sampleData';
-import { PromoterRepository } from 'app/core/wreslter/models/repositories/promoterRepository';
-import { TweetRepository } from 'app/wrespic/repositories/tweetRepository';
+import { PromoterRepository } from 'app/wreslters/domains/repositories/promoterRepository';
+import { TweetRepository } from 'app/albums/domains/repositories/tweetRepository';
 import { TwitterID } from 'integrations/twitter/twitterID';
 
 export class RepositoryFactory {

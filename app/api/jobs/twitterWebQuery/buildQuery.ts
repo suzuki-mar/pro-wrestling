@@ -1,7 +1,7 @@
 import { BlitzApiRequest, BlitzApiResponse } from '@blitzjs/core';
-import { TWrestlerName } from 'app/core/wreslter';
-import { PromoterRepository } from 'app/core/wreslter/models/repositories/promoterRepository';
-import { WreslerQuery } from 'app/core/wreslter/models/wreslterQuery';
+import { TWrestlerName } from 'app/wreslters';
+import { PromoterRepository } from 'app/wreslters/domains/repositories/promoterRepository';
+import { WreslerQuery } from 'app/wreslters/domains/wreslterQuery';
 import moment from 'moment';
 import * as _ from 'loadsh';
 import { ContestData } from 'sampleData/contestData';
