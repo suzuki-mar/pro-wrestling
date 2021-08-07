@@ -14,8 +14,20 @@ model Wrestler {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  names WrestlerName[]
+}
+
+model WrestlerName {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name      String   @unique
   unique    Boolean  @default(true)
+
+  wrestler   Wrestler @relation(fields: [wrestlerId], references: [id])
+  wrestlerId Int
 }
 
 model User {

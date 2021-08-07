@@ -1,21 +1,14 @@
-import { createWrestlers } from './seeds';
-import { WrestlerRepository } from 'app/wreslters/domains/repositories/wrestlerRepository';
-import { SampleData } from 'sampleData';
+import seed from './seeds';
 import prisma from 'db/index';
 import { dbClose } from 'test/lib';
 
-describe('CreateWrestler', () => {
+describe('最後まで実行できるかの確認', () => {
   beforeEach(async () => {
     await prisma.$reset();
   });
 
-  it('マーベラスのレスラーを作成すること', async (done) => {
-    await createWrestlers();
-
-    const repository = new WrestlerRepository();
-    const wrestlers = await repository.fetchAll();
-
-    expect(wrestlers.length).toEqual(SampleData.wrestlerNames().length);
+  it('エラーにならないこと', async (done) => {
+    await seed();
     await dbClose(done);
   });
 });
