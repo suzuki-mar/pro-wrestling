@@ -1,5 +1,5 @@
 import { IContest } from 'app/contests';
-import { IPromoter, TWrestlerName } from 'app/core/wreslter';
+import { IPromoter, TWrestlerName } from 'app/wreslters';
 
 export class Contest implements IContest {
   constructor(

@@ -1,12 +1,12 @@
-import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/wrespic';
-import { TWrestlerName, IWrestler, IWrestlerCollection, IPromoter } from 'app/core/wreslter';
+import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/albums';
+import { TWrestlerName, IWrestler, IWrestlerCollection, IPromoter } from 'app/wreslters';
 import { TPictureTweet, TTweet } from 'integrations/twitter';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
+import { WrestlerName } from 'app/wreslters/domains/models/wrestlerName';
 import { PictureURLStr } from './pictureURLStr';
 import { AlbumData } from './albumData';
-import { WrestlerCollection } from 'app/core/wreslter/models/wrestlerCollection';
+import { WrestlerCollection } from 'app/wreslters/domains/models/wrestlerCollection';
 import faker from 'faker';
 
 export class SampleData {

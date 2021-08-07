@@ -10,7 +10,7 @@ import {
 } from 'integrations/twitter';
 import faker from 'faker';
 import { SampleData } from '../sampleData';
-import { TWrestlerName } from 'app/core/wreslter';
+import { TWrestlerName } from 'app/wreslters';
 import * as _ from 'loadsh';
 import { TwitterID } from 'integrations/twitter/twitterID';
 

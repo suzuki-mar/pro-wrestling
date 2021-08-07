@@ -1,8 +1,8 @@
-import { Wrestler } from 'app/core/wreslter/models/wrestler';
-import { WrestlerName } from 'app/core/wreslter/models/wrestlerName';
-import { TWrestlerName, IWrestler, IPromoter } from 'app/core/wreslter';
+import { Wrestler } from 'app/wreslters/domains/models/wrestler';
+import { WrestlerName } from 'app/wreslters/domains/models/wrestlerName';
+import { TWrestlerName, IWrestler, IPromoter } from 'app/wreslters';
 import { SampleData } from '../sampleData';
-import { Promoter } from 'app/core/wreslter/models/promoter';
+import { Promoter } from 'app/wreslters/domains/models/promoter';
 
 export class WrestlerData {
   static names(): TWrestlerName[] {
