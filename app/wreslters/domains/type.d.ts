@@ -1,6 +1,9 @@
+import { TWrestlerName } from '..';
+
 export interface IWrestlerRepository {
   fetchAll(): Promise<IWrestler[]>;
-  addList(names: TWrestlerName[]): Promise<IWrestler[]>;
+  add(name: TWrestlerName): Promise<IWrestler>;
+  fetchByName(name: TWrestlerName): Promise<IWrestler>;
 }
 
 export interface IPromoterRepository {

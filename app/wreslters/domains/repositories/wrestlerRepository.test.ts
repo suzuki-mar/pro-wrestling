@@ -1,40 +1,40 @@
 import { WrestlerRepository } from './wrestlerRepository';
-import { Wrestler } from 'app/wreslters/domains/models/wrestler';
 import { dbClose } from 'test/lib';
 import prisma from 'db/index';
 import { SampleData } from 'sampleData';
+import { TWrestlerName } from 'app/wreslters';
 
 describe('WrestlerRepository', () => {
+  const repository = new WrestlerRepository();
+
   beforeEach(async () => {
     await prisma.$reset();
   });
 
   describe('fetchAll', () => {
+    let names: TWrestlerName[];
+
     beforeEach(async () => {
-      await prisma.wrestler.create({
-        data: { name: SampleData.wrestlerName().full },
-      });
+      names = SampleData.wrestlerNames();
+      await repository.add(names[0]!);
+      await repository.add(names[1]!);
     });
 
-    it('レスラーが返されていること', async (done) => {
-      const repository = new WrestlerRepository();
+    it('全レスラーが返されていること', async (done) => {
       const wrestlers = await repository.fetchAll();
 
-      expect(wrestlers.length).toEqual(1);
-      const wrestler: Wrestler = wrestlers[0] as Wrestler;
-
-      expect(wrestler.name).not.toBeUndefined();
+      expect(wrestlers.length).toEqual(2);
       await dbClose(done);
     });
   });
 
-  describe('addList', () => {
+  describe('add & fetchByName', () => {
     it('レスラーが作成されること', async (done) => {
-      const repository = new WrestlerRepository();
-      await repository.addList(SampleData.wrestlerNames());
+      const name = SampleData.wrestlerName();
 
-      const wrestlers = await repository.fetchAll();
-      expect(wrestlers.length).toEqual(SampleData.wrestlerNames().length);
+      await repository.add(name);
+      const wrestler = await repository.fetchByName(name);
+      expect(wrestler.name.equal(name)).toBeTruthy();
       await dbClose(done);
     });
   });

@@ -1,34 +1,43 @@
 import { TWrestlerName, IWrestler } from 'app/wreslters';
 import { IWrestlerRepository } from 'app/wreslters/domains/type';
-import { Wrestler as EWrestler } from 'app/wreslters/domains/models/wrestler';
-import { WrestlerName } from 'app/wreslters/domains/models/wrestlerName';
-import { Wrestler } from 'db/index';
+import { Wrestler as DWrestler } from 'app/wreslters/domains/models/wrestler';
+import { WrestlerName as DWrestlerName } from 'app/wreslters/domains/models/wrestlerName';
 import prisma from 'db/index';
 
 export class WrestlerRepository implements IWrestlerRepository {
   async fetchAll(): Promise<IWrestler[]> {
-    const records = prisma.wrestler.findMany();
-    return records.then((records) => {
-      return records.map((r) => {
-        return this.buildEWrestler(r);
-      });
+    const records = await prisma.wrestler.findMany({
+      include: {
+        names: true,
+      },
+    });
+
+    return records.map((record) => {
+      // ドメイン上はNameは一つだけしか対応していない
+      const nameRecord = record.names[0]!;
+      const name = new DWrestlerName(nameRecord.name, nameRecord.unique);
+      return new DWrestler(record.id, name);
     });
   }
 
-  async addList(names: TWrestlerName[]): Promise<IWrestler[]> {
-    const records = names.map((name: TWrestlerName) => {
-      return prisma.wrestler.create({ data: { name: name.full, unique: name.unique } });
-    });
+  async add(aName: TWrestlerName): Promise<IWrestler> {
+    const nameParams = { create: [{ name: aName.full, unique: aName.unique }] };
+    const record = await prisma.wrestler.create({ data: { names: nameParams } });
 
-    return Promise.all(records).then((records: Wrestler[]) => {
-      return records.map((r: Wrestler) => {
-        return this.buildEWrestler(r);
-      });
-    });
+    return new DWrestler(record.id, aName);
   }
 
-  private buildEWrestler(record: Wrestler): EWrestler {
-    const name: WrestlerName = new WrestlerName(record.name, record.unique);
-    return new EWrestler(record.id, name);
+  async fetchByName(aName: TWrestlerName): Promise<IWrestler> {
+    const record = await prisma.wrestlerName.findUnique({
+      where: {
+        name: aName.full,
+      },
+      include: {
+        wrestler: true,
+      },
+    });
+
+    const name = new DWrestlerName(record!.name, record!.unique);
+    return new DWrestler(record!.wrestler.id, name);
   }
 }

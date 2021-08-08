@@ -1,4 +1,4 @@
-import { WrestlerFirstNames, ContestParams } from './type.d';
+import { WrestlerFirstNames, ContestParams } from './type';
 
 export class ContestParamsList {
   static marvelous(): ContestParams[] {

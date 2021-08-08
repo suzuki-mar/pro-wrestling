@@ -5,7 +5,7 @@ import { IContest } from 'app/contests';
 import { Contest } from 'app/contests/domain/models/contest';
 import * as _ from 'loadsh';
 import { IPromoter, TWrestlerName } from 'app/wreslters';
-import { ContestParams, WrestlerFirstNames } from './contstDatas/type.d';
+import { ContestParams, WrestlerFirstNames } from './contstDatas/type';
 import { ContestParamsList } from './contstDatas/contetsParamsList';
 
 export class ContestData {

@@ -21,8 +21,13 @@ export class Wrestler implements IWrestler {
     return name.equal(compare);
   }
 
-  static async creates(names: TWrestlerName[]) {
+  static async creates(names: TWrestlerName[]): Promise<IWrestler[]> {
     const repository = RepositoryFactory.factoryWrestlerRepository();
-    return repository.addList(names);
+
+    const promises = names.map((name) => {
+      return repository.add(name);
+    });
+
+    return await Promise.all(promises);
   }
 }
