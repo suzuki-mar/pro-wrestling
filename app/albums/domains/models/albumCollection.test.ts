@@ -25,7 +25,7 @@ describe('AlbumCollection', () => {
     });
 
     it('指定したレスラーのアルバムを取得すること', async (done) => {
-      await collection.load([SampleData.mioName(), SampleData.meiName()]);
+      await collection.load([SampleData.meiName(), SampleData.mioName()]);
       const album = collection.allAlbums()[0]!;
 
       const type = album.type() as WrestlerType;

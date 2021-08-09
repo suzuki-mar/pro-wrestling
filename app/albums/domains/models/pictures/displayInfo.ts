@@ -1,6 +1,5 @@
 import { TWrestlerName } from 'app/wreslters';
 import { TPictureContributor, TPictureDisplayInfo, TPictureNumber } from 'app/albums';
-import { format } from 'date-fns';
 import { TPictureTweet, TPictureTweetItem } from 'integrations/twitter';
 import { PictureNumber } from './pictureNumber';
 
@@ -11,15 +10,6 @@ export class DisplayInfo implements TPictureDisplayInfo {
     readonly date: Date,
     readonly wrestlerNames: TWrestlerName[]
   ) {}
-
-  formattedDisplayString(): string {
-    const wrestlerNameStrs = this.wrestlerNames.map((name) => name.full);
-    const wrestlerStr = wrestlerNameStrs.join(':');
-    const year = format(this.date, 'yyyy');
-    const day = format(this.date, 'M.d');
-
-    return `${wrestlerStr} ${year} ${day}`;
-  }
 
   static mergeFromWreslerNames(
     target: TWrestlerName[],

@@ -1,4 +1,5 @@
 import { BlitzApiRequest, BlitzApiResponse } from '@blitzjs/core';
+import { setUpRequest } from 'app/core/apiLib';
 import _ from 'lodash';
 import { TweetURLList } from 'sampleData/tweetURLList';
 
@@ -27,10 +28,7 @@ function createTwitterURLs(): string[] {
 }
 
 const handler = async (req: BlitzApiRequest, res: BlitzApiResponse) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-
   const ids = execute();
-  res.end(JSON.stringify(ids));
+  return setUpRequest(res, ids);
 };
 export default handler;

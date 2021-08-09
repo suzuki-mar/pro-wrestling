@@ -3,38 +3,50 @@ import { ResponseData } from 'sampleData/responseData';
 import { AlbumKinds } from '.';
 import { AlbumSerializer } from './albumSerializer';
 
-describe('toAlbumCollection', () => {
-  it('displayInfoのシリアライズができていること', () => {
-    const responseData = ResponseData.fetchAlbumCollection();
+it('displayInfoのシリアライズができていること', () => {
+  const responseData = ResponseData.fetchAlbumCollection();
 
-    const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
+  const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
 
-    const displayableAlubms = collection.allAlbums().filter((album) => {
-      return album.isDisplayable;
-    });
-
-    const picture = displayableAlubms[0]!.pictures()[0]!;
-    expect(picture.displayInfo.contributor.displayName).not.toBeUndefined();
+  const displayableAlubms = collection.allAlbums().filter((album) => {
+    return album.isDisplayable;
   });
 
-  it('PictureURLのシリアライズできていること', () => {
-    const responseData = ResponseData.fetchAlbumCollection();
+  const picture = displayableAlubms[0]!.pictures()[0]!;
+  expect(picture.displayInfo().contributor.displayName).not.toBeUndefined();
+});
 
-    const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
+it('PictureURLのシリアライズできていること', () => {
+  const responseData = ResponseData.fetchAlbumCollection();
 
-    const displayableAlubms = collection.allAlbums().filter((album) => {
-      return album.isDisplayable;
-    });
+  const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
 
-    const picture = displayableAlubms[0]!.pictures()[0]!;
-
-    expect(picture.pictureURL.defaultSizeURL).not.toBeUndefined();
+  const displayableAlubms = collection.allAlbums().filter((album) => {
+    return album.isDisplayable;
   });
 
-  it('表示するアルバムに団体のアルバムがセットされていること', () => {
-    const responseData = ResponseData.fetchAlbumCollection();
-    const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
-    const selectedKind = collection.currentSelectedAlbums()[0]!.type()!.kind();
-    expect(selectedKind).toEqual(AlbumKinds.Promoter);
+  const picture = displayableAlubms[0]!.pictures()[0]!;
+
+  expect(picture.pictureURL().defaultSizeURL).not.toBeUndefined();
+});
+
+it('各ValueObjectガセットされていること', () => {
+  const responseData = ResponseData.fetchAlbumCollection();
+
+  const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
+
+  const displayableAlubms = collection.allAlbums().filter((album) => {
+    return album.isDisplayable;
   });
+
+  const picture = displayableAlubms[0]!.pictures()[0]!;
+
+  expect(picture.priority().value()).not.toBeUndefined();
+});
+
+it('表示するアルバムに団体のアルバムがセットされていること', () => {
+  const responseData = ResponseData.fetchAlbumCollection();
+  const collection = AlbumSerializer.toAlbumCollection(responseData, SampleData.wrestlerNames());
+  const selectedKind = collection.currentSelectedAlbums()[0]!.type()!.kind();
+  expect(selectedKind).toEqual(AlbumKinds.Promoter);
 });

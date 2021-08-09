@@ -18,7 +18,7 @@ export const AlbumKinds = {
 export type AlbumKind = typeof AlbumKinds[keyof typeof AlbumKinds];
 
 export interface IAlbum {
-  pictures(): TPicture[];
+  pictures(): IPicture[];
   count(): number;
   isDisplayable(): boolean;
   title(): string;
@@ -39,6 +39,7 @@ export type TPictureURL = TPictureValueObject & {
   readonly originalURL: string;
   readonly thumbnailURL: string;
   readonly defaultSizeURL: string;
+  equal(compare: TPictureURL): boolean;
 };
 
 export type TPictureContributor = {
@@ -50,8 +51,8 @@ export type TPictureContributor = {
 export type TPictureDisplayInfo = TPictureValueObject & {
   readonly contributor: TPictureContributor;
   readonly date: Date;
+  // DisplayInfoとWrestlerNameは別のタイミングで値をセットするため別にしたいがデータ構造の変化に時間がかかるため　一旦持たせている
   readonly wrestlerNames: TWrestlerName[];
-  formattedDisplayString(): string;
 };
 
 export type TPictureFileName = TPictureValueObject & {
@@ -60,13 +61,19 @@ export type TPictureFileName = TPictureValueObject & {
   equal(compare: TPictureFileName): boolean;
 };
 
-export type TPicture = {
-  readonly pictureURL: TPictureURL;
-  readonly displayInfo: TPictureDisplayInfo;
-  readonly fileName: TPictureFileName;
+export type TPicturePriority = TPictureValueObject & {
+  value(): number;
+};
+
+export type IPicture = {
+  pictureURL(): TPictureURL;
+  displayInfo(): TPictureDisplayInfo;
+  fileName(): TPictureFileName;
+  wrestlerNames(): TWrestlerName[];
+  priority(): TPicturePriority;
   postDay(): string;
   isRelated(name: TWrestlerName): boolean;
-  equal(compare: TPicture): boolean;
+  title(): string;
 };
 
 export type UIAction =

@@ -1,14 +1,24 @@
 import { TPictureTweet } from 'integrations/twitter';
 import { IWrestler, TWrestlerName } from 'app/wreslters';
 
-import { IWrestlerRepository, IPromoterRepository } from 'app/wreslters/domains/type';
+import {
+  IWrestlerRepository,
+  IPromoterRepository,
+  IWrestlerQuery,
+} from 'app/wreslters/domains/type';
 
-import { ITweetRepository } from 'app/albums/domains/models/type';
+import {
+  IPictureRepository,
+  ITweetRepository,
+  PictureURLWithWrestlerNames,
+} from 'app/albums/domains/models/type';
 import { SampleData } from 'sampleData';
 import { PromoterRepository } from 'app/wreslters/domains/repositories/promoterRepository';
 import { TweetRepository } from 'app/albums/domains/repositories/tweetRepository';
 import { TwitterID } from 'integrations/twitter/twitterID';
 import { WrestlerRepository } from 'app/wreslters/domains/repositories/wrestlerRepository';
+import { TPictureURL } from 'app/albums';
+import { WreslerQuery } from 'app/wreslters/domains/wreslterQuery';
 
 export class RepositoryFactory {
   private static _isConnectingToRealDB = process.env.NODE_ENV === 'test' ? false : true;
@@ -27,8 +37,17 @@ export class RepositoryFactory {
       : new this.MockWrestlerRepository();
   }
 
+  static factoryWrestlerQuery(): IWrestlerQuery {
+    return this._isConnectingToRealDB ? new WreslerQuery() : new this.MockWrestlerQuery();
+  }
+
   static factoryTweetRepository(): ITweetRepository {
     return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
+  }
+
+  static factoryPictureRepository(): IPictureRepository {
+    return new this.MockPictureRepository();
+    // return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
   }
 
   static factoryPromoterRepository(): IPromoterRepository {
@@ -46,6 +65,18 @@ export class RepositoryFactory {
 
     async add(names: TWrestlerName): Promise<IWrestler> {
       return SampleData.wrestler();
+    }
+  };
+
+  public static MockWrestlerQuery = class implements IWrestlerQuery {
+    async findNames(): Promise<TWrestlerName[]> {
+      return SampleData.wrestlerNames();
+    }
+  };
+
+  public static MockPictureRepository = class implements IPictureRepository {
+    async fetchWrestlerNames(pictureURLs: TPictureURL[]): Promise<PictureURLWithWrestlerNames[]> {
+      return [SampleData.pictureURLWithWrestlerNames()];
     }
   };
 

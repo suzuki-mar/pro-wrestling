@@ -1,13 +1,14 @@
 import { SampleData } from 'sampleData';
 import { DisplayInfo } from '../pictures/displayInfo';
 import { Picture } from '../pictures/picture';
-import { TPicture, TPictureDisplayInfo } from '../../..';
+import { IPicture, TPictureDisplayInfo } from '../../..';
 import * as _ from 'loadsh';
 import { PromoterType } from './promoterType';
 import { Album } from '../album';
+import { Priority } from '../pictures/priorty';
 
 describe('buildForLatestPromoter', () => {
-  let pictures: TPicture[] = [];
+  let pictures: IPicture[] = [];
   const dateStrs = [
     '2021-07-31T00:01:04.497Z',
     '2021-07-30T00:01:04.497Z',
@@ -39,15 +40,15 @@ describe('buildForLatestPromoter', () => {
   });
 });
 
-function buidPicturesOfDateSpecified(basePicture: TPicture, dateStrs: string[]): TPicture[] {
-  let newPictures: TPicture[] = [];
+function buidPicturesOfDateSpecified(basePicture: IPicture, dateStrs: string[]): IPicture[] {
+  let newPictures: IPicture[] = [];
 
   dateStrs.forEach((dateStr) => {
     const date = new Date(dateStr);
 
-    let displayInfo = basePicture.displayInfo as TPictureDisplayInfo;
-    let fileName = basePicture.fileName;
-    let url = basePicture.pictureURL;
+    let displayInfo = basePicture.displayInfo() as TPictureDisplayInfo;
+    let fileName = basePicture.fileName();
+    let url = basePicture.pictureURL();
 
     displayInfo = new DisplayInfo(
       displayInfo.number,
@@ -56,7 +57,12 @@ function buidPicturesOfDateSpecified(basePicture: TPicture, dateStrs: string[]):
       displayInfo.wrestlerNames
     );
 
-    newPictures = [...newPictures, Picture.build(displayInfo, fileName, url)];
+    const priorty = Priority.buildFromType(displayInfo.number, 'default');
+
+    newPictures = [
+      ...newPictures,
+      Picture.build(displayInfo, fileName, url, basePicture.wrestlerNames(), priorty),
+    ];
   });
 
   return newPictures;

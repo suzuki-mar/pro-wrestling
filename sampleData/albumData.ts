@@ -1,5 +1,5 @@
 import { TWrestlerName } from 'app/wreslters';
-import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/albums';
+import { IAlbum, IAlbumCollection, IPicture, TPictureDisplayInfo } from 'app/albums';
 import { Picture } from 'app/albums/domains/models/pictures/picture';
 import { SampleData } from 'sampleData';
 import { PictureURLStr } from './pictureURLStr';
@@ -12,9 +12,10 @@ import * as _ from 'loadsh';
 import { PictureURL } from 'app/albums/domains/models/pictures/pictureURL';
 import { WrestlerType } from 'app/albums/domains/models/types/wrestlerType';
 import { Album } from 'app/albums/domains/models/album';
+import { Priority } from 'app/albums/domains/models/pictures/priorty';
 
 export class AlbumData {
-  static picture(wreslterName?: TWrestlerName, url?: string): TPicture {
+  static picture(wreslterName?: TWrestlerName, url?: string): IPicture {
     if (wreslterName === undefined) {
       wreslterName = SampleData.wrestlerName();
     }
@@ -26,10 +27,13 @@ export class AlbumData {
     const fileName = FileName.buildFromDisplayInfo(displayInfo);
 
     const pictureURL = PictureURL.build(url, `${url}:thumb`, `${url}:small`, displayInfo.number);
-    return Picture.build(displayInfo, fileName, pictureURL);
+
+    const priorty = Priority.buildFromType(displayInfo.number, 'default');
+
+    return Picture.build(displayInfo, fileName, pictureURL, [wreslterName], priorty);
   }
 
-  static pictures(wreslterName: TWrestlerName): TPicture[] {
+  static pictures(wreslterName: TWrestlerName): IPicture[] {
     const urls = PictureURLStr.mei();
 
     return urls.map((url) => {
@@ -67,7 +71,7 @@ export class AlbumData {
   }
 
   static albumCollection(wreslterNames: TWrestlerName[]): IAlbumCollection {
-    let pictures: TPicture[] = [];
+    let pictures: IPicture[] = [];
     wreslterNames.forEach((name) => {
       pictures = pictures.concat(this.pictures(name));
     });

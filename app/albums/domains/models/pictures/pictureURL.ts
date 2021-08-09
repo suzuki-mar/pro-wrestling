@@ -10,6 +10,10 @@ export class PictureURL implements TPictureURL {
     return new PictureURL(originalURL, thumbnailURL, defaultSizeURL, number);
   }
 
+  equal(compare: TPictureURL): boolean {
+    return this.originalURL === compare.originalURL;
+  }
+
   protected constructor(
     readonly originalURL: string,
     readonly thumbnailURL: string,
