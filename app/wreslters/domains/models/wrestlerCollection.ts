@@ -1,13 +1,28 @@
 import { IWrestler, TWrestlerName, IWrestlerCollection } from 'app/wreslters';
 import { RepositoryFactory } from 'infrastructure/repositoryFactory';
 import * as _ from 'loadsh';
+import { SampleData } from 'sampleData';
+import { Wrestler } from './wrestler';
 
 export class WrestlerCollection implements IWrestlerCollection {
   protected _wrestlers: IWrestler[] = [];
 
   async load(): Promise<void> {
     const repository = RepositoryFactory.factoryWrestlerRepository();
-    this._wrestlers = await repository.fetchAll();
+    const wrestlers: Wrestler[] = await repository.fetchAll();
+
+    // FIX　SampleData以外のデータを使用する
+    SampleData.wrestlerNames().forEach((name) => {
+      const wresler = wrestlers.find((w) => {
+        return name.equal(w.name);
+      });
+
+      if (wresler === undefined) {
+        return;
+      }
+
+      this._wrestlers = [...this._wrestlers, wresler];
+    });
   }
 
   wrestlers(): IWrestler[] {

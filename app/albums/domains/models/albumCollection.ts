@@ -1,18 +1,19 @@
 import { IPromoter, TWrestlerName } from 'app/wreslters';
 import { Promoter } from 'app/wreslters/domains/models/promoter';
-import { AlbumKind, IAlbum, IAlbumCollection, TPicture } from 'app/albums';
+import { AlbumKind, IAlbum, IAlbumCollection, IPicture } from 'app/albums';
 import { Album } from './album';
 import { PictureFactory } from './pictures/pictureFactory';
 import { PromoterType } from './types/promoterType';
 import { WrestlerType } from './types/wrestlerType';
 import { TweetSearcher } from '../services/tweetsSearcher';
+import { SampleData } from 'sampleData';
 
 export class AlbumCollection implements IAlbumCollection {
   protected _currentSelectedAlbums: IAlbum[] = [];
   protected _wreslerAlbums: IAlbum[] = [];
   protected _promoteAlbums: IAlbum[] = [];
   private _promoter: IPromoter;
-  private _pictures: TPicture[];
+  private _pictures: IPicture[];
   private _names: TWrestlerName[];
 
   async load(names: TWrestlerName[]): Promise<void> {
@@ -33,15 +34,29 @@ export class AlbumCollection implements IAlbumCollection {
     const searcher = new TweetSearcher();
     const pictureTweets = await searcher.search(this._names);
     const pictureFactory = new PictureFactory();
-    this._pictures = pictureFactory.creates(pictureTweets, names);
+    this._pictures = await pictureFactory.creates(pictureTweets, names);
 
     this.createEachAlbums();
   }
 
   private createEachAlbums() {
-    this._wreslerAlbums = this._names.map((name) => {
+    const wreslerAlbums = this._names.map((name) => {
       const type = new WrestlerType(name);
       return new Album(type, this._pictures);
+    });
+
+    // FIX　SampleData以外のデータを使用する
+    SampleData.wrestlerNames().forEach((name) => {
+      const album = wreslerAlbums.find((album) => {
+        const type = album._type as WrestlerType;
+        return name.equal(type.wrestlerName());
+      });
+
+      if (album === undefined) {
+        return;
+      }
+
+      this._wreslerAlbums = [...this._wreslerAlbums, album!];
     });
 
     const type = new PromoterType(this._promoter);
@@ -79,7 +94,7 @@ export class AlbumCollection implements IAlbumCollection {
     return this._currentSelectedAlbums;
   }
 
-  static rebuild(names: TWrestlerName[], pictures: TPicture[]): IAlbumCollection {
+  static rebuild(names: TWrestlerName[], pictures: IPicture[]): IAlbumCollection {
     const collection = new AlbumCollection();
 
     collection._wreslerAlbums = Album.createsWrestlerAlbums(names, pictures);

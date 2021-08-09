@@ -1,7 +1,7 @@
-import { AlbumKind, TPicture } from 'app/albums';
+import { AlbumKind, IPicture } from 'app/albums';
 
 export interface IAlbumType {
   title(): string;
-  filterToPictures(pictures: TPicture[]): TPicture[];
+  filterToPictures(pictures: IPicture[]): IPicture[];
   kind(): AlbumKind;
 }

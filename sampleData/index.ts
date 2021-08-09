@@ -1,4 +1,4 @@
-import { IAlbum, IAlbumCollection, TPicture, TPictureDisplayInfo } from 'app/albums';
+import { IAlbum, IAlbumCollection, IPicture, TPictureDisplayInfo } from 'app/albums';
 import { TWrestlerName, IWrestler, IWrestlerCollection, IPromoter } from 'app/wreslters';
 import { TPictureTweet, TTweet } from 'integrations/twitter';
 import { WrestlerData } from './wrestlerData';
@@ -10,8 +10,11 @@ import { WrestlerCollection } from 'app/wreslters/domains/models/wrestlerCollect
 import faker from 'faker';
 import { ContestData } from './contestData';
 import { IContest } from 'app/contests';
+import { PictureURLWithWrestlerNames } from 'app/albums/domains/models/type';
 
 export class SampleData {
+  static readonly SET_UPED_PICTURE_URL = 'https://pbs.twimg.com/media/E35SeUrVkAEMFCP.jpg';
+
   static wrestlerNames(): TWrestlerName[] {
     return WrestlerData.names();
   }
@@ -48,11 +51,11 @@ export class SampleData {
     return new WrestlerName(faker.name.firstName() + faker.random.alpha(), true);
   }
 
-  static picture(): TPicture {
+  static picture(): IPicture {
     return AlbumData.picture();
   }
 
-  static pictures(wreslerName: TWrestlerName): TPicture[] {
+  static pictures(wreslerName: TWrestlerName): IPicture[] {
     return AlbumData.pictures(wreslerName);
   }
 
@@ -90,5 +93,12 @@ export class SampleData {
 
   static contents(): IContest[] {
     return ContestData.creates();
+  }
+
+  static pictureURLWithWrestlerNames(): PictureURLWithWrestlerNames {
+    return {
+      url: SampleData.SET_UPED_PICTURE_URL,
+      names: [SampleData.mioName()],
+    };
   }
 }

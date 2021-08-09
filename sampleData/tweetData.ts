@@ -58,8 +58,11 @@ export class TweetData {
 
   private static buildPicture(names: TWrestlerName[]): TPictureTweet {
     let items: TPictureTweetItem[] = [];
-    _.times(3, () => {
-      const pictureOriginalURL = faker.image.imageUrl() + _.random(0, 100000);
+    _.times(3, (index) => {
+      let pictureOriginalURL =
+        index === 0
+          ? SampleData.SET_UPED_PICTURE_URL
+          : faker.image.imageUrl() + _.random(0, 100000);
       const item: TPictureTweetItem = {
         pictureOriginalURL: pictureOriginalURL,
         pictureNumber: _.random(1000),

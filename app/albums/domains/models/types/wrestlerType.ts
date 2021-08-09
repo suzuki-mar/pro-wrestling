@@ -1,5 +1,5 @@
 import { TWrestlerName } from 'app/wreslters';
-import { TPicture, AlbumKind, AlbumKinds } from 'app/albums';
+import { IPicture, AlbumKind, AlbumKinds } from 'app/albums';
 import { IAlbumType } from './interface';
 
 export class WrestlerType implements IAlbumType {
@@ -9,7 +9,7 @@ export class WrestlerType implements IAlbumType {
     return this._wrestlerName.full;
   }
 
-  filterToPictures(pictures: TPicture[]): TPicture[] {
+  filterToPictures(pictures: IPicture[]): IPicture[] {
     return pictures.filter((picture) => {
       return picture.isRelated(this.wrestlerName());
     });

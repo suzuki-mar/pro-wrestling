@@ -1,14 +1,19 @@
 import { TWrestlerName } from 'app/wreslters';
-import { TPicture, TPictureDisplayInfo, TPictureFileName, TPictureURL } from 'app/albums';
+import { IPicture, TPictureDisplayInfo, TPictureFileName, TPictureURL } from 'app/albums';
 import { TPictureTweet } from 'integrations/twitter';
 import _ from 'lodash';
 import { DisplayInfoCreator } from './factoires/displayInfoCreator';
 import { FileNameCreator } from './factoires/fileNameCreator';
 import { URLCreator } from './factoires/urlCreator';
 import { Picture } from './picture';
+import { RepositoryFactory } from 'infrastructure/repositoryFactory';
+import { Priority } from './priorty';
 
 export class PictureFactory {
-  creates(tweets: TPictureTweet[], names: TWrestlerName[]): TPicture[] {
+  isChangingToSetupedName = false;
+  paramsList: {};
+
+  async creates(tweets: TPictureTweet[], names: TWrestlerName[]): Promise<IPicture[]> {
     const dispayInfoCreator = new DisplayInfoCreator();
     const displayInfoList = dispayInfoCreator.creats(names, tweets);
 
@@ -18,30 +23,89 @@ export class PictureFactory {
     const urlCreeator = new URLCreator();
     const pictureURLs = urlCreeator.creates(tweets);
 
-    return this.mergeValueObjects(displayInfoList, fileNames, pictureURLs);
+    this.buildParamsList(displayInfoList, fileNames, pictureURLs);
+
+    if (this.isChangingToSetupedName) {
+      this.assignWreslerNamesFromSetuped(pictureURLs);
+    } else {
+      await this.assignWreslerNamesFromTweet(displayInfoList, pictureURLs);
+    }
+
+    const result = this.buildPictures();
+    return result;
   }
 
-  private mergeValueObjects(
+  envaleChangingToSetupedName(): PictureFactory {
+    this.isChangingToSetupedName = true;
+    return this;
+  }
+
+  private buildParamsList(
     displayInfoList: TPictureDisplayInfo[],
     fileNames: TPictureFileName[],
     pictureURLs: TPictureURL[]
-  ): TPicture[] {
-    let paramsList = {};
+  ): {} {
+    this.paramsList = {};
+
     displayInfoList.forEach((info) => {
-      paramsList[info.number.str] = {};
-      paramsList[info.number.str]['info'] = info;
+      const number = info.number;
+
+      this.paramsList[number.str] = {};
+      this.paramsList[number.str]['priority'] = Priority.buildFromType(number, 'default');
+      this.paramsList[number.str]['wrestlerNames'] = [];
+      this.paramsList[number.str]['info'] = info;
     });
 
     fileNames.forEach((fileName) => {
-      paramsList[fileName.number.str]['fileName'] = fileName;
+      this.paramsList[fileName.number.str]['fileName'] = fileName;
     });
 
     pictureURLs.forEach((url) => {
-      paramsList[url.number.str]['url'] = url;
+      this.paramsList[url.number.str]['url'] = url;
     });
 
-    return _.map(paramsList, (params) => {
-      return Picture.build(params['info'], params['fileName'], params['url']);
+    return this.paramsList;
+  }
+
+  private assignWreslerNamesFromTweet(
+    displayInfoList: TPictureDisplayInfo[],
+    pictureURLs: TPictureURL[]
+  ) {
+    pictureURLs.forEach((url) => {
+      const info = displayInfoList.find((info) => {
+        return info.number.equal(url.number);
+      });
+
+      this.paramsList[url.number.str]['wrestlerNames'] = info!.wrestlerNames;
+    });
+  }
+
+  private async assignWreslerNamesFromSetuped(pictureURLs: TPictureURL[]) {
+    const repository = RepositoryFactory.factoryPictureRepository();
+    const urlWithNames = await repository.fetchWrestlerNames(pictureURLs);
+
+    pictureURLs.forEach((pu) => {
+      const uwn = urlWithNames.find((uwn) => {
+        return pu.originalURL === uwn.url;
+      });
+
+      if (uwn === undefined) {
+        return;
+      }
+
+      this.paramsList[pu.number.str]['wrestlerNames'] = uwn.names;
+    });
+  }
+
+  private buildPictures(): IPicture[] {
+    return _.map(this.paramsList, (params) => {
+      return Picture.build(
+        params['info'],
+        params['fileName'],
+        params['url'],
+        params['wrestlerNames'],
+        params['priority']
+      );
     });
   }
 }

@@ -1,10 +1,10 @@
 import { ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import { TPicture } from 'app/albums';
+import { IPicture } from 'app/albums';
 import { ImageElement } from './ImageElement';
 
 type Props = {
-  pictures: TPicture[];
+  pictures: IPicture[];
 };
 
 export const PictureList: React.VFC<Props> = ({ pictures }) => {
@@ -18,8 +18,8 @@ export const PictureList: React.VFC<Props> = ({ pictures }) => {
             {/* サムネのサイズを使うと説明部分の幅と合わなくなってしまう */}
             <ImageElement picture={picture} isThumbnailURL={false} />
             <ImageListItemBar
-              title={picture.displayInfo.formattedDisplayString()}
-              subtitle={<span>by: {picture.displayInfo.contributor.displayName}</span>}
+              title={picture.title()}
+              subtitle={<span>by: {picture.displayInfo().contributor.displayName}</span>}
               position="bottom"
             />
           </ImageListItem>

@@ -12,6 +12,8 @@ describe('build ＆ wrestlers', () => {
     await Wrestler.creates(SampleData.wrestlerNames());
   });
 
+  it.skip('配列の順番を確認するテストを実装する', () => {});
+
   it('レスラー一覧を取得すること', async (done) => {
     const collection = new WrestlerCollection();
     await collection.load();

@@ -1,5 +1,5 @@
 import { IPromoter, TWrestlerName } from 'app/wreslters';
-import { TPicture, AlbumKind, AlbumKinds } from 'app/albums';
+import { IPicture, AlbumKind, AlbumKinds } from 'app/albums';
 import * as _ from 'loadsh';
 import { IAlbumType } from './interface';
 
@@ -10,16 +10,16 @@ export class PromoterType implements IAlbumType {
     return this._promoter.name.shortName;
   }
 
-  filterToPictures(pictures: TPicture[]): TPicture[] {
+  filterToPictures(pictures: IPicture[]): IPicture[] {
     const relatedPictures = pictures.filter((picture) => {
-      const names = picture.displayInfo.wrestlerNames as TWrestlerName[];
+      const names = picture.displayInfo().wrestlerNames as TWrestlerName[];
       return names.some((name) => {
         return this._promoter.isBelongTo(name);
       });
     });
 
-    const sortFunction = (picture: TPicture) => {
-      return picture.displayInfo.date;
+    const sortFunction = (picture: IPicture) => {
+      return picture.displayInfo().date;
     };
 
     return _.sortBy(relatedPictures, sortFunction).reverse();

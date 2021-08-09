@@ -1,4 +1,4 @@
-import { TPicture, IAlbum } from 'app/albums';
+import { IPicture, IAlbum } from 'app/albums';
 import { TWrestlerName } from 'app/wreslters';
 import { IAlbumType } from './types/interface';
 import { PromoterType } from './types/promoterType';
@@ -7,7 +7,7 @@ import { WrestlerType } from './types/wrestlerType';
 export class Album implements IAlbum {
   static readonly MAX_COUNT: number = 100;
 
-  constructor(readonly _type: IAlbumType, private _pictures: TPicture[]) {
+  constructor(readonly _type: IAlbumType, private _pictures: IPicture[]) {
     this._pictures = _type.filterToPictures(_pictures);
 
     if (this._pictures.length > Album.MAX_COUNT) {
@@ -15,7 +15,7 @@ export class Album implements IAlbum {
     }
   }
 
-  pictures(): TPicture[] {
+  pictures(): IPicture[] {
     return this._pictures;
   }
 
@@ -47,7 +47,7 @@ export class Album implements IAlbum {
     return undefined;
   }
 
-  static createsWrestlerAlbums(names: TWrestlerName[], pictures: TPicture[]): IAlbum[] {
+  static createsWrestlerAlbums(names: TWrestlerName[], pictures: IPicture[]): IAlbum[] {
     return names.map((name) => {
       const type = new WrestlerType(name);
       return new Album(type, pictures);

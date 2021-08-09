@@ -1,3 +1,4 @@
+import { TPictureURL } from 'app/albums';
 import { TwitterID } from 'integrations/twitter/twitterID';
 
 export interface ITweetRepository {
@@ -8,4 +9,13 @@ export interface ITweetRepository {
 
   fetchPictureTweetsByIds(ids: TwitterID[]): Promise<TPictureTweet[]>;
   fetchDefaultLoadingIDs(): TwitterID[];
+}
+
+export type PictureURLWithWrestlerNames = {
+  names: TWrestlerName[];
+  url: string;
+};
+
+export interface IPictureRepository {
+  fetchWrestlerNames(pictureUrls: TPictureURL[]): Promise<PictureURLWithWrestlerNames[]>;
 }

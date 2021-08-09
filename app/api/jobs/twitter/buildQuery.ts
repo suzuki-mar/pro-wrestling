@@ -1,16 +1,16 @@
 import { BlitzApiRequest, BlitzApiResponse } from '@blitzjs/core';
 import { TWrestlerName } from 'app/wreslters';
 import { PromoterRepository } from 'app/wreslters/domains/repositories/promoterRepository';
-import { WreslerQuery } from 'app/wreslters/domains/wreslterQuery';
 import moment from 'moment';
 import * as _ from 'loadsh';
 import { ContestData } from 'sampleData/contestData';
+import { setUpRequest } from 'app/core/apiLib';
+import { RepositoryFactory } from 'infrastructure/repositoryFactory';
 
 export async function execute(): Promise<{}> {
   let promises: Promise<string[]>[] = [];
 
-  const wreslerQuery = new WreslerQuery();
-  const names = wreslerQuery.findNames();
+  const names = await RepositoryFactory.factoryWrestlerQuery().findNames();
   const date = moment();
   date.subtract(1, 'months').subtract(15, 'days');
 
@@ -78,10 +78,7 @@ async function buildQueries(
 }
 
 const handler = async (req: BlitzApiRequest, res: BlitzApiResponse) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-
   const groupedQueries = await execute();
-  res.end(JSON.stringify(groupedQueries));
+  return setUpRequest(res, groupedQueries);
 };
 export default handler;

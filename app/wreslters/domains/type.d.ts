@@ -10,3 +10,7 @@ export interface IPromoterRepository {
   featchAll(): Promise<IPromoter[]>;
   featchByWrestlerName(name: TWrestlerName): Promise<IPromoter>;
 }
+
+export interface IWrestlerQuery {
+  findNames(): Promise<TWrestlerName[]>;
+}
