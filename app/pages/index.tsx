@@ -131,6 +131,8 @@ const Home: BlitzPage = () => {
           Powered by Blitz.js
         </a>
       </footer>
+
+      <div className="p7button" data-button-text="購読する"></div>
     </div>
   );
 };

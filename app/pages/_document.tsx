@@ -37,7 +37,17 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <DocumentHead />
+        <DocumentHead>
+          <script src="https://sdk.push7.jp/v2/p7sdk.js"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              p7.init("3f8731d8746049179cb321f570fa8ff7");
+              `,
+            }}
+          />
+        </DocumentHead>
+
         <body>
           <Main />
           <BlitzScript />
