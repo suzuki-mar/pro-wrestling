@@ -1,6 +1,6 @@
 import { TNotificationData } from 'infrastructure/notification';
-import { IStreamingFilter } from 'infrastructure/stremings';
+import { IShortIntervalBatcheJob } from 'infrastructure/shortIntervalBatche';
 
-export interface IJudgeTicketContent extends IStreamingFilter {}
+export interface ISendTicketInfoJob extends IShortIntervalBatcheJob {}
 
 export interface ITicketContent extends TNotificationData {}
