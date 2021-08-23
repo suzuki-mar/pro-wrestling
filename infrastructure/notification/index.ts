@@ -1,14 +1,15 @@
-export interface INotificationData {
-  messageToSend(): string;
-  id(): string;
-}
+export type TNotificationData = {
+  title: string;
+  message: string;
+  urlStr: string;
+};
 
 export type TNotifcationLog = {
   success: boolean;
   sendingTime: Date;
-  id: string;
+  data: TNotificationData;
 };
 
 export interface INotifyer {
-  sendPush(data: INotificationData): TNotifcationLog;
+  sendPush(data: TNotificationData): Promise<TNotifcationLog>;
 }
