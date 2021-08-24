@@ -1,9 +1,9 @@
-import { ITweetRepository } from 'app/albums/domains/models/type';
 import {
-  ITwitterQuery,
+  ITwitterHashtagQuery,
   REQUEST_MAX_COUNT,
   TPictureTweet,
   TTextOnlyTweet,
+  TUserID,
   TweetType,
   TwitterMediaType,
 } from 'integrations/twitter';
@@ -11,8 +11,9 @@ import { IPromoter, TWrestlerName } from 'app/wreslters';
 import { ClientFactory } from 'infrastructure/clientFactory';
 import { TwitterParameterFactory } from 'integrations/twitter/twitterParameterFactory';
 import { TwitterID } from 'integrations/twitter/twitterID';
-import { TweetIDList } from './tweetRepositories/tweetIDList';
+import { TweetIDList } from 'app/albums/domains/tweetIDList';
 import _ from 'lodash';
+import { ITweetRepository } from 'app/albums/domains/models/type';
 
 export class TweetRepository implements ITweetRepository {
   async fetchPictureTweetByWrestlerNames(
@@ -53,11 +54,30 @@ export class TweetRepository implements ITweetRepository {
     return result;
   }
 
+  async fetchOnlyTweetsFromSinceTimeByUserIds(
+    since: Date,
+    userIDs: TUserID[]
+  ): Promise<TTextOnlyTweet[]> {
+    let params = TwitterParameterFactory.createParams();
+    params.setStartTime(since);
+
+    let query = TwitterParameterFactory.createQuery(userIDs[0]!);
+
+    userIDs.slice(1).forEach((userID) => query.addUserID(userID));
+
+    const client = ClientFactory.factoryTwitterClient();
+    return await client.search(query, params);
+  }
+
+  async fetchUserIDsThatFollowsRegularly(): Promise<TUserID[]> {
+    return [{ name: 'Mio0207415' }, { name: 'mei_marvelous' }];
+  }
+
   fetchDefaultLoadingIDs(): TwitterID[] {
     return TweetIDList.list();
   }
 
-  createQuery(name: TWrestlerName, promoters: IPromoter[]): ITwitterQuery {
+  createQuery(name: TWrestlerName, promoters: IPromoter[]): ITwitterHashtagQuery {
     const promoter = promoters.find((promoter: IPromoter) => {
       return promoter.isBelongTo(name);
     });

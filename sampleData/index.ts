@@ -1,6 +1,6 @@
 import { IAlbum, IAlbumCollection, IPicture, TPictureDisplayInfo } from 'app/albums';
 import { TWrestlerName, IWrestler, IWrestlerCollection, IPromoter } from 'app/wreslters';
-import { TPictureTweet, TTweet } from 'integrations/twitter';
+import { TPictureTweet, TTextOnlyTweet, TTweet } from 'integrations/twitter';
 import { WrestlerData } from './wrestlerData';
 import { TweetData } from './tweetData';
 import { WrestlerName } from 'app/wreslters/domains/models/wrestlerName';
@@ -85,6 +85,10 @@ export class SampleData {
 
   static pictureTweets(): TPictureTweet[] {
     return TweetData.pictures();
+  }
+
+  static textTweets(): TTextOnlyTweet[] {
+    return TweetData.texts();
   }
 
   static promoter(): IPromoter {

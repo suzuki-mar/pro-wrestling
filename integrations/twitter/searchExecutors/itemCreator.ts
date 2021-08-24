@@ -14,22 +14,13 @@ export class ItemCreator {
       return undefined;
     }
 
-    let hashtags: string[] = [];
-    const isRT = tweet.text.startsWith('RT');
-
-    if (!isRT) {
-      hashtags = tweet.entities!.hashtags.map((hashtag) => {
-        return hashtag.tag;
-      });
-    }
-
     const tweetId: TTwitterID = TwitterID.build(tweet.id);
 
     let item = {
       id: tweetId,
       text: tweet.text,
       tweeted_at: new Date(tweet.created_at!),
-      hashtags: hashtags,
+      hashtags: this.createHashtags(tweet),
     };
 
     includeItems.forEach((itemController) => {
@@ -38,5 +29,21 @@ export class ItemCreator {
     });
 
     return item as SearchResponseItem;
+  }
+
+  static createHashtags(tweet: TweetV2): string[] {
+    const isRT = tweet.text.startsWith('RT');
+
+    if (isRT) {
+      return [];
+    }
+
+    if (tweet.entities?.hashtags === undefined) {
+      return [];
+    }
+
+    return tweet.entities!.hashtags.map((hashtag) => {
+      return hashtag.tag;
+    });
   }
 }

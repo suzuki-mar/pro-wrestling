@@ -67,10 +67,18 @@ export interface ITwitter {
 }
 
 export interface ITwitterQuery {
-  hashtags(): string[];
-  addHashtag(tag: string): ITwitterQuery;
   setMediaType(type: TwitterMediaType): ITwitterQuery;
   setIncldueRT(): ITwitterQuery;
+  toQuery(): string;
+}
+
+export interface ITwitterHashtagQuery extends ITwitterQuery {
+  hashtags(): string[];
+  addHashtag(tag: string): ITwitterHashtagQuery;
+}
+
+export interface ITwitterUserIDQuery extends ITwitterQuery {
+  addUserID(userID: TUserID): ITwitterUserIDQuery;
 }
 
 export interface ITwitterParams {
@@ -79,10 +87,15 @@ export interface ITwitterParams {
   setCountMax(): ITwitterParams;
   setCount(count: Number): ITwitterParams;
   mediaType(): TwitterMediaType;
+  setStartTime(date: Date): ITwitterParams;
 }
 
 export type TTwitterID = {
   numeric: BigInt;
   value: string;
   equal(compare: TTwitterID): boolean;
+};
+
+export type TUserID = {
+  name: string;
 };
