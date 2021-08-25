@@ -2,16 +2,17 @@ import { Client } from 'integrations/twitter/client';
 import {
   TwitterMediaType,
   TPictureTweet,
-  ITwitterQuery,
+  ITwitterHashtagQuery,
   ITwitterParams,
+  ITwitterQuery,
 } from 'integrations/twitter';
-import { TwitterQuery } from 'integrations/twitter/twitterQuery';
 import { TwitterParams } from 'integrations/twitter/twitterParams';
 import { TweetFilter } from 'integrations/twitter/tweetFilter';
 import { SampleData } from 'sampleData';
 
 import dotenv from 'dotenv';
 import { TwitterID } from './twitterID';
+import { TwitterParameterFactory } from './twitterParameterFactory';
 dotenv.config();
 
 // searchメソッドのテストは別途 client_search.test記述してある
@@ -28,7 +29,7 @@ describe('multisearch', () => {
 
     wrestlerNames.forEach((name) => {
       params = new TwitterParams();
-      const query = new TwitterQuery(name.full);
+      const query = TwitterParameterFactory.createQuery(name.full);
       args = [...args, query];
     });
   });
@@ -54,13 +55,13 @@ describe('指定の選手の写真URLを取得するスクリプト代わり', (
     const promoterName = 'Marvelouspro';
     const client = new Client();
     let params: ITwitterParams;
-    let query: ITwitterQuery;
+    let query: ITwitterHashtagQuery;
 
     beforeEach(() => {
       params = new TwitterParams();
       params.setCount(30);
       params.setMediaType(TwitterMediaType.IMAGES);
-      query = new TwitterQuery(wrestlerName).addHashtag(promoterName);
+      query = TwitterParameterFactory.createQuery(wrestlerName).addHashtag(promoterName);
     });
 
     it('TypeがPictureのものみ返すこと', async () => {

@@ -1,5 +1,5 @@
 import { RepositoryFactory } from 'infrastructure/repositoryFactory';
-import { TweetRepository } from 'app/albums/domains/repositories/tweetRepository';
+import { TweetRepository } from 'app/core/tweet/domain/repositories/tweetRepository';
 
 describe('RepositoryFactory', () => {
   beforeEach(() => {

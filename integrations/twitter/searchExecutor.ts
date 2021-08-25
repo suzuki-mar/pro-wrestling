@@ -1,6 +1,5 @@
 import TwitterApi, { TweetV2, ApiV2Includes } from 'twitter-api-v2';
-import { TwitterQuery } from './twitterQuery';
-import { TTwitterID, TwitterMediaType } from '.';
+import { TTwitterID, TwitterMediaType, ITwitterQuery } from '.';
 import { PictureURL } from './searchExecutors/includeItemController/pictureURL';
 import { Contributor } from './searchExecutors/includeItemController/contributor';
 import { SearchResponseItem } from './searchExecutors/type';
@@ -23,7 +22,7 @@ export class SearchExecutor {
     }
   }
 
-  async executeFromQeuery(query: TwitterQuery): Promise<SearchResponseItem[] | undefined> {
+  async executeFromQeuery(query: ITwitterQuery): Promise<SearchResponseItem[] | undefined> {
     const twitterClient = new TwitterApi(process.env.TWITTER_BEAR_TOKEN!);
 
     const searchFunction = async function (

@@ -1,4 +1,4 @@
-import { TPictureTweet } from 'integrations/twitter';
+import { TPictureTweet, TTextOnlyTweet, TUserID } from 'integrations/twitter';
 import { IWrestler, TWrestlerName } from 'app/wreslters';
 
 import {
@@ -7,14 +7,13 @@ import {
   IWrestlerQuery,
 } from 'app/wreslters/domains/type';
 
-import {
-  IPictureRepository,
-  ITweetRepository,
-  PictureURLWithWrestlerNames,
-} from 'app/albums/domains/models/type';
+import { IPictureRepository, PictureURLWithWrestlerNames } from 'app/albums/domains/models/type';
+
+import { ITweetRepository } from 'app/core/tweet/interface';
+
 import { SampleData } from 'sampleData';
 import { PromoterRepository } from 'app/wreslters/domains/repositories/promoterRepository';
-import { TweetRepository } from 'app/albums/domains/repositories/tweetRepository';
+import { TweetRepository } from 'app/core/tweet/domain/repositories/tweetRepository';
 import { TwitterID } from 'integrations/twitter/twitterID';
 import { WrestlerRepository } from 'app/wreslters/domains/repositories/wrestlerRepository';
 import { TPictureURL } from 'app/albums';
@@ -87,6 +86,17 @@ export class RepositoryFactory {
 
     async fetchPictureTweetsByIds(): Promise<TPictureTweet[]> {
       return SampleData.pictureTweets();
+    }
+
+    async fetchOnlyTweetsFromSinceTimeByUserIds(
+      since: Date,
+      userIDs: TUserID[]
+    ): Promise<TTextOnlyTweet[]> {
+      return SampleData.textTweets();
+    }
+
+    async fetchUserIDsThatFollowsRegularly(): Promise<TUserID[]> {
+      return [{ name: 'Mio0207415' }, { name: 'mei_marvelous' }];
     }
 
     fetchDefaultLoadingIDs(): TwitterID[] {

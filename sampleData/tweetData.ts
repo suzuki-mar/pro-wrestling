@@ -16,8 +16,11 @@ import { TwitterID } from 'integrations/twitter/twitterID';
 
 export class TweetData {
   static tweets(): TTweet[] {
+    return [...this.pictures(), ...this.texts()];
+  }
+
+  static texts(): TTextOnlyTweet[] {
     return [
-      ...this.pictures(),
       this.buildTextOnly([SampleData.meiName()]),
       this.buildTextOnly([SampleData.mioName(), SampleData.meiName()]),
     ];

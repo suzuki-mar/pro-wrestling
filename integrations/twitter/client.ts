@@ -4,7 +4,7 @@ import { TwitterID } from './twitterID';
 import { SearchExecutor } from './searchExecutor';
 import { SearchResponseItem } from './searchExecutors/type.d';
 import * as _ from 'loadsh';
-import { TwitterQuery } from './twitterQuery';
+import { TwitterQuery } from './queries/twitterQuery';
 import { TwitterParams } from './twitterParams';
 
 export class Client implements ITwitter {
@@ -31,10 +31,10 @@ export class Client implements ITwitter {
     let responses: SearchResponseItem[] | undefined;
 
     if (Array.isArray(arg)) {
-      const targetIds: TwitterID[] = arg as TwitterID[];
+      const targetIds = arg as TwitterID[];
       responses = await executor.executeFromIds(targetIds);
     } else {
-      const query: TwitterQuery = arg as TwitterQuery;
+      const query = arg as TwitterQuery;
       responses = await executor.executeFromQeuery(query);
     }
 

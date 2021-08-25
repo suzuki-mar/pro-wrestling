@@ -6,6 +6,7 @@ import {
   TTweetv2UserField,
   Tweetv2SearchParams,
 } from 'twitter-api-v2';
+import moment from 'moment';
 
 export class TwitterParams implements ITwitterParams {
   PAGES_PER_COUNT_MAX = 100;
@@ -13,6 +14,7 @@ export class TwitterParams implements ITwitterParams {
 
   private _mediaType: TwitterMediaType = TwitterMediaType.UNSPECIFED_TYPE;
   private _count: Number;
+  private _startTimeStr: string;
 
   toHash(): Partial<Tweetv2SearchParams> {
     let params: Partial<Tweetv2SearchParams> = {
@@ -27,6 +29,10 @@ export class TwitterParams implements ITwitterParams {
 
     if (this._count !== undefined) {
       params = Object.assign(params, { max_results: this.count() });
+    }
+
+    if (this._startTimeStr !== undefined) {
+      params = Object.assign(params, { start_time: this._startTimeStr });
     }
 
     return params;
@@ -51,6 +57,11 @@ export class TwitterParams implements ITwitterParams {
     }
 
     this._count = count;
+    return this;
+  }
+
+  setStartTime(date: Date): ITwitterParams {
+    this._startTimeStr = moment(date).format('YYYY-MM-DDTHH:mm:ssZ');
     return this;
   }
 
