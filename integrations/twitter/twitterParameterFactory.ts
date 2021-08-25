@@ -7,7 +7,7 @@ import {
   TUserID,
   ITwitterUserIDQuery,
 } from '.';
-import { TwitterParams } from './twitterParams';
+import { TwitterParams } from './params/twitterParams';
 import { TwitterHashtagQuery } from './queries/twitterHashtagQuery';
 import { TwitterUserIDQuery } from './queries/twitterUserIDQuery';
 

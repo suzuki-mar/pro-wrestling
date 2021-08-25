@@ -1,7 +1,7 @@
 import { TwitterHashtagQuery } from 'integrations/twitter/queries/twitterHashtagQuery';
 import { TwitterUserIDQuery } from 'integrations/twitter/queries/twitterUserIDQuery';
-import { TwitterParams } from 'integrations/twitter/twitterParams';
-import { SearchExecutor } from 'integrations/twitter/searchExecutor';
+import { TwitterParams } from 'integrations/twitter/params/twitterParams';
+import { SearchExecutor } from 'integrations/twitter/searchExecutors/searchExecutor';
 import {
   ITwitterQuery,
   TTweetPictureURL,
@@ -11,8 +11,8 @@ import {
 } from 'integrations/twitter';
 import { SampleData } from 'sampleData';
 import dotenv from 'dotenv';
-import { TwitterID } from './twitterID';
-import { TwitterParameterFactory } from './twitterParameterFactory';
+import { TwitterID } from '../twitterID';
+import { TwitterParameterFactory } from '../twitterParameterFactory';
 import moment from 'moment';
 dotenv.config();
 

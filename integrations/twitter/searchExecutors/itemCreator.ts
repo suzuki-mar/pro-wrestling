@@ -72,32 +72,3 @@ export class ItemCreator {
     return result;
   }
 }
-
-// export type TTweetSiteURL = TTweetBaseURL & {
-//   description: string;
-//   title: string;
-// };
-
-// Object {
-//   "description": "10分1500円。選手独占！各時間帯チケット限定1枚！先着順！",
-//   "display_url": "passmarket.yahoo.co.jp/event/show/det…",
-//   "end": 23,
-//   "expanded_url": "https://passmarket.yahoo.co.jp/event/show/detail/0141971tcfu11.html",
-//   "images": Array [
-//     Object {
-//       "height": 360,
-//       "url": "https://pbs.twimg.com/news_img/1423842746184306692/wPzMZli-?format=jpg&name=orig",
-//       "width": 600,
-//     },
-//     Object {
-//       "height": 150,
-//       "url": "https://pbs.twimg.com/news_img/1423842746184306692/wPzMZli-?format=jpg&name=150x150",
-//       "width": 150,
-//     },
-//   ],
-//   "start": 0,
-//   "status": 200,
-//   "title": "8/9 桃野美桜　オンラインリングサイド　",
-//   "unwound_url": "https://passmarket.yahoo.co.jp/event/show/detail/0141971tcfu11.html",
-//   "url": "https://t.co/vGkHvX2C08",
-// },

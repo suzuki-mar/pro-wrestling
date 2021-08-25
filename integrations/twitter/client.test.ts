@@ -6,7 +6,7 @@ import {
   ITwitterParams,
   ITwitterQuery,
 } from 'integrations/twitter';
-import { TwitterParams } from 'integrations/twitter/twitterParams';
+import { TwitterParams } from 'integrations/twitter/params/twitterParams';
 import { TweetFilter } from 'integrations/twitter/tweetFilter';
 import { SampleData } from 'sampleData';
 
