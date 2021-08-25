@@ -1,11 +1,11 @@
 import { TTweet, TweetType, ITwitter, ITwitterParams, TwitterMediaType, ITwitterQuery } from '.';
 import { TweetBuilder } from './tweetBuilder';
 import { TwitterID } from './twitterID';
-import { SearchExecutor } from './searchExecutor';
+import { SearchExecutor } from './searchExecutors/searchExecutor';
 import { SearchResponseItem } from './searchExecutors/type.d';
 import * as _ from 'loadsh';
 import { TwitterQuery } from './queries/twitterQuery';
-import { TwitterParams } from './twitterParams';
+import { TwitterParams } from './params/twitterParams';
 
 export class Client implements ITwitter {
   private params: ITwitterParams;

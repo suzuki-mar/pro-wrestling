@@ -1,23 +1,22 @@
-import { TPictureTweet, TTextOnlyTweet, TUserID } from 'integrations/twitter';
-import { IWrestler, TWrestlerName } from 'app/wreslters';
-
 import {
   IWrestlerRepository,
   IPromoterRepository,
   IWrestlerQuery,
 } from 'app/wreslters/domains/type';
 
-import { IPictureRepository, PictureURLWithWrestlerNames } from 'app/albums/domains/models/type';
+import { IPictureRepository } from 'app/albums/domains/models/type';
 
 import { ITweetRepository } from 'app/core/tweet/interface';
-
-import { SampleData } from 'sampleData';
 import { PromoterRepository } from 'app/wreslters/domains/repositories/promoterRepository';
 import { TweetRepository } from 'app/core/tweet/domain/repositories/tweetRepository';
-import { TwitterID } from 'integrations/twitter/twitterID';
 import { WrestlerRepository } from 'app/wreslters/domains/repositories/wrestlerRepository';
-import { TPictureURL } from 'app/albums';
 import { WreslerQuery } from 'app/wreslters/domains/wreslterQuery';
+import {
+  MockPictureRepository,
+  MockTweetRepository,
+  MockWrestlerQuery,
+  MockWrestlerRepository,
+} from './repositoryFactoryMocs';
 
 export class RepositoryFactory {
   private static _isConnectingToRealDB = process.env.NODE_ENV === 'test' ? false : true;
@@ -31,86 +30,23 @@ export class RepositoryFactory {
   }
 
   static factoryWrestlerRepository(): IWrestlerRepository {
-    return this._isConnectingToRealDB
-      ? new WrestlerRepository()
-      : new this.MockWrestlerRepository();
+    return this._isConnectingToRealDB ? new WrestlerRepository() : new MockWrestlerRepository();
   }
 
   static factoryWrestlerQuery(): IWrestlerQuery {
-    return this._isConnectingToRealDB ? new WreslerQuery() : new this.MockWrestlerQuery();
+    return this._isConnectingToRealDB ? new WreslerQuery() : new MockWrestlerQuery();
   }
 
   static factoryTweetRepository(): ITweetRepository {
-    return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
+    return this._isConnectingToRealDB ? new TweetRepository() : new MockTweetRepository();
   }
 
   static factoryPictureRepository(): IPictureRepository {
-    return new this.MockPictureRepository();
+    return new MockPictureRepository();
     // return this._isConnectingToRealDB ? new TweetRepository() : new this.MockTweetRepository();
   }
 
   static factoryPromoterRepository(): IPromoterRepository {
     return new PromoterRepository();
   }
-
-  public static MockWrestlerRepository = class implements IWrestlerRepository {
-    async fetchAll(): Promise<IWrestler[]> {
-      return SampleData.wrestlers();
-    }
-
-    async fetchByName(name: TWrestlerName): Promise<IWrestler> {
-      return SampleData.wrestler();
-    }
-
-    async add(names: TWrestlerName): Promise<IWrestler> {
-      return SampleData.wrestler();
-    }
-  };
-
-  public static MockWrestlerQuery = class implements IWrestlerQuery {
-    async findNames(): Promise<TWrestlerName[]> {
-      return SampleData.wrestlerNames();
-    }
-  };
-
-  public static MockPictureRepository = class implements IPictureRepository {
-    async fetchWrestlerNames(pictureURLs: TPictureURL[]): Promise<PictureURLWithWrestlerNames[]> {
-      return [SampleData.pictureURLWithWrestlerNames()];
-    }
-  };
-
-  public static MockTweetRepository = class implements ITweetRepository {
-    async fetchPictureTweetByWrestlerNames(): Promise<TPictureTweet[]> {
-      return SampleData.pictureTweets();
-    }
-
-    async fetchPictureTweetsByIds(): Promise<TPictureTweet[]> {
-      return SampleData.pictureTweets();
-    }
-
-    async fetchOnlyTweetsFromSinceTimeByUserIds(
-      since: Date,
-      userIDs: TUserID[]
-    ): Promise<TTextOnlyTweet[]> {
-      const tweets = SampleData.textTweets();
-      const rinsaiTweet = tweets[0]!;
-
-      rinsaiTweet.urls = [
-        {
-          description: '10分1500円。選手独占！各時間帯チケット限定1枚！先着順！',
-          title: '8/9 桃野美桜　オンラインリングサイド　',
-          urlStr: 'https://passmarket.yahoo.co.jp/event/show/detail/0141971tcfu11.html',
-        },
-      ];
-      return tweets;
-    }
-
-    async fetchUserIDsThatFollowsRegularly(): Promise<TUserID[]> {
-      return [{ name: 'Mio0207415' }, { name: 'mei_marvelous' }];
-    }
-
-    fetchDefaultLoadingIDs(): TwitterID[] {
-      return [TwitterID.build('123')];
-    }
-  };
 }

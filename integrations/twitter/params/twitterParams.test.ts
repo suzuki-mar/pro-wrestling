@@ -1,5 +1,5 @@
 import { TwitterMediaType } from 'integrations/twitter';
-import { TwitterParams } from 'integrations/twitter/twitterParams';
+import { TwitterParams } from 'integrations/twitter/params/twitterParams';
 
 describe('toHash', () => {
   let params: TwitterParams;

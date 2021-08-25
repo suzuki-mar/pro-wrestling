@@ -1,12 +1,12 @@
 import TwitterApi, { TweetV2, ApiV2Includes } from 'twitter-api-v2';
-import { TTwitterID, TwitterMediaType, ITwitterQuery } from '.';
-import { PictureURL } from './searchExecutors/includeItemController/pictureURL';
-import { Contributor } from './searchExecutors/includeItemController/contributor';
-import { SearchResponseItem } from './searchExecutors/type';
-import { IncludeItem } from './searchExecutors/includeItemController/type';
-import { TwitterParams } from './twitterParams';
+import { TTwitterID, TwitterMediaType, ITwitterQuery } from '..';
+import { PictureURL } from './includeItemController/pictureURL';
+import { Contributor } from './includeItemController/contributor';
+import { SearchResponseItem } from './type';
+import { IncludeItem } from './includeItemController/type';
+import { TwitterParams } from '../params/twitterParams';
 import _ from 'lodash';
-import { ItemCreator } from './searchExecutors/itemCreator';
+import { ItemCreator } from './itemCreator';
 
 export class SearchExecutor {
   private _includeItems: IncludeItem[];
