@@ -45,6 +45,7 @@ function buildTextOnlyItem(): SearchResponseItem {
       name: faker.name.firstName() + '_name',
       username: faker.name.firstName() + '_screen',
     },
+    urls: [{ urlStr: faker.image.imageUrl() }],
   };
 }
 

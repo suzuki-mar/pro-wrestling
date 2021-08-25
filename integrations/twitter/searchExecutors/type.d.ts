@@ -1,3 +1,5 @@
+import { TTweetURL } from '..';
+
 export type SearchResponseItem = {
   id: TTwitterID;
   text: string;
@@ -5,4 +7,5 @@ export type SearchResponseItem = {
   hashtags?: string[];
   contributor: { id: number; name: string; username: string };
   photoURLs?: { id: number; url: string }[];
+  urls: TTweetURL[];
 };

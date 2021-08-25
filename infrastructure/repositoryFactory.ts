@@ -92,7 +92,17 @@ export class RepositoryFactory {
       since: Date,
       userIDs: TUserID[]
     ): Promise<TTextOnlyTweet[]> {
-      return SampleData.textTweets();
+      const tweets = SampleData.textTweets();
+      const rinsaiTweet = tweets[0]!;
+
+      rinsaiTweet.urls = [
+        {
+          description: '10分1500円。選手独占！各時間帯チケット限定1枚！先着順！',
+          title: '8/9 桃野美桜　オンラインリングサイド　',
+          urlStr: 'https://passmarket.yahoo.co.jp/event/show/detail/0141971tcfu11.html',
+        },
+      ];
+      return tweets;
     }
 
     async fetchUserIDsThatFollowsRegularly(): Promise<TUserID[]> {

@@ -8,7 +8,7 @@ import {
   TwitterMediaType,
 } from 'integrations/twitter';
 import { IPromoter, TWrestlerName } from 'app/wreslters';
-import { ClientFactory } from 'infrastructure/clientFactory';
+import { ExternalServiceClientFactory } from 'infrastructure/externalServiceClientFactoryclientFactory';
 import { TwitterParameterFactory } from 'integrations/twitter/twitterParameterFactory';
 import { TwitterID } from 'integrations/twitter/twitterID';
 import { TweetIDList } from 'app/albums/domains/tweetIDList';
@@ -28,7 +28,7 @@ export class TweetRepository implements ITweetRepository {
       return this.createQuery(name, promoters);
     });
 
-    const client = ClientFactory.factoryTwitterClient();
+    const client = ExternalServiceClientFactory.factoryTwitterClient();
 
     const tweets = await client.multisearch(queries, params);
 
@@ -43,7 +43,7 @@ export class TweetRepository implements ITweetRepository {
     let params = TwitterParameterFactory.createParams();
     params.setMediaType(TwitterMediaType.IMAGES);
 
-    const client = ClientFactory.factoryTwitterClient();
+    const client = ExternalServiceClientFactory.factoryTwitterClient();
     const idsList = _.chunk(ids, REQUEST_MAX_COUNT);
 
     const tweets = await client.multisearch(idsList, params);
@@ -65,7 +65,7 @@ export class TweetRepository implements ITweetRepository {
 
     userIDs.slice(1).forEach((userID) => query.addUserID(userID));
 
-    const client = ClientFactory.factoryTwitterClient();
+    const client = ExternalServiceClientFactory.factoryTwitterClient();
     return await client.search(query, params);
   }
 

@@ -8,6 +8,19 @@ export type TTweetContributor = {
   displayName: string;
 };
 
+export type TTweetBaseURL = {
+  urlStr: string;
+};
+
+export type TTweetPictureURL = TTweetBaseURL & {};
+
+export type TTweetSiteURL = TTweetBaseURL & {
+  description: string;
+  title: string;
+};
+
+export type TTweetURL = TTweetPictureURL | TTweetSiteURL;
+
 export type TTweetBase = {
   id: TTwitterID;
   text: string;
@@ -15,6 +28,7 @@ export type TTweetBase = {
   hashtags?: string[];
   tweeted_at: Date;
   contributor: TTweetContributor;
+  urls: TTweetURL[];
 };
 
 export type TTextOnlyTweet = TTweetBase;

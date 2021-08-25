@@ -2,7 +2,13 @@ import { TwitterHashtagQuery } from 'integrations/twitter/queries/twitterHashtag
 import { TwitterUserIDQuery } from 'integrations/twitter/queries/twitterUserIDQuery';
 import { TwitterParams } from 'integrations/twitter/twitterParams';
 import { SearchExecutor } from 'integrations/twitter/searchExecutor';
-import { ITwitterQuery, TUserID, TwitterMediaType } from 'integrations/twitter';
+import {
+  ITwitterQuery,
+  TTweetPictureURL,
+  TTweetSiteURL,
+  TUserID,
+  TwitterMediaType,
+} from 'integrations/twitter';
 import { SampleData } from 'sampleData';
 import dotenv from 'dotenv';
 import { TwitterID } from './twitterID';
@@ -23,6 +29,7 @@ describe('SearchExecutor', () => {
 
     beforeEach(async (done) => {
       params.setMediaType(TwitterMediaType.IMAGES);
+      params.setCountMax();
 
       query = new TwitterHashtagQuery(SampleData.wrestlerName().full);
       query.setMediaType(TwitterMediaType.IMAGES);
@@ -117,15 +124,14 @@ describe('SearchExecutor', () => {
   });
 
   describe('IDでのサーチ', () => {
+    const targetIds = [
+      // これだけ写真ではなくサイトのURLが設定されている
+      TwitterID.build('1423842736369639434'),
+      TwitterID.build('1368182865599459328'),
+    ];
+
     it('メディアなしでのサーチ', async () => {
       params.setMediaType(TwitterMediaType.IMAGES);
-
-      const targetIds = [
-        TwitterID.build('1419646898781097989'),
-        TwitterID.build('1368182865599459328'),
-        TwitterID.build('1420592812462985218'),
-      ];
-
       const searchExecutor = new SearchExecutor(params);
       const resultItems = await searchExecutor.executeFromIds(targetIds);
 
@@ -134,6 +140,22 @@ describe('SearchExecutor', () => {
       });
 
       expect(exists).toBeTruthy();
+    });
+
+    it('URLが分類していること', async () => {
+      const searchExecutor = new SearchExecutor(params);
+      const resultItems = await searchExecutor.executeFromIds(targetIds);
+
+      if (resultItems === undefined) {
+        console.log('1件もデータの取得ができなかった');
+        expect(false).toBeTruthy();
+        return;
+      }
+
+      const siteTweetURL = resultItems[0]!.urls[0]! as TTweetSiteURL;
+      expect(siteTweetURL.title).not.toBeUndefined();
+      const pictureTweetURL = resultItems[1]!.urls[0]! as TTweetPictureURL;
+      expect(pictureTweetURL.urlStr).not.toBeUndefined();
     });
   });
 });
