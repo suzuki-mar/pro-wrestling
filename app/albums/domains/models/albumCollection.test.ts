@@ -1,7 +1,7 @@
 import { AlbumCollection } from 'app/albums/domains/models/albumCollection';
 import { SampleData } from 'sampleData';
 import { RepositoryFactory } from 'infrastructure/repositoryFactory';
-import { ClientFactory } from 'infrastructure/clientFactory';
+import { ExternalServiceClientFactory } from 'infrastructure/externalServiceClientFactoryclientFactory';
 import { AlbumKinds } from 'app/albums';
 import { WrestlerType } from './types/wrestlerType';
 import * as _ from 'loadsh';
@@ -46,11 +46,11 @@ describe('AlbumCollection', () => {
   describe.skip('実際のAPIにつなげる処理 必要になるとき以外Skipするs', () => {
     beforeEach(() => {
       RepositoryFactory.connectingToRealDB();
-      ClientFactory.connectingToExternalAPI();
+      ExternalServiceClientFactory.connectingToExternalAPI();
     });
 
     afterEach(() => {
-      ClientFactory.resetStatus();
+      ExternalServiceClientFactory.resetStatus();
       RepositoryFactory.resetStatus();
     });
 

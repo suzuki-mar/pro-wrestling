@@ -1,4 +1,4 @@
-import { TNotificationData } from 'infrastructure/notification';
+import { TNotifcationLog, TNotificationData } from 'infrastructure/notification';
 import { IShortIntervalBatcheJob } from 'infrastructure/shortIntervalBatche';
 
 export interface ISendTicketInfoJob extends IShortIntervalBatcheJob {}
@@ -10,5 +10,6 @@ export interface TTicketContent extends TNotificationData {
 }
 
 export interface ITicketContentCollection {
-  buildRecentlyCreatedRinsaiTicketIfCreated(): Promise<TTicketContent[]>;
+  loadRecentlyCreatedRinsaiTicketIfCreated(): Promise<void>;
+  notifyOfLoadedTicketContents(): Promise<TNotifcationLog[]>;
 }

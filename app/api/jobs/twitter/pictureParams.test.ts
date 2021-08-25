@@ -1,5 +1,5 @@
 import { Wrestler } from 'app/wreslters/domains/models/wrestler';
-import { ClientFactory } from 'infrastructure/clientFactory';
+import { ExternalServiceClientFactory } from 'infrastructure/externalServiceClientFactoryclientFactory';
 import { RepositoryFactory } from 'infrastructure/repositoryFactory';
 import { SampleData } from 'sampleData';
 import { execute } from './pictureParams';
@@ -17,7 +17,7 @@ describe('モックを使用するケース', () => {
 describe.skip('実際のAPIやDBにつなげるケース 必要なとき以外はSKIP テストが失敗してしまっている #104のIssueで修正する', () => {
   beforeEach(async (done) => {
     RepositoryFactory.connectingToRealDB();
-    ClientFactory.connectingToExternalAPI();
+    ExternalServiceClientFactory.connectingToExternalAPI();
     await prisma.$reset();
 
     await Wrestler.creates(SampleData.wrestlerNames());

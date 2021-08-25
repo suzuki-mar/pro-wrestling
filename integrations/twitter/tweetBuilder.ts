@@ -45,6 +45,7 @@ export class TweetBuilder {
       type: TweetType.Unknown,
       contributor: contributor,
       tweeted_at: item.tweeted_at,
+      urls: item.urls,
     };
   }
 

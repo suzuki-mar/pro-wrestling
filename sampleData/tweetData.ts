@@ -7,6 +7,7 @@ import {
   TweetType,
   TPictureTweetResizedURL,
   TTweetContributor,
+  TTweetURL,
 } from 'integrations/twitter';
 import faker from 'faker';
 import { SampleData } from '../sampleData';
@@ -30,7 +31,10 @@ export class TweetData {
     const meiTweet = this.buildPicture([SampleData.meiName()]);
 
     let tweetAtSameTime = this.buildPicture([SampleData.meiName()]);
-    tweetAtSameTime = Object.assign(tweetAtSameTime, { tweeted_at: meiTweet.tweeted_at });
+    tweetAtSameTime = Object.assign(tweetAtSameTime, {
+      tweeted_at: meiTweet.tweeted_at,
+      urls: this.buildURLs(),
+    });
 
     return [
       meiTweet,
@@ -56,6 +60,7 @@ export class TweetData {
       hashtags: hashtags,
       tweeted_at: faker.datatype.datetime(),
       contributor: contributor,
+      urls: this.buildURLs(),
     };
   }
 
@@ -103,5 +108,9 @@ export class TweetData {
     ];
 
     return resizedURLs;
+  }
+
+  private static buildURLs(): TTweetURL[] {
+    return [{ urlStr: faker.image.imageUrl() }];
   }
 }
